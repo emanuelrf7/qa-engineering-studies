@@ -1,0 +1,22 @@
+[
+  {
+    "nome": "Login válido",
+    "status": "passed"
+  },
+  {
+    "nome": "Login inválido",
+    "status": "failed"
+  },
+  {
+    "nome": "Logout",
+    "status": "passed"
+  },
+  {
+    "nome": "Checkout",
+    "status": "skipped"
+  },
+  {
+    "nome": "Pagamento",
+    "status": "blocked"
+  }
+]

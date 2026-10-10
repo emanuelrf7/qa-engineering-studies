@@ -1,0 +1,10 @@
+[
+  {
+    "nome": "Login válido",
+    "status": "passed"
+  },
+  {
+    "nome": "Logout",
+    "status": "passed"
+  }
+]
