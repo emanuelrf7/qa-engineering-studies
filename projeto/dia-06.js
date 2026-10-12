@@ -1,15 +1,16 @@
-const testResults = [
-  { id: 1, name: "Login", status: "passed", priority: "high", duration: 120 },
-  { id: 2, name: "Checkout", status: "failed", priority: "high", duration: 340 },
-  { id: 3, name: "Cadastro", status: "passed", priority: "medium", duration: 210 },
-  { id: 4, name: "Pagamento", status: "failed", priority: "high", duration: 480 },
-  { id: 5, name: "Busca", status: "passed", priority: "low", duration: 90 },
-  { id: 6, name: "Perfil", status: "failed", priority: "medium", duration: 170 }
+const users = [
+  { id: 1, name: "Ana", email: "ana@email.com" },
+  { id: 2, name: "Carlos" },
+  { id: 3, name: "Marina", email: "marina@email.com" },
+  { id: 4, name: "João", email: null }
 ];
 
-const slowTest = testResults.find((test) => test.duration > 300);
-const criticalFailures = testResults.filter((test) => test.status === "failed" && test.priority === "high");
-const criticalFailureNames = criticalFailures.map((test) => test.name);
-console.log(`Slow Test: `, slowTest);
-console.log(`Critical Failures: `, criticalFailures);
-console.log(`Critical Failures Names: `, criticalFailureNames);
+const userFound = users.find((user) => user.id === 2);
+if (userFound.email) {
+    console.log(`Email: ${userFound.email}`);
+} else {
+    console.log("Email não informado");
+}
+
+const usersWithEmail = users.filter((user) => user.email !== undefined && user.email !== null);
+console.log(usersWithEmail);
