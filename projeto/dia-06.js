@@ -1,9 +1,27 @@
 const users = [
-  { id: 1, name: "Ana", email: "ana@email.com" },
-  { id: 2, name: "Carlos" },
-  { id: 3, name: "Marina", email: "marina@email.com" }
+  {
+    id: 1,
+    name: "Ana",
+    profile: {
+      address: {
+        city: "Rio de Janeiro",
+        state: "RJ"
+      }
+    }
+  },
+  {
+    id: 2,
+    name: "Carlos",
+    profile: {
+      address: null
+    }
+  },
+  {
+    id: 3,
+    name: "Marina"
+  }
 ];
 
-const userFound = users.find((user) => user.id === 999);
+const userFound = users.find((user) => user.id === 3);
 
-console.log(userFound?.email || "Email não encontrado");
+console.log("Cidade:", userFound?.profile?.address?.city || "não informada");
