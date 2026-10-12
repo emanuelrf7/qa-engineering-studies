@@ -1,13 +1,11 @@
-const products = [
-  { id: 101, name: "Notebook", price: 3500, available: true },
-  { id: 102, name: "Mouse", price: 120, available: false },
-  { id: 103, name: "Teclado", price: 250, available: true },
-  { id: 104, name: "Monitor", price: 900, available: true }
+const testCases = [
+  { id: 1, name: "Login válido", status: "passed", priority: "high" },
+  { id: 2, name: "Login inválido", status: "failed", priority: "high" },
+  { id: 3, name: "Recuperar senha", status: "passed", priority: "medium" },
+  { id: 4, name: "Criar usuário", status: "failed", priority: "medium" },
+  { id: 5, name: "Excluir usuário", status: "passed", priority: "low" }
 ];
 
-const productFound = products.find((product) => product.id === 999);
-if (productFound) {
-    console.log(`Produto encontrado: ${productFound.name}`);
-} else {
-    console.log("Produto não encontrado");
-}
+const failedTests = testCases.filter((test) => test.status === "failed");
+console.log(failedTests);
+console.log(`Total de testes com falha: ${failedTests.length}`);
