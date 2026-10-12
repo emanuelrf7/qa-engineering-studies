@@ -1,12 +1,9 @@
-const testCases = [
-  { id: 1, name: "Login válido", status: "passed", priority: "high" },
-  { id: 2, name: "Login inválido", status: "failed", priority: "high" },
-  { id: 3, name: "Recuperar senha", status: "passed", priority: "medium" },
-  { id: 4, name: "Criar usuário", status: "failed", priority: "medium" },
-  { id: 5, name: "Excluir usuário", status: "passed", priority: "low" },
-  { id: 6, name: "Alterar senha", status: "failed", priority: "high" }
+const users = [
+  { id: 1, name: "Ana", email: "ana@email.com", active: true },
+  { id: 2, name: "Carlos", email: "carlos@email.com", active: false },
+  { id: 3, name: "Marina", email: "marina@email.com", active: true },
+  { id: 4, name: "João", email: "joao@email.com", active: true }
 ];
 
-const criticalFailures = testCases.filter((test) => test.status === "failed" && test.priority === "high");
-console.log(criticalFailures);
-console.log(`Total de falhas de alta prioridade: ${criticalFailures.length}`);
+const userEmails = users.map((user) => user.email);
+console.log(userEmails);
