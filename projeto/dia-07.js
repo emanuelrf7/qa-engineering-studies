@@ -1,21 +1,20 @@
 const testExecution = new Promise((resolve, reject) => {
   setTimeout(() => {
     resolve({
-      id: 201,
-      test: "Pagamento",
-      status: "failed",
-      error: null
+      id: 301,
+      test: "Login",
+      status: "passed"
     });
   }, 1000);
 });
 
-testExecution.then((result) => {
-  if (result.status === "failed" && !result.error) {
-    throw new Error("Teste falhou sem mensagem de erro");
-  }
-  return result;
-}).then(() => {
-  console.log("Execução processada com sucesso");
-}).catch((error) => {
-  console.log(`Erro capturado: ${error.message}`);
-})
+async function processExecution() {
+  const result = await testExecution;
+  console.log(`Teste: ${result.test}\nStatus: ${result.status}`)
+}
+
+console.log("Antes da função");
+
+processExecution(testExecution);
+
+console.log("Depois da função");
