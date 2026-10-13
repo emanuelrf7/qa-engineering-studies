@@ -1,13 +1,12 @@
 const testExecution = new Promise((resolve, reject) => {
-  const testPassed = false;
-
   setTimeout(() => {
-    if (testPassed) {
-      resolve("Login executado com sucesso");
-    } else {
-      reject("Login apresentou falha");
-    }
+    resolve({
+      id: 101,
+      test: "Checkout",
+      status: "failed",
+      duration: 650
+    });
   }, 1000);
 });
 
-testExecution.then((passou) => console.log(`Resultado: ${passou}`)).catch((naoPassou) => console.log(`Erro: ${naoPassou}`));
+testExecution.then((result) => { return result.duration > 500 ? true : false }).then((result) => console.log(`Teste lento: ${result}`));
