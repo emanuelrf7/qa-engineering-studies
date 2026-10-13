@@ -34,7 +34,12 @@ async function runTests() {
   const profileResult = executeProfileTest();
 
   const results = await Promise.allSettled([loginResult, checkoutResult, profileResult]);
-  console.log(results);
+  
+  const successfulResults = results.filter((result) => result.status === "fulfilled");
+  const failedResults = results.filter((result) => result.status === "rejected");
+  const errorMessages = failedResults.map((result) => result.reason.message);
+
+  console.log(`Sucessos: ${successfulResults.length}\nFalhas: ${failedResults.length}\nMensagens de erro:`, errorMessages);
 }
 
 runTests();
