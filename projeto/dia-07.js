@@ -1,7 +1,13 @@
-console.log("1 - Início da suíte");
+const testExecution = new Promise((resolve, reject) => {
+  const testPassed = false;
 
-setTimeout(() => {
-  console.log("2 - Teste executado");
-}, 1000);
+  setTimeout(() => {
+    if (testPassed) {
+      resolve("Login executado com sucesso");
+    } else {
+      reject("Login apresentou falha");
+    }
+  }, 1000);
+});
 
-console.log("3 - Relatório solicitado");
+testExecution.then((passou) => console.log(`Resultado: ${passou}`)).catch((naoPassou) => console.log(`Erro: ${naoPassou}`));
