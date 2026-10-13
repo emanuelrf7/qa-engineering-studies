@@ -17,16 +17,24 @@ function executeCheckoutTest() {
   });
 }
 
+function executeProfileTest() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        test: "Perfil",
+        status: "passed"
+      });
+    }, 600);
+  });
+}
+
 async function runTests() {
   const loginResult = executeLoginTest();
   const checkoutResult = executeCheckoutTest();
+  const profileResult = executeProfileTest();
 
-  try {
-    const results = await Promise.all([loginResult, checkoutResult]);
-    console.log(results);
-  } catch (erro) {
-    console.log(`Erro nas execuções: ${erro.message}`);
-  }
+  const results = await Promise.allSettled([loginResult, checkoutResult, profileResult]);
+  console.log(results);
 }
 
 runTests();
