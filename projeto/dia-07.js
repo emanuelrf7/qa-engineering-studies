@@ -1,26 +1,29 @@
-const testExecution = new Promise((resolve, reject) => {
-  const testPassed = true;
-
+const loginExecution = new Promise((resolve) => {
   setTimeout(() => {
-    if (testPassed) {
-      resolve({
-        test: "Checkout",
-        status: "passed"
-      });
-    } else {
-      reject(new Error("Checkout apresentou falha"));
-    }
-  }, 1000);
+    resolve({
+      test: "Login",
+      status: "passed"
+    });
+  }, 800);
 });
 
-async function processExecution() {
-  try {
-    const result = await testExecution;
-    console.log(`Teste: ${result.test}\nStatus: ${result.status}`);
+const checkoutExecution = new Promise((resolve) => {
+  setTimeout(() => {
+    resolve({
+      test: "Checkout",
+      status: "failed"
+    });
+  }, 1200);
+});
 
-  } catch (erro) {
-    console.log(`Erro capturado: ${erro.message}`);
-  }  
+async function processExecution(executionPromise) {
+  const result = await executionPromise;
+  console.log(`Teste: ${result.test}\nStatus: ${result.status}`);
 }
 
-processExecution();
+console.log("Iniciando execuções");
+
+processExecution(loginExecution);
+processExecution(checkoutExecution);
+
+console.log("Execuções solicitadas");
