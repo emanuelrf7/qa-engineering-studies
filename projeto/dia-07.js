@@ -5,34 +5,28 @@ function executeLoginTest() {
         test: "Login",
         status: "passed"
       });
-    }, 1000);
+    }, 800);
   });
 }
 
 function executeCheckoutTest() {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve({
-        test: "Checkout",
-        status: "passed"
-      });
-    }, 1500);
+      reject(new Error("Checkout apresentou falha"));
+    }, 1200);
   });
 }
 
-async function runSequentially() {
-  const loginResult = await executeLoginTest();
-  const checkoutResult = await executeCheckoutTest();
-  console.log(loginResult, checkoutResult);
-}
-
-async function runTogether() {
+async function runTests() {
   const loginResult = executeLoginTest();
   const checkoutResult = executeCheckoutTest();
-  
-  const results = await Promise.all([loginResult, checkoutResult]);
-  console.log(results);
+
+  try {
+    const results = await Promise.all([loginResult, checkoutResult]);
+    console.log(results);
+  } catch (erro) {
+    console.log(`Erro nas execuções: ${erro.message}`);
+  }
 }
 
-runSequentially();
-runTogether();
+runTests();
