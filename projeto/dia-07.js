@@ -1,29 +1,31 @@
 function executeTest(testName, shouldPass, delay) {
-  if (shouldPass) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (shouldPass) {
         resolve({
           test: testName,
           status: "passed"
         });
-      }, delay);
-    });
-  } else {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
+      } else {
         reject(new Error(`${testName} apresentou falha`));
-      }, delay);
-    });
+      }
+    }, delay);
+  });
+}
+
+async function processTest(testPromise) {
+  try {
+    const result = await testPromise;
+    console.log(`Teste: ${result.test}\nStatus: ${result.status}`);
+  } catch (erro) {
+    console.log("Erro capturado:", erro.message);
   }
 }
 
-const loginExecution = executeTest("Login", true, 800);
-const checkoutExecution = executeTest("Checkout", false, 1200);
-const profileExecution = executeTest("Perfil", true, 600);
+console.log("Início");
 
-async function runAllSettled() {
-  const results = await Promise.allSettled([loginExecution, checkoutExecution, profileExecution]);
-  console.log(results);
-}
+processTest(executeTest("Login", true, 800));
+processTest(executeTest("Checkout", false, 1200));
+processTest(executeTest("Perfil", true, 600));
 
-runAllSettled();
+console.log("Fim das solicitações");
