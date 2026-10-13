@@ -1,10 +1,11 @@
-function executeTest(testName, shouldResolve, testStatus, delay) {
+function executeTest(testName, shouldResolve, testStatus, priority, delay) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (shouldResolve) {
         resolve({
           test: testName,
-          status: testStatus
+          status: testStatus,
+          priority
         });
       } else {
         reject(new Error(`${testName} apresentou erro de execução`));
@@ -13,26 +14,33 @@ function executeTest(testName, shouldResolve, testStatus, delay) {
   });
 }
 
-const loginExecution = executeTest("Login", true, "passed", 800);
-const checkoutExecution = executeTest("Checkout", true, "failed", 1000);
-const paymentExecution = executeTest("Pagamento", false, null, 1200);
-const profileExecution = executeTest("Perfil", true, "passed", 600);
+const loginExecution = executeTest("Login", true, "passed", "high", 700);
 
-async function generateReport() {
-  const results = await Promise.allSettled([loginExecution, checkoutExecution, paymentExecution, profileExecution]);
+const checkoutExecution = executeTest("Checkout", true, "failed", "critical", 1100);
+
+const paymentExecution = executeTest("Pagamento", false, null, "critical", 900);
+
+const profileExecution = executeTest("Perfil", true, "passed", "medium", 500);
+
+const searchExecution = executeTest("Busca", true, "failed", "low", 800);
+
+async function runPipeline() {
+  const results = await Promise.allSettled([loginExecution, checkoutExecution, paymentExecution, profileExecution, searchExecution]);
 
   const successfulPromises = results.filter((result) => result.status === "fulfilled");
   const failedPromises = results.filter((result) => result.status === "rejected");
   const approvedTests = successfulPromises.filter((test) => test.value.status === "passed").map((test) => test.value.test);
   const failedTests = successfulPromises.filter((test) => test.value.status === "failed").map((test) => test.value.test);
-  const executionErrors = failedPromises.map((test) => test.reason.message);
-  const hasFailedTest = successfulPromises.some((teste) => teste.value.status === "failed");
+  const executionErrors = failedPromises.map((result) => result.reason.message);
+  const hasCriticalFailure = successfulPromises.some((result) => result.value.status === "failed" && result.value.priority === "critical");
+  const qualityGate = hasCriticalFailure ? "BLOCKED" : "APPROVED";
 
   console.log(`Promises resolvidas: ${successfulPromises.length}\nPromises rejeitadas: ${failedPromises.length}`);
   console.log("Testes aprovados:", approvedTests);
   console.log("Testes reprovados:", failedTests);
   console.log("Erros de execução:", executionErrors);
-  console.log(`Existe teste reprovado: ${hasFailedTest}`);
+  console.log("Existe falha crítica:", hasCriticalFailure);
+  console.log("Quality Gate:", qualityGate);
 }
 
-generateReport();
+runPipeline();
