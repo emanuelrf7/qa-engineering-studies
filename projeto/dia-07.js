@@ -1,29 +1,38 @@
-const loginExecution = new Promise((resolve) => {
-  setTimeout(() => {
-    resolve({
-      test: "Login",
-      status: "passed"
-    });
-  }, 800);
-});
-
-const checkoutExecution = new Promise((resolve) => {
-  setTimeout(() => {
-    resolve({
-      test: "Checkout",
-      status: "failed"
-    });
-  }, 1200);
-});
-
-async function processExecution(executionPromise) {
-  const result = await executionPromise;
-  console.log(`Teste: ${result.test}\nStatus: ${result.status}`);
+function executeLoginTest() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        test: "Login",
+        status: "passed"
+      });
+    }, 1000);
+  });
 }
 
-console.log("Iniciando execuções");
+function executeCheckoutTest() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        test: "Checkout",
+        status: "passed"
+      });
+    }, 1500);
+  });
+}
 
-processExecution(loginExecution);
-processExecution(checkoutExecution);
+async function runSequentially() {
+  const loginResult = await executeLoginTest();
+  const checkoutResult = await executeCheckoutTest();
+  console.log(loginResult, checkoutResult);
+}
 
-console.log("Execuções solicitadas");
+async function runTogether() {
+  const loginResult = executeLoginTest();
+  const checkoutResult = executeCheckoutTest();
+  
+  const results = await Promise.all([loginResult, checkoutResult]);
+  console.log(results);
+}
+
+runSequentially();
+runTogether();
