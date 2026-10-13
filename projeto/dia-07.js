@@ -1,12 +1,21 @@
 const testExecution = new Promise((resolve, reject) => {
   setTimeout(() => {
     resolve({
-      id: 101,
-      test: "Checkout",
+      id: 201,
+      test: "Pagamento",
       status: "failed",
-      duration: 650
+      error: null
     });
   }, 1000);
 });
 
-testExecution.then((result) => { return result.duration > 500 ? true : false }).then((result) => console.log(`Teste lento: ${result}`));
+testExecution.then((result) => {
+  if (result.status === "failed" && !result.error) {
+    throw new Error("Teste falhou sem mensagem de erro");
+  }
+  return result;
+}).then(() => {
+  console.log("Execução processada com sucesso");
+}).catch((error) => {
+  console.log(`Erro capturado: ${error.message}`);
+})
