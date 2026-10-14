@@ -1,15 +1,15 @@
-const testStatuses: string[] = [
-  "passed",
-  "failed",
-  "passed",
-  "failed"
-];
+const testResult: {
+    id: number;
+    name: string;
+    status: string;
+    duration: number;
+    automated: boolean;
+} = {
+    id: 201,
+    name: "Checkout",
+    status: "failed",
+    duration: 650,
+    automated: true
+};
 
-const failedStatuses = testStatuses.filter((test) => test === "failed");
-console.log(`Status encontrados:`, failedStatuses);
-console.log(`Total de falhas: ${failedStatuses.length}`);
-
-const durations: number[] = [120, 350, 800, 90];
-
-const higherThan300 = durations.filter((duration) => duration > 300);
-console.log(`Testes lentos:`, higherThan300);
+console.log(`Teste: ${testResult.name}\nStatus: ${testResult.status}\nDuração: ${testResult.duration}ms\nAutomatizado: ${testResult.automated}`);
