@@ -130,8 +130,8 @@ Além do código disponível neste repositório, mantenho uma página no Notion 
 
 ### Notion
 
-[QA Engineering — Estudos, Automação e Evolução Técnica - JavaScript](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-058eda02b158836bbd8381df9a5cdd79?source=copy_link)
-[QA Engineering — Estudos, Automação e Evolução Técnica - TypeScript](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-TypeScript-3f9eda02b158807a8b3cda0a8afca8eb?source=copy_link)
+1. [QA Engineering — Estudos, Automação e Evolução Técnica - JavaScript](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-058eda02b158836bbd8381df9a5cdd79?source=copy_link)
+2. [QA Engineering — Estudos, Automação e Evolução Técnica - TypeScript](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-TypeScript-3f9eda02b158807a8b3cda0a8afca8eb?source=copy_link)
 
 ---
 
