@@ -1,9 +1,6 @@
-const testName: string = "Login";
-const testStatus: string = "passed";
-const testDuration: number = 420;
-const isAutomatedTest: boolean = true;
+const testName = "Checkout";
+let duration = 650;
+let automated = true;
+let environment: string = "QA";
 
-console.log(`Teste: ${testName}\nStatus: ${testStatus}\nDuração: ${testDuration}ms\nAutomatizado: ${isAutomatedTest}`);
-
-// let testeReatribuicao: 2;
-// testeReatribuicao = "420";
+console.log(`Teste: ${testName}\nDuração: ${duration}ms\nAutomatizado: ${automated}`);
