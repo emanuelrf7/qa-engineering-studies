@@ -1,6 +1,10 @@
-const testName = "Checkout";
-let duration = 650;
-let automated = true;
-let environment: string = "QA";
+function isTestFailed(status: string): boolean {
+    if (status === "failed") {
+        return true;
+    } else {
+        return false;
+    }
+}
 
-console.log(`Teste: ${testName}\nDuração: ${duration}ms\nAutomatizado: ${automated}`);
+console.log("Teste failed:", isTestFailed("failed"));
+console.log("Teste passed:", isTestFailed("passed"));
