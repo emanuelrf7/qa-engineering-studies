@@ -4,24 +4,30 @@ type TestResult = {
   duration: number;
 };
 
-async function executeTest(
-    name: string,
-    status: "passed" | "failed",
-    duration: number
-): Promise<TestResult> {
-    return {
-        name: name,
-        status: status,
-        duration: duration
+async function executeApiTest(shouldFail: boolean): Promise<TestResult> {
+    if (!shouldFail) {
+        return {
+            name: "GET /users",
+            status: "passed",
+            duration: 320
+        };
     };
+
+    throw new Error("API indisponível");
 }
 
-async function runTests() {
-    const test1 = await executeTest("Login", "passed", 180);
-    const test2 = await executeTest("Checkout", "failed", 650);
-
-    console.log(`${test1.name} - ${test1.status} - ${test1.duration}ms`);
-    console.log(`${test2.name} - ${test2.status} - ${test2.duration}ms`);
+async function processApiTest(shouldFail: boolean) {
+    try {
+        const test = await executeApiTest(shouldFail);
+        console.log(`${test.name} - ${test.status} - ${test.duration}ms`);
+    } catch (error) {
+        if (error instanceof Error) {
+            console.log(`Falha na execução: ${error.message}`);
+        } else {
+            console.log("Falha desconhecida");
+        }
+    }
 }
 
-runTests();
+processApiTest(false);
+processApiTest(true);
