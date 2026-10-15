@@ -1,33 +1,48 @@
-type TestResult = {
-  name: string;
-  status: "passed" | "failed";
-  duration: number;
+type ApiSuccess = {
+  success: true;
+  statusCode: 200;
+  data: {
+    id: number;
+    name: string;
+  };
 };
 
-async function executeApiTest(shouldFail: boolean): Promise<TestResult> {
-    if (!shouldFail) {
+type ApiError = {
+  success: false;
+  statusCode: 404;
+  error: string;
+};
+
+type ApiResponse = ApiSuccess | ApiError;
+
+async function fetchUser(userId: number): Promise<ApiResponse> {
+    if (userId === 1) {
         return {
-            name: "GET /users",
-            status: "passed",
-            duration: 320
+            success: true,
+            statusCode: 200,
+            data: {
+                id: 1,
+                name: "Emanuel"
+            }
         };
     };
 
-    throw new Error("API indisponível");
+    return {
+        success: false,
+        statusCode: 404,
+        error: "Usuário não encontrado"
+    };
 }
 
-async function processApiTest(shouldFail: boolean) {
-    try {
-        const test = await executeApiTest(shouldFail);
-        console.log(`${test.name} - ${test.status} - ${test.duration}ms`);
-    } catch (error) {
-        if (error instanceof Error) {
-            console.log(`Falha na execução: ${error.message}`);
-        } else {
-            console.log("Falha desconhecida");
-        }
+async function processUser(userId: number) {
+    const response = await fetchUser(userId);
+
+    if (response.success) {
+        console.log(`Status: ${response.statusCode}\nUsuário: ${response.data.name}\nID: ${response.data.id}`);
+    } else {
+        console.log(`Status: ${response.statusCode}\nErro: ${response.error}`);
     }
 }
 
-processApiTest(false);
-processApiTest(true);
+processUser(1);
+processUser(999);
