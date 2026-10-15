@@ -1,36 +1,32 @@
-type PassedTest = {
-  status: "passed";
-  name: string;
-  duration: number;
+type SuccessResponse = {
+  data: string;
+  statusCode: number;
 };
 
-type FailedTest = {
-  status: "failed";
-  name: string;
-  errorMessage: string;
+type ErrorResponse = {
+  error: string;
+  statusCode: number;
 };
 
-type TestResult = PassedTest | FailedTest;
+type ApiResponse = SuccessResponse | ErrorResponse;
 
-function formatTestResult(test: TestResult): string {
-    if (test.status === "passed") {
-        return `${test.name} - ${test.status} - ${test.duration}ms`;
+function formatApiResponse(response: ApiResponse): string {
+    if ("data" in response) {
+        return `Status: ${response.statusCode} - Dados: ${response.data}`;
     }
 
-    return `${test.name} - ${test.status} - ${test.errorMessage}`;
+    return `Status: ${response.statusCode} - Erro: ${response.error}`;
 }
 
-const login: TestResult = {
-  status: "passed",
-  name: "Login",
-  duration: 180
+const successResponse: ApiResponse = {
+  data: "Usuário encontrado",
+  statusCode: 200
 };
 
-const checkout: TestResult = {
-  status: "failed",
-  name: "Checkout",
-  errorMessage: "Payment service unavailable"
+const errorResponse: ApiResponse = {
+  error: "Usuário não encontrado",
+  statusCode: 404
 };
 
-console.log(formatTestResult(login));
-console.log(formatTestResult(checkout));
+console.log(formatApiResponse(successResponse));
+console.log(formatApiResponse(errorResponse));
