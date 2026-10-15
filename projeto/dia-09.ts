@@ -34,15 +34,22 @@ async function fetchUser(userId: number): Promise<ApiResponse> {
     };
 }
 
-async function processUser(userId: number) {
-    const response = await fetchUser(userId);
-
-    if (response.success) {
-        console.log(`Status: ${response.statusCode}\nUsuário: ${response.data.name}\nID: ${response.data.id}`);
-    } else {
-        console.log(`Status: ${response.statusCode}\nErro: ${response.error}`);
-    }
+async function processUsers(usersIds: number[]) {
+    let userPromises: Array<Promise<ApiResponse>> = [];
+    for (const userId of usersIds) {
+        const userPromise = fetchUser(userId);
+        userPromises.push(userPromise);
+    };
+    
+    const users = await Promise.all(userPromises);
+    
+    for (const user of users) {
+        if (user.success) {
+            console.log(`Usuário encontrado: ${user.data.name}`);
+        } else {
+            console.log(user.error);
+        };
+    };
 }
 
-processUser(1);
-processUser(999);
+processUsers([1, 999, 1]);
