@@ -1,32 +1,27 @@
-type SuccessResponse = {
-  data: string;
-  statusCode: number;
+type TestResult = {
+  name: string;
+  status: "passed" | "failed";
+  duration: number;
 };
 
-type ErrorResponse = {
-  error: string;
-  statusCode: number;
-};
+function executeTest(): Promise<TestResult> {
+    const promise: TestResult = {
+        name: "Login",
+        status: "passed",
+        duration: 180
+    };
 
-type ApiResponse = SuccessResponse | ErrorResponse;
-
-function formatApiResponse(response: ApiResponse): string {
-    if ("data" in response) {
-        return `Status: ${response.statusCode} - Dados: ${response.data}`;
-    }
-
-    return `Status: ${response.statusCode} - Erro: ${response.error}`;
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(promise);
+        }, 800);
+    });
 }
 
-const successResponse: ApiResponse = {
-  data: "Usuário encontrado",
-  statusCode: 200
-};
+async function processTest() {
+    const execution = await executeTest();
 
-const errorResponse: ApiResponse = {
-  error: "Usuário não encontrado",
-  statusCode: 404
-};
+    console.log(`Teste: ${execution.name}\nStatus: ${execution.status}\nDuração: ${execution.duration}ms`);
+}
 
-console.log(formatApiResponse(successResponse));
-console.log(formatApiResponse(errorResponse));
+processTest();
