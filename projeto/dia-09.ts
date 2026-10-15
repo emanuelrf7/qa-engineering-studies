@@ -1,57 +1,70 @@
-type ApiSuccess = {
-  success: true;
+type PassedApiTest = {
+  type: "passed";
   endpoint: string;
   statusCode: 200;
-  responseTime: number;
+  duration: number;
 };
 
-type ApiFailure = {
-  success: false;
+type FailedApiTest = {
+  type: "failed";
   endpoint: string;
   statusCode: 400 | 404 | 500;
   error: string;
 };
 
-type ApiResult = ApiSuccess | ApiFailure;
+type ApiTestResult = PassedApiTest | FailedApiTest;
 
 async function executeApiTest(
     endpoint: string,
     statusCode: 200 | 400 | 404 | 500,
-    responseTime: number
-): Promise<ApiResult> {
+    duration: number,
+    shouldReject: boolean
+): Promise<ApiTestResult> {
+    if (shouldReject) {
+        throw new Error(`Execution error on ${endpoint}`);
+    };
+
     if (statusCode === 200) {
         return {
-            success: true,
-            statusCode: statusCode,
+            type: "passed",
             endpoint: endpoint,
-            responseTime: responseTime
-        };
+            statusCode: statusCode,
+            duration: duration
+        }
     };
 
     return {
-        success: false,
+        type: "failed",
         endpoint: endpoint,
         statusCode: statusCode,
         error: `Request failed with status ${statusCode}`
     };
 }
 
-async function runApiSuite() {
-    const tests: Array<Promise<ApiResult>> = [executeApiTest("/users", 200, 180), executeApiTest("/products", 500, 620), executeApiTest("/profile", 404, 240), executeApiTest("/checkout", 200, 430)];
+async function runFinalSuite() {
+    const tests: Array<Promise<ApiTestResult>> = [executeApiTest("/users", 200, 180, false), executeApiTest("/products", 500, 620, false), executeApiTest("/profile", 404, 240, true), executeApiTest("/checkout", 200, 430, false)];
 
-    const results = await Promise.all(tests);
+    const results = await Promise.allSettled(tests);
     
     for (const result of results) {
-        if (result.success) {
-            console.log(`PASS ${result.endpoint} - ${result.statusCode} - ${result.responseTime}ms`);
+        if (result.status === "fulfilled") {
+            if (result.value.type === "passed") {
+                console.log(`PASS ${result.value.endpoint} - ${result.value.statusCode} - ${result.value.duration}ms`);
+            } else {
+                console.log(`FAIL ${result.value.endpoint} - ${result.value.statusCode} - ${result.value.error}`);
+            };
         } else {
-            console.log(`FAIL ${result.endpoint} - ${result.statusCode} - ${result.error}`);
-        }
-    }
+            if (result.reason instanceof Error) {
+                console.log(`ERROR - ${result.reason.message}`);                
+            } else {
+                console.log("ERROR - Falha desconhecida");
+            };
+        };
+    };
 
-    const approvedTests = results.filter((test) => test.success);
+    const resolvedPromises = results.filter((promise) => promise.status === "fulfilled");
 
-    console.log(`Total: ${results.length}\nPassed: ${approvedTests.length}\nFailed: ${results.length - approvedTests.length}`);
+    console.log(`Promises executadas: ${tests.length}\nPromises resolvidas: ${resolvedPromises.length}\nPromises rejeitadas: ${tests.length - resolvedPromises.length}`);
 }
 
-runApiSuite();
+runFinalSuite();
