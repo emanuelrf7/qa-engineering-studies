@@ -1,55 +1,29 @@
-type ApiSuccess = {
-  success: true;
-  statusCode: 200;
-  data: {
-    id: number;
-    name: string;
-  };
+type TestResult = {
+  name: string;
+  status: "passed" | "failed";
+  duration: number;
 };
 
-type ApiError = {
-  success: false;
-  statusCode: 404;
-  error: string;
-};
-
-type ApiResponse = ApiSuccess | ApiError;
-
-async function fetchUser(userId: number): Promise<ApiResponse> {
-    if (userId === 1) {
-        return {
-            success: true,
-            statusCode: 200,
-            data: {
-                id: 1,
-                name: "Emanuel"
-            }
-        };
-    };
-
+async function executeTest(
+    name: string,
+    status: "passed" | "failed",
+    duration: number
+): Promise<TestResult> {
     return {
-        success: false,
-        statusCode: 404,
-        error: "Usuário não encontrado"
+        name: name,
+        status: status,
+        duration: duration
     };
 }
 
-async function processUsers(usersIds: number[]) {
-    let userPromises: Array<Promise<ApiResponse>> = [];
-    for (const userId of usersIds) {
-        const userPromise = fetchUser(userId);
-        userPromises.push(userPromise);
-    };
-    
-    const users = await Promise.all(userPromises);
-    
-    for (const user of users) {
-        if (user.success) {
-            console.log(`Usuário encontrado: ${user.data.name}`);
-        } else {
-            console.log(user.error);
-        };
-    };
+async function generateTestReport() {
+    const executions: Array<Promise<TestResult>> = [executeTest("Login", "passed", 180), executeTest("Checkout", "failed", 720), executeTest("Perfil", "passed", 250)];
+
+    const results = await Promise.all(executions);
+
+    const failedTests = results.filter((test) => test.status === "failed");
+
+    console.log(`Total: ${results.length}\nPassed: ${results.length - failedTests.length}\nFailed: ${failedTests.length}\nTestes com falha:\n- ${failedTests.map((test) => test.name)}`);
 }
 
-processUsers([1, 999, 1]);
+generateTestReport();
