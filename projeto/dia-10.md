@@ -149,3 +149,79 @@ Responder em tabela:
 | D | Particionamento de Equivalência | Para esse cenário a técnica mais adequada também é a técnica de Particionamento de Equivalência, pois a intenção é reduzir a quantidade de testes visando escolher valores representativos de entradas válidas e inválidas. Logo, a respectiva técnica se enquadra perfeitamente para o cenário estabelecido. |
 | E | Transição de estados | Para esse cenário, a técnica mais adequada é novamente a Transição de estados, visto que são citados alguns valores pertinentes para a aplicação desta técnica: Estado atual (Deslogado -> Indicado de forma implícita nesse caso), Evento (Bloqueio após 5 tentativas de login inválido), Próximo estado (Bloqueado) e Resultado esperado (Login não realizado e permanência em estado Bloqueado até desbloqueio administrativo). |
 ---
+## Exercício 6 - Desafio Final
+Cenário - Saque em conta digital
+Considere as seguintes regras:
+- O valor do saque deve estar entre R$20 e R$1.000, inclusive.
+- O cliente pode sacar somente se:
+    - A conta estiver ativa;
+    - Houver saldo  suficiente;
+    - A conta não estiver bloqueada.
+- Após 3 tentativas consecutivas de senha inválida, a conta entra no estado Bloqueada.
+- Uma conta bloqueada só volta ao estado Ativa após desbloqueio administrativo.
+
+Parte 1 - Identificação das técnicas
+| Regra | Técnica principal | Justificativa |
+| --- | --- | --- |
+| Valor permitido entre R$ 20 e R$ 1.000 | Análise de Valor Limite | Como queremos focar nas bordas dos valores, utilizamos a Análise de Valor Limite. Dessa forma analisamos os valores de borda dos limites mínimo e máximo. |
+| Conta ativa + saldo suficiente + não bloqueada | Tabela de decisão | Aqui possuímos resultados diferentes mediante a combinação de várias condições das que foram propostas. Dito isso, a Tabela de decisão é a técnica que melhor se encaixa para essa regra. |
+| Bloqueio após 3 senhas inválidas | Transição de estados | Para essa regra, temos implícito o estado Ativa que, após 3 tentativas consecutivas de senha inválida, faz com que a conta entre no estado Bloqueada. A conta só volta ao estado Ativa após desbloqueio administrativo. Portanto, a técnica mais adequada é a Transição de estados. |
+
+Parte 2 - Aplicação prática
+Para a regra do valor do saque:
+1. Defina as partições de equivalência.
+- **Resposta:** Partição 1 -> valor < R$20 - Inválido; Partição 2 -> R$20 <= valor <= R$1.000 - Válido; Partição 3 -> valor > R$1.000 - Inválido.
+
+2. Escolha um representante de cada partição.
+- **Resposta:** Partição 1 -> R$19,99; Partição 2 -> R$20; Partição 3 -> R$1.000,01.
+
+3. Defina os valores que você testaria com análise de valor limite.
+- **Resposta:** Para o limite mínimo: R$19,99, R$20 e R$20,01. Para o limite máximo: R$999,99, R$1.000 e R$1.000,01.
+
+Parte 3 - Combinação de condições
+Monte uma tabela considerando: Conta ativa? / Saldo suficiente? / Conta bloqueada?
+Preencha todas as combinações e use como resultado: Saque permitido / Saque recusado.
+
+| Conta ativa? | Saldo suficiente? | Conta bloqueada? | Resultado esperado |
+| --- | --- | --- | --- |
+| Sim | Sim | Sim | Saque recusado |
+| Sim | Sim | Não | Saque permitido |
+| Sim | Não | Não | Saque recusado |
+| Sim | Não | Sim | Saque recusado |
+| Não | Não | Não | Saque recusado |
+| Não | Não | Sim | Saque recusado |
+| Não | Sim | Sim | Saque recusado | 
+| Não | Sim | Não | Saque recusado |
+
+Parte 4 - Transição de estados
+Considere: Ativa / Bloqueada
+Monte uma tabela com: Estado atual -> Evento -> Próximo estado -> Resultado esperado
+
+Inclua pelo menos:
+- Senha válida com conta ativa;
+- Primeira tentativa inválida;
+- Terceira tentativa inválida consecutiva;
+- Tentativa de operação com conta bloqueada;
+- Desbloqueio administrativo.
+
+| Estado atual | Evento | Próximo estado | Resultado esperado |
+| --- | --- | --- | --- |
+| Ativa | Senha válida  | permanece Ativa | Autenticação permitida |
+| Ativa | Primeira tentativa de senha inválida | permanece Ativa | Operação não autorizada; conta ainda ativa |
+| Ativa | Terceira tentativa inválida consecutiva | Bloqueada | Operação não autorizada e conta bloqueada |
+| Bloqueada | Tentativa de saque | permanece Bloqueada | Saque não permitido |
+| Bloqueada | Desbloqueio administrativo da conta | Ativa | Conta desbloqueada e retorna ao estado Ativa |
+
+### Questões finais:
+*1. Por que uma técnica de teste não seria suficiente para cobrir bem essa funcionalidade?*
+- **Resposta:** Pois existem diferentes regras que levam a diferentes abordagens de teste, visando a maior cobertura e qualidade de testes da mesma, pois dessa forma é possível validar valores, combinações de condições e mudanças de estado.
+
+*2. Qual técnica você considera mais adequada para encontrar erros nas bordas dos valores?*
+- **Resposta:** Análise de Valor Limite.
+
+*3. Qual técnica é mais adequada para encontrar erros causados pela combinação de regras?*
+- **Resposta:** Tabela de decisão.
+
+*4. Qual técnica é mais adequada para detectar comportamentos incorretos ao longo do ciclo de vida de um estado?*
+- **Resposta:** Transição de estados.
+---
