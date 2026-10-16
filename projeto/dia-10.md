@@ -83,3 +83,41 @@ Regra:
 *5. Por que uma tabela de decisão é mais útil nesse cenário do que testar cada condição isoladamente?*
 - **Resposta:** Pois só é possível chegar a um resultado específico (seja ele válido ou não) através da combinação de condições.
 ---
+## Exercício 4 - Transição de Estados
+Considere um sistema de autenticação com estes estados: Deslogado -> Logado -> Bloqueado.
+Regras:
+- Deslogado + login válido -> **Logado**
+- Deslogado + login inválido -> permanece **Deslogado**
+- após 3 tentativas inválidas consecutivas, o usuário vai para **Bloqueado**
+- Logado + logout -> **Deslogado**
+- **Bloqueado** não permite login
+
+### Questões:
+*1. Quais são os estados existentes?*
+- **Resposta:** Logado, Deslogado e Bloqueado.
+
+*2. Quais eventos/ações podem causar transição?*
+- **Resposta:** Login válido, login inválido, terceira tentativa inválida consecutiva e logout.
+
+*3. Qual é o estado inicial mais provável?*
+- **Resposta:** Deslogado.
+
+*4. Monte uma tabela com: Estado atual -> Evento -> Próximo estado -> Resultado esperado. Inclua pelo menos estes cenários:*
+
+    - Login válido estando deslogado;
+    - Login inválido estando deslogado;'
+    - Terceira tentativa inválida consecutiva;
+    - Logout estando logado;
+    - Tentativa de login estando bloqueado.
+
+| Estado atual | Evento | Próximo estado | Resultado esperado |
+| --- | --- | --- | --- |
+| Deslogado | Login válido | Logado | Login efetuado com sucesso |
+| Deslogado | Login inválido | permanece Deslogado | Login não realizado |
+| Deslogado | Login inválido pela terceira vez consecutiva | Bloqueado | Usuário bloqueado após três tentativas consecutivas de login sem sucesso |
+| Logado | Logout válido | Deslogado | Usuário deslogado com sucesso |
+| Bloqueado | Tentativa de login | permanece Bloqueado | Login não permitido |
+
+*5. Por que, nesse cenário, testar apenas "login válido" e "login inválido" sem considerar o estado atual seria insuficiente?*
+- **Resposta:** Pois o mesmo evento pode produzir resultados diferentes dependendo do estado atual do sistema, podendo ocasionar bugs relacionados a transições incorretas ou ações que deveriam ser bloqueadas.
+---
