@@ -47,3 +47,39 @@ Regra:
 | 12 | Valor máximo | Válido |
 | 13 | Valor logo acima do limite máximo | Inválido |
 ---
+## Exercício 3 - Tabela de Decisão
+
+Regra:
+- Um usuário pode finalizar uma compra somente se:
+    1. Estiver ativo;
+    2. Não estiver bloqueado;
+    3. Possuir saldo suficiente.
+
+### Questões:
+*1. Quais são as três condições envolvidas?*
+- **Resposta:** Usuário estar ativo, não estar bloqueado e possuir saldo suficiente.
+
+*2. Qual é a ação/resultado que estamos decidindo?*
+- **Resposta:** Possibilidade de finalizar uma compra por parte do usuário.
+
+*3. Quantas combinações possíveis existem considerando que cada condição pode ser apenas **Sim** ou **Não**?*
+- **Resposta:** 8 Combinações.
+
+*Monte uma tabela Markdown:*
+| Usuário ativo? | Usuário bloqueado? | Saldo suficiente? | Resultado esperado |
+| --- | --- | --- | --- |
+| Sim | Sim | Sim | Compra recusada |
+| Sim | Sim | Não | Compra recusada |
+| Sim | Não | Sim | Compra aprovada |
+| Sim | Não | Não | Compra recusada |
+| Não | Sim | Sim | Compra recusada |
+| Não | Sim | Não | Compra recusada |
+| Não | Não | Sim | Compra recusada |
+| Não | Não | Não | Compra recusada |
+
+*4. Quantas combinações resultam em compra aprovada?*
+- **Resposta:** Apenas uma, onde a primeira condição é Sim, a segunda é Não e a última Sim.
+
+*5. Por que uma tabela de decisão é mais útil nesse cenário do que testar cada condição isoladamente?*
+- **Resposta:** Pois só é possível chegar a um resultado específico (seja ele válido ou não) através da combinação de condições.
+---
