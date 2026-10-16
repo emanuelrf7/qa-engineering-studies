@@ -121,3 +121,31 @@ Regras:
 *5. Por que, nesse cenário, testar apenas "login válido" e "login inválido" sem considerar o estado atual seria insuficiente?*
 - **Resposta:** Pois o mesmo evento pode produzir resultados diferentes dependendo do estado atual do sistema, podendo ocasionar bugs relacionados a transições incorretas ou ações que deveriam ser bloqueadas.
 ---
+## Exercício 5 - Escolha da Técnica de Teste
+Para cada cenário abaixo, diga:
+1. Qual técnica você escolheria como principal;
+2. Por que essa técnica é adequada.
+
+Cenário A -> Um campo aceita valores inteiros de 10 a 100, inclusive.
+
+Cenário B -> Uma transferência bancária é permitida somente se:
+- A conta estiver ativa;
+- Houver saldo suficiente;
+- O limite diário não tiver sido excedido.
+
+Cenário C -> Um pedido pode passar pelos estados: Criado -> Pago -> Enviado -> Entregue. Também pode ser cancelado antes de ser enviado.
+
+Cenário D -> Um campo de quantidade aceita valores entre 1 e 50, mas você quer reduzir a quantidade de testes escolhendo valores representativos de entradas válidas e inválidas.
+
+Cenário E -> Um usuário é bloqueado após 5 tentativas consecutivas de login inválido e permanece bloqueado até ocorrer um desbloqueio administrativo.
+
+Responder em tabela:
+
+| Cenário | Técnica principal | Justificativa |
+| --- | --- | --- |
+| A | Análise de Valor Limite | É a técnica adequada para esse cenário por focar nos limites válidos e imediatamente próximos a eles, evitando testes pouco representativos, visto que há uma faixa de valores inteiros de 10 a 100. |
+| B | Tabela de decisão | Para esse cenário, podemos chegar a diversos resultados levando em consideração várias combinações de condições diferentes. Portanto, a técnica de Tabela de decisão se torna a mais adequada. |
+| C | Transição de estados | O cenário diz que existem 5 estados possíveis de pedido, que são eles: Criado, Pago, Enviado, Entregue e Cancelado. Levando em consideração os diferentes estados que o pedido pode se encontrar, a técnica de transição de estados se encaixa perfeitamente para esse cenário. |
+| D | Particionamento de Equivalência | Para esse cenário a técnica mais adequada também é a técnica de Particionamento de Equivalência, pois a intenção é reduzir a quantidade de testes visando escolher valores representativos de entradas válidas e inválidas. Logo, a respectiva técnica se enquadra perfeitamente para o cenário estabelecido. |
+| E | Transição de estados | Para esse cenário, a técnica mais adequada é novamente a Transição de estados, visto que são citados alguns valores pertinentes para a aplicação desta técnica: Estado atual (Deslogado -> Indicado de forma implícita nesse caso), Evento (Bloqueio após 5 tentativas de login inválido), Próximo estado (Bloqueado) e Resultado esperado (Login não realizado e permanência em estado Bloqueado até desbloqueio administrativo). |
+---
