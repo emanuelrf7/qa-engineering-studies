@@ -1,0 +1,202 @@
+# Dia 11 — Análise de requisitos e criação de cenários de teste
+
+## Exercício 1 — Requisito funcional e regras de negócio
+Considere esta história:
+Como cliente de uma conta digital, quero realizar transferências via PIX para poder enviar dinheiro para outras pessoas.
+A transferência deve possuir valor mínimo de R$1,00 e máximo de R$5.000,00.
+O cliente deve possuir saldo suficiente.
+Contas bloqueadas não podem realizar transferências.
+### Questões:
+*1. Qual é o requisito funcional principal?*
+- **Resposta:** "Realizar transferências via PIX para poder enviar dinheiro para outras pessoas."
+
+*2. Quais são as regras de negócio presentes?*
+- **Resposta:** 1 - "A transferência deve possuir valor mínimo de R$1,00 e máximo de R$5.000,00."; 2 - "O cliente deve possuir saldo suficiente."; 3 - "Contas bloqueadas não podem realizar transferências."
+
+*3. Há alguma informação que você considera importante para testar PIX e que não está definida nessa história? Cite pelo menos 3.*
+- **Resposta:** Sim. 1 - O limite de R$5.000,00 é por transferência ou também existe um limite diário?; 2 - Como o sistema deve se comportar caso a chave PIX informada seja inválida ou inexistente?; 3 - O que deve acontecer se ocorrer timeout ou indisponibilidade durante o processamento da transferência?
+
+*4. Por que identificar essas lacunas antes da execução dos testes é importante para o QA?*
+- **Resposta:** Pois dessa forma é possível minimizar erros antes da implementação de um requisito funcional/regra de negócio, levando essas lacunas para o Produto/PO melhor esclarecimento. A partir das definições realizadas, novos casos de teste podem ser gerados caso o requisito/regra venha a ser atualizada.
+---
+## Exercício 2 — Ambiguidades e inconsistências
+Considere este requisito:
+O usuário poderá redefinir sua senha caso esqueça a senha atual.
+O sistema deverá enviar um código de recuperação por e-mail.
+O código deve expirar rapidamente.
+O usuário poderá solicitar novos códigos quando necessário.
+Após algumas tentativas inválidas, novas validações deverão ser bloqueadas temporariamente.
+### Questões:
+1. Identifique pelo menos 4 trechos ambíguos ou incompletos.
+2. Para cada um deles, explique por que não é possível testá-lo de forma objetiva como está escrito.
+3. Transforme cada lacuna em uma pergunta para Produto/PO.
+4. Existe alguma possível inconsistência ou risco de regra conflitante nesse requisito? Se sim, explique.
+
+| Trecho | Problema identificado | Pergunta para Produto/PO | É possivel testar? - Justificativa | Possível inconsistência / risco de regra conflitante? |
+| --- | --- | --- | --- | --- |
+| "O código deve expirar rapidamente" | "rapidamente" = quanto tempo? | Qual deve ser o tempo exato para expiração do código? | É possível executar testes, mas não é possível determinar objetivamente aprovação ou reprovação sem a definição da regra. | Não. |
+| "Após algumas tentativas inválidas, novas validações deverão ser bloqueadas temporariamente" | "temporariamente" = quanto tempo? | Qual deve ser o tempo exato de bloqueio para novas validações? | É possível executar testes, mas não é possível determinar objetivamente aprovação ou reprovação sem a definição da regra. | Sim, pode conflitar com a regra "o usuário poderá solicitar novos códigos quando necessário" pois não está definido se o bloqueio também impede novas solicitações ou apenas novas validações. |
+| "O sistema deverá enviar um código de recuperação por e-mail" | "deverá enviar um código de recuperação por e-mail" = em que ação? | Qual é o fluxo/ação que o usuário deve realizar para receber o código de recuperação? | É possível executar testes, mas não é possível determinar objetivamente aprovação ou reprovação sem a definição da regra. | Não foi identificado conflito direto, mas o fluxo está incompleto e existe dependência entre a solicitação de recuperação e o envio do código. |
+| "Após algumas tentativas inválidas, novas validações deverão ser bloqueadas temporariamente" | "Após algumas tentativas inválidas..." = quantas tentativas? | O usuário pode realizar quantas tentativas inválidas para que aconteça o bloqueio? | É possível executar testes, mas não é possível determinar objetivamente aprovação ou reprovação sem a definição da regra. | Não. |
+---
+## Exercício 3 — Derivação de cenários de teste
+Considere que, após alinhamento com Produto/PO, o requisito de recuperação de senha ficou definido assim:
+O usuário pode solicitar a recuperação de senha informando o e-mail cadastrado.
+O sistema deve enviar um código de 6 dígitos para esse e-mail.
+O código expira após 5 minutos.
+Apenas o código mais recentemente solicitado permanece válido.
+Após 3 tentativas consecutivas de código inválido, novas validações ficam bloqueadas por 15 minutos.
+Após o período de bloqueio, o usuário pode voltar a validar códigos normalmente.
+### Questões:
+*1. Quais são as principais regras de negócio presentes agora?*
+- **Resposta:** A recuperação deve ser solicitada informando o e-mail cadastrado; O sistema deve enviar um código de 6 dígitos para esse e-mail; O código expira após 5 minutos; Apenas o código mais recentemente solicitado permanece válido; Após 3 tentativas consecutivas de código inválido, novas validações ficam bloqueadas por 15 minutos; Após o período de bloqueio, o usuário pode voltar a validar códigos normalmente.
+
+*2. Quais técnicas de Test Design estudadas no Dia 10 você aplicaria nesse requisito? Explique onde cada uma seria útil.*
+- **Resposta:** Transição de estados seria bem útil pois existe ações realizadas (como "após 3 tentativas consecutivas de código inválido, novas validações ficam bloqueadas por 15 minutos") onde há transição de estado de validação disponível para validação bloqueada. Tabela de decisão também seria uma boa técnica visto que podemos ter várias combinações de condições que geram um resultado específico, como por exemplo: 1. Código expirado? - Não; 2. Existe bloqueio para validações? - Não; 3 - Código mais recentemente solicitado? - Sim; 4. Resultado esperado: Código válido para recuperação de senha. Análise de Valor Limite para os 5 minutos de validade, 3 tentativas inválidas e 15 minutos de bloqueio e Particionamento de Equivalência, para definir partições para código válido / inválido / expirado e formato de 6 dígitos válido / inválido.
+*3. Derive pelo menos 8 cenários de teste a partir dessas regras. Use apenas esse formato: Cenário: / Resultado esperado:*
+- **Resposta:**
+
+| Cenário | Resultado esperado |
+| --- | --- |
+| Solicitação de recuperação de senha informando o e-mail cadastrado | Usuário consegue solicitar a recuperação de senha com sucesso. Sistema deve enviar e-mail com o código de recuperação de senha |
+| Solicitação de recuperação de senha sem informar o e-mail cadastrado | Solicitação de recuperação não deve prosseguir |
+| Duas solicitações de recuperação consecutivas | Sistema deve enviar os códigos para o e-mail do usuário e apenas o mais recente deve ser válido |
+| Tentativa de recuperação de senha com código expirado | Código não deve ser aceito para a recuperação de senha |
+| Bloqueio após três tentativas inválidas consecutivas | Sistema deve bloquear novas validações de código durante os 15 minutos de bloqueio |
+| Nova tentativa de validação após o período de bloqueio | Novas validações voltam a ser permitidas |
+| Solicitar segundo código e tentar usar o primeiro | Sistema deve rejeitar o primeiro código e o segundo deve ser o único válido |
+| Expiração de código de recuperação de senha | Sistema deve invalidar o código de recuperação caso o mesmo não tenha sido utilizado e 5 minutos tenham se passado |
+
+*4. Como você sabe que os cenários criados cobrem as regras principais?*
+- **Resposta:** Garantindo que exista pelo menos um cenário para cada regra de negócio principal. Após a definição dos cenários principais que atendem ao "caminho feliz" de cada regra de negócio é possível criar cenários alternativos e de exceção. Além disso, também é possível testar limites, transições e combinações quando existirem/fizerem sentido. 
+
+*5. Qual risco existiria em criar apenas o cenário "código válido redefine a senha com sucesso"?*
+- **Resposta:** A negligência de um possível bug no comportamento caso o usuário acesse um código inválido. Por exemplo, o código foi recebido a 10 minutos, usuário acessa esse código e consegue realizar a alteração da senha -> esse fluxo corresponderia a um fluxo incorreto que só pode ser identificado caso não seja criado apenas o "cenário feliz" de código válido redefinindo a senha com sucesso.
+---
+## Exercício 4 — Rastreabilidade entre requisitos e cenários
+Considere este requisito de checkout:
+O cliente pode finalizar uma compra utilizando cartão de crédito.
+O cartão deve estar dentro da validade.
+O limite disponível deve ser igual ou superior ao valor da compra.
+Compras acima de R$ 2.000 exigem confirmação adicional do cliente.
+Após 3 tentativas consecutivas de pagamento recusado, novas tentativas ficam bloqueadas por 30 minutos.
+### Questões:
+*1. Identifique as regras e numere-as: R1, R2, R3...*
+- **Resposta:** R1 -> Cliente pode finalizar uma compra utilizando cartão de crédito; R2 -> O cartão deve estar dentro da validade; R3 -> O limite disponível deve ser igual ou superior ao valor da compra; R4 -> Compras acima de R$2.000 exigem confirmação adicional do cliente; R5 -> Após 3 tentativas consecutivas de pagamento recusado, novas tentativas ficam bloqueadas por 30 minutos.
+
+*2. Crie pelo menos 7 cenários de teste, identificando-os como: CT01, CT02, CT03...*
+
+| ID | Cenário | Resultado esperado |
+| --- | --- | --- |
+| CT01 | Finalizar compra com cartão de crédito dentro da validade e limite suficiente | Compra efetuada com sucesso |
+| CT02 | Finalizar compra com cartão de crédito com data vencida | Pagamento recusado e compra não efetuada |
+| CT03 | Finalizar compra com cartão de crédito dentro da validade e limite insuficiente para o valor da compra | Pagamento recusado e compra não efetuada |
+| CT04 | Confirmação adicional para compras de R$2.000 | Compra igual ou abaixo do valor de R$2.000 não deve exigir confirmação adicional antes de prosseguir com o pagamento |
+| CT05 | Confirmação adicional para compras acima de R$2.000 | Compra acima de R$2.000 deve exigir confirmação adicional antes de prosseguir com o pagamento |
+| CT06 | Pagamento com cartão de crédito válido recusado 3 vezes consecutivas | Novas tentativas de pagamento bloqueadas por 30 minutos |
+| CT07 | Nova tentativa de pagamento com cartão de crédito válido e limite suficiente após fim do bloqueio | Compra efetuada com sucesso |
+
+*3. Rastreabilidade*
+
+| Regra | Cenários que cobrem a regra |
+| --- | --- |
+| R1 | CT01 |
+| R2 | CT01, CT02 |
+| R3 | CT01, CT03 |
+| R4 | CT04, CT05 |
+| R5 | CT06, CT07 |
+
+*4. Análise*
+
+1. Como a rastreabilidade ajuda a identificar lacunas na cobertura?
+    - **Resposta:** Usando a rastreabilidade é possível visualizar quais regras estão sendo abordadas nos cenários de teste e se alguma regra não possui cenário de teste vinculado.
+2. Se Produto alterar o limite de confirmação adicional de R$2.000 para R$3.000, como essa tabela ajuda o QA?
+    - **Resposta:** O QA consegue acessar o teste vinculado a regra sem perder muito tempo procurando ou tentando lembrar qual teste equivale à regra específica, alterando apenas o(s) teste(s) condizentes aquela regra. É possível, também, visualizar todos os testes que podem ser impactados com a alteração da respectiva regra.
+3. Uma regra possuir apenas um cenário associado significa necessariamente que ela está bem testada? Por quê?
+    - **Resposta:** Depende da regra. Uma regra pode ter 1 cenário como também pode ter 10 cenários, o que manda é a própria regra: se for uma regra direta onde não há cenários alternativos/exceção para a mesma apenas 1 cenário pode fazer sentido. Já uma regra como "O limite disponível deve ser igual ou superior ao valor da compra" abre possibilidade para um cenário principal e um alternativo: limite de crédito suficiente e limite de crédito insuficiente.
+---
+## Exercício 5 — Desafio final
+Considere esta história:
+Como cliente de uma conta digital, quero realizar pagamentos de boletos para quitar minhas contas.
+O boleto deve estar dentro da data de vencimento.
+O valor máximo permitido por pagamento é de R$ 10.000,00.
+O cliente deve possuir saldo suficiente.
+Boletos já pagos não podem ser pagos novamente.
+Após 3 tentativas consecutivas de pagamento recusado, novas tentativas ficam bloqueadas por 20 minutos.
+Pagamentos acima de R$ 5.000,00 exigem confirmação adicional do cliente.
+
+### Parte 1 — Análise do requisito
+*1. Qual é o requisito funcional principal?*
+- **Resposta:** "Como cliente de uma conta digital, quero realizar pagamentos de boletos para quitar minhas contas."
+
+*2. Quais são as regras de negócio?*
+- **Resposta:** 1 - O boleto deve estar dentro da data de vencimento; 2 - O valor máximo permitido por pagamento é de R$ 10.000,00; 3 - O cliente deve possuir saldo suficiente; 4 - Boletos já pagos não podem ser pagos novamente; 5 - Após 3 tentativas consecutivas de pagamento recusado, novas tentativas ficam bloqueadas por 20 minutos; 6 - Pagamentos acima de R$ 5.000,00 exigem confirmação adicional do cliente.
+
+*3. Identifique pelo menos 4 possíveis lacunas ou dúvidas que você levaria para Produto/PO.*
+- **Resposta:** 1 - "deve estar dentro da data de vencimento" = O boleto pode ser pago no próprio dia do vencimento até qualquer horário ou existe algum horário limite? / 2 - "O valor máximo permitido por pagamento é de R$10.000,00." = Existe, também, um valor mínimo para essa operação? / 3 - "Boletos já pagos não podem ser pagos novamente." = Qual é o critério que estabelece que um boleto já foi pago? E qual deve ser o comportamento caso o usuário acesse/escaneie um boleto que já foi pago novamente? / 4 - "O cliente deve possuir saldo suficiente" = Essa é a única condição de aceite para que um pagamento seja realizado?
+
+*4. Existe alguma regra que possa gerar ambiguidade ou conflito com outra? Explique.*
+- **Resposta:** Sim, "Boletos já pagos não podem ser pagos novamente" pois abre margem pra dúvida, como: O que considera um boleto já pago? Qual deve ser o comportamento ao abrir novamente um boleto que já foi pago anteriormente? Também há a regra "Após 3 tentativas consecutivas de pagamento recusado, novas tentativas ficam bloqueadas por 20 minutos" pois abre margem para interpretações como: "O que exatamente conta como pagamento recusado?", "Uma tentativa bem-sucedida zera a contagem de recusas consecutivas?" e "Tentativas feitas durante o bloqueio contam para alguma coisa?".
+
+### Parte 2 — Test Design
+Para cada regra abaixo, indique qual técnica de Test Design estudada no Dia 10 você aplicaria como principal e justifique:
+
+| Regra | Técnica principal | Justificativa |
+| --- | --- | --- |
+| Valor máximo de R$ 10.000,00 | Análise de Valor Limite | Como o valor máximo é de R$10.000, qualquer valor acima já não deve ser aceito. Aplicando a técnica, testaríamos as bordas visando o funcionamento correto: R$9.999,99 (valor logo abaixo do limite), R$10.000 (valor limite) e R$10.000,01 (valor logo acima do limite). |
+| Saldo suficiente | Particionamento de Equivalência | Utilizaria a técnica para separar em partições as equivalências dos testes, como por exemplo: saldo suficiente = válido - saldo insuficiente - inválido |
+| Boleto já pago não pode ser pago novamente | Transição de Estados | Para essa regra, a Transição de Estados seria mais adequada, pois pode existir os estados que podem variar de acordo com as ações realizadas, como por exemplo: Não pago -> pagamento concluído -> Pago |
+| 3 pagamentos recusados geram bloqueio | Transição de Estados | Utilizaria a técnica de Transição de Estados já que algumas ações levam a estados diferentes para essa regra |
+| Pagamentos acima de R$ 5.000 exigem confirmação | Análise de Valor Limite | Utilizaria novamente a técnica de Análise de Valor Limite para esse teste pois seria necessário testar as bordas para garantir o funcionamento adequado: R$4.999,99 (valor logo abaixo do limite), R$5.000,00 (valor limite) e R$5.000,01 (valor logo acima do limite) |
+
+### Parte 3 — Cenários de teste
+Crie pelo menos 10 cenários, identificados como: CT01, CT02, CT03...
+
+| ID | Cenário | Resultado esperado |
+| --- | --- | --- |
+| CT01 | Pagamento de boleto dentro da data de vencimento com as demais condições válidas | Pagamento deve ser efetuado com sucesso |
+| CT02 | Pagamento de boleto vencido | Pagamento não deve ser efetuado |
+| CT03 | Pagamento de boleto de R$9.999,99 | Pagamento deve ser efetuado com sucesso mediante confirmação adicional do cliente |
+| CT04 | Pagamento de boleto de R$10.000 | Pagamento deve ser efetuado com sucesso mediante confirmação adicional do cliente |
+| CT05 | Pagamento de boleto de R$10.000,01 | Pagamento não deve ser efetuado |
+| CT06 | Pagamento de boleto dentro da data de vencimento que não foi pago e saldo suficiente | Pagamento deve ser efetuado com sucesso |
+| CT07 | Pagamento de boleto dentro da data de vencimento que não foi pago e saldo insuficiente | Pagamento não deve ser efetuado |
+| CT08 | Tentativa de pagamento de boleto já pago | Pagamento não deve ser efetuado |
+| CT09 | Pagamento recusado 3 vezes consecutivas | Novas tentativas de pagamento são bloqueadas durante 20 minutos |
+| CT10 | Tentativa de pagamento durante os 20 minutos de bloqueio | Pagamento não deve ser efetuado |
+| CT11 | Nova tentativa de pagamento após os 20 minutos de bloqueio dentro da data de vencimento que não foi pago e saldo suficiente | Pagamento efetuado com sucesso |
+| CT12 | Confirmação adicional para pagamentos abaixo de R$5.000 | Não deve ser exigido a confirmação adicional ao cliente |
+| CT13 | Confirmação adicional para pagamentos de R$5.000 | Não deve ser exigido a confirmação adicional ao cliente |
+| CT14 | Confirmação adicional para pagamento de R$5.000,01 | Deve ser exigida a confirmação adicional ao cliente |
+
+### Parte 4 — Rastreabilidade
+Numere as regras: R1, R2, R3...
+- **Resposta:** R1 -> O boleto deve estar dentro da data de vencimento; R2 -> O valor máximo permitido por pagamento é de R$10.000,00; R3 -> O cliente deve possuir saldo suficiente; R4 -> Boletos já pagos não podem ser pagos novamente; R5 -> Após 3 tentativas consecutivas de pagamento recusado, novas tentativas ficam bloqueadas por 20 minutos; R6 -> Pagamentos acima de R$5.000,00 exigem confirmação adicional do cliente.
+
+Depois monte:
+
+| Regra | Cenários que cobrem a regra |
+| --- | --- |
+| R1 | CT01, CT02 |
+| R2 | CT03, CT04, CT05 |
+| R3 | CT06, CT07 |
+| R4 | CT08 |
+| R5 | CT09, CT10, CT11 |
+| R6 | CT03, CT04, CT12, CT13, CT14 |
+
+### Parte 5 — Análise final
+*1. Como você diferencia uma lacuna de requisito de um cenário negativo?*
+- **Resposta:** Cenário negativo é quando temos critérios de aceite devidamente estabelecidos e testamos o cenário negativo visando garantir não só a resposta correta para o "fluxo feliz" do sistema, mas também a resposta correta para quando o fluxo não funciona da forma que esperamos. Já lacuna de requisito ocorre quando uma informação necessária está ausente, ambígua, inconsistente ou insuficiente para determinar objetivamente o comportamento esperado.
+
+*2. Por que não devemos criar resultados esperados baseados apenas no que "parece lógico"?*
+- **Resposta:** Pois devemos respeitar estritamente os requisitos/regra de negócios que foram estabelecidos. Qualquer divergência ou dúvida deve ser encaminhada ao Produto/PO para análise e, caso seja necessário atualizar o requisito/regra, criar/alterar os casos de teste mediante a atualização do requisito.
+
+*3. Como Test Design e análise de requisitos se complementam?*
+- **Resposta:** A partir da análise de requisitos conseguimos identificar onde podemos aplicar as técnicas de teste da maneira mais adequada para cada regra estabelecida. A análise de requisitos identifica o que precisa ser validado e possíveis lacunas, enquanto o Test Design ajuda a transformar essas regras em uma cobertura de testes adequada e eficiente.
+
+*4. Se Produto mudar o limite máximo de R$10.000 para R$15.000, como a rastreabilidade ajuda?*
+- **Resposta:** Ajuda a identificar e atualizar com maior facilidade o teste que tem impacto direto na regra alterada, além de tornar mais fácil a identificação dos outros testes que podem ter impacto devido a mudança na respectiva regra.
+
+*5. Ao terminar a análise, como você verificaria se sua cobertura de testes está satisfatória?*
+- **Resposta:** Se meus testes cobrem tanto o cenário principal quanto os alternativos e de exceção e se, para cada regra, existe pelo menos um cenário vinculado a mesma, além de cobrir também limites, estados, combinações relevantes, transições e valores adequados, não limitando-se apenas ao "happy path" da funcionalidade.
+---
