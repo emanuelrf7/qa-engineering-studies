@@ -73,3 +73,45 @@ Após o período de bloqueio, o usuário pode voltar a validar códigos normalme
 *5. Qual risco existiria em criar apenas o cenário "código válido redefine a senha com sucesso"?*
 - **Resposta:** A negligência de um possível bug no comportamento caso o usuário acesse um código inválido. Por exemplo, o código foi recebido a 10 minutos, usuário acessa esse código e consegue realizar a alteração da senha -> esse fluxo corresponderia a um fluxo incorreto que só pode ser identificado caso não seja criado apenas o "cenário feliz" de código válido redefinindo a senha com sucesso.
 ---
+## Exercício 4 — Rastreabilidade entre requisitos e cenários
+Considere este requisito de checkout:
+O cliente pode finalizar uma compra utilizando cartão de crédito.
+O cartão deve estar dentro da validade.
+O limite disponível deve ser igual ou superior ao valor da compra.
+Compras acima de R$ 2.000 exigem confirmação adicional do cliente.
+Após 3 tentativas consecutivas de pagamento recusado, novas tentativas ficam bloqueadas por 30 minutos.
+### Questões:
+*1. Identifique as regras e numere-as: R1, R2, R3...*
+- **Resposta:** R1 -> Cliente pode finalizar uma compra utilizando cartão de crédito; R2 -> O cartão deve estar dentro da validade; R3 -> O limite disponível deve ser igual ou superior ao valor da compra; R4 -> Compras acima de R$2.000 exigem confirmação adicional do cliente; R5 -> Após 3 tentativas consecutivas de pagamento recusado, novas tentativas ficam bloqueadas por 30 minutos.
+
+*2. Crie pelo menos 7 cenários de teste, identificando-os como: CT01, CT02, CT03...*
+
+| ID | Cenário | Resultado esperado |
+| --- | --- | --- |
+| CT01 | Finalizar compra com cartão de crédito dentro da validade e limite suficiente | Compra efetuada com sucesso |
+| CT02 | Finalizar compra com cartão de crédito com data vencida | Pagamento recusado e compra não efetuada |
+| CT03 | Finalizar compra com cartão de crédito dentro da validade e limite insuficiente para o valor da compra | Pagamento recusado e compra não efetuada |
+| CT04 | Confirmação adicional para compras de R$2.000 | Compra igual ou abaixo do valor de R$2.000 não deve exigir confirmação adicional antes de prosseguir com o pagamento |
+| CT05 | Confirmação adicional para compras acima de R$2.000 | Compra acima de R$2.000 deve exigir confirmação adicional antes de prosseguir com o pagamento |
+| CT06 | Pagamento com cartão de crédito válido recusado 3 vezes consecutivas | Novas tentativas de pagamento bloqueadas por 30 minutos |
+| CT07 | Nova tentativa de pagamento com cartão de crédito válido e limite suficiente após fim do bloqueio | Compra efetuada com sucesso |
+
+*3. Rastreabilidade*
+
+| Regra | Cenários que cobrem a regra |
+| --- | --- |
+| R1 | CT01 |
+| R2 | CT01, CT02 |
+| R3 | CT01, CT03 |
+| R4 | CT04, CT05 |
+| R5 | CT06, CT07 |
+
+*4. Análise*
+
+1. Como a rastreabilidade ajuda a identificar lacunas na cobertura?
+    - **Resposta:** Usando a rastreabilidade é possível visualizar quais regras estão sendo abordadas nos cenários de teste e se alguma regra não possui cenário de teste vinculado.
+2. Se Produto alterar o limite de confirmação adicional de R$2.000 para R$3.000, como essa tabela ajuda o QA?
+    - **Resposta:** O QA consegue acessar o teste vinculado a regra sem perder muito tempo procurando ou tentando lembrar qual teste equivale à regra específica, alterando apenas o(s) teste(s) condizentes aquela regra. É possível, também, visualizar todos os testes que podem ser impactados com a alteração da respectiva regra.
+3. Uma regra possuir apenas um cenário associado significa necessariamente que ela está bem testada? Por quê?
+    - **Resposta:** Depende da regra. Uma regra pode ter 1 cenário como também pode ter 10 cenários, o que manda é a própria regra: se for uma regra direta onde não há cenários alternativos/exceção para a mesma apenas 1 cenário pode fazer sentido. Já uma regra como "O limite disponível deve ser igual ou superior ao valor da compra" abre possibilidade para um cenário principal e um alternativo: limite de crédito suficiente e limite de crédito insuficiente.
+---
