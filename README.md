@@ -132,6 +132,8 @@ Além do código disponível neste repositório, mantenho uma página no Notion 
 
 1. [QA Engineering — Estudos, Automação e Evolução Técnica - JavaScript](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-058eda02b158836bbd8381df9a5cdd79?source=copy_link)
 2. [QA Engineering — Estudos, Automação e Evolução Técnica - TypeScript](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-TypeScript-3f9eda02b158807a8b3cda0a8afca8eb?source=copy_link)
+3. [QA Engineering — Estudos, Automação e Evolução Técnica - Test Design](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-Test-Design-3fbeda02b1588031969fcdb7c3a19eb6?source=copy_link)
+4. [QA Engineering — Estudos, Automação e Evolução Técnica - Análise de requisitos e criação de cenários de teste](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-An-lise-de-requisitos-e-cria-o-de-cen-rios-3fceda02b15880b8ac16f30d34499b75?source=copy_link)
 
 ---
 
