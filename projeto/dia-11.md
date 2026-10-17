@@ -115,3 +115,88 @@ Após 3 tentativas consecutivas de pagamento recusado, novas tentativas ficam bl
 3. Uma regra possuir apenas um cenário associado significa necessariamente que ela está bem testada? Por quê?
     - **Resposta:** Depende da regra. Uma regra pode ter 1 cenário como também pode ter 10 cenários, o que manda é a própria regra: se for uma regra direta onde não há cenários alternativos/exceção para a mesma apenas 1 cenário pode fazer sentido. Já uma regra como "O limite disponível deve ser igual ou superior ao valor da compra" abre possibilidade para um cenário principal e um alternativo: limite de crédito suficiente e limite de crédito insuficiente.
 ---
+## Exercício 5 — Desafio final
+Considere esta história:
+Como cliente de uma conta digital, quero realizar pagamentos de boletos para quitar minhas contas.
+O boleto deve estar dentro da data de vencimento.
+O valor máximo permitido por pagamento é de R$ 10.000,00.
+O cliente deve possuir saldo suficiente.
+Boletos já pagos não podem ser pagos novamente.
+Após 3 tentativas consecutivas de pagamento recusado, novas tentativas ficam bloqueadas por 20 minutos.
+Pagamentos acima de R$ 5.000,00 exigem confirmação adicional do cliente.
+
+### Parte 1 — Análise do requisito
+*1. Qual é o requisito funcional principal?*
+- **Resposta:** "Como cliente de uma conta digital, quero realizar pagamentos de boletos para quitar minhas contas."
+
+*2. Quais são as regras de negócio?*
+- **Resposta:** 1 - O boleto deve estar dentro da data de vencimento; 2 - O valor máximo permitido por pagamento é de R$ 10.000,00; 3 - O cliente deve possuir saldo suficiente; 4 - Boletos já pagos não podem ser pagos novamente; 5 - Após 3 tentativas consecutivas de pagamento recusado, novas tentativas ficam bloqueadas por 20 minutos; 6 - Pagamentos acima de R$ 5.000,00 exigem confirmação adicional do cliente.
+
+*3. Identifique pelo menos 4 possíveis lacunas ou dúvidas que você levaria para Produto/PO.*
+- **Resposta:** 1 - "deve estar dentro da data de vencimento" = O boleto pode ser pago no próprio dia do vencimento até qualquer horário ou existe algum horário limite? / 2 - "O valor máximo permitido por pagamento é de R$10.000,00." = Existe, também, um valor mínimo para essa operação? / 3 - "Boletos já pagos não podem ser pagos novamente." = Qual é o critério que estabelece que um boleto já foi pago? E qual deve ser o comportamento caso o usuário acesse/escaneie um boleto que já foi pago novamente? / 4 - "O cliente deve possuir saldo suficiente" = Essa é a única condição de aceite para que um pagamento seja realizado?
+
+*4. Existe alguma regra que possa gerar ambiguidade ou conflito com outra? Explique.*
+- **Resposta:** Sim, "Boletos já pagos não podem ser pagos novamente" pois abre margem pra dúvida, como: O que considera um boleto já pago? Qual deve ser o comportamento ao abrir novamente um boleto que já foi pago anteriormente? Também há a regra "Após 3 tentativas consecutivas de pagamento recusado, novas tentativas ficam bloqueadas por 20 minutos" pois abre margem para interpretações como: "O que exatamente conta como pagamento recusado?", "Uma tentativa bem-sucedida zera a contagem de recusas consecutivas?" e "Tentativas feitas durante o bloqueio contam para alguma coisa?".
+
+### Parte 2 — Test Design
+Para cada regra abaixo, indique qual técnica de Test Design estudada no Dia 10 você aplicaria como principal e justifique:
+
+| Regra | Técnica principal | Justificativa |
+| --- | --- | --- |
+| Valor máximo de R$ 10.000,00 | Análise de Valor Limite | Como o valor máximo é de R$10.000, qualquer valor acima já não deve ser aceito. Aplicando a técnica, testaríamos as bordas visando o funcionamento correto: R$9.999,99 (valor logo abaixo do limite), R$10.000 (valor limite) e R$10.000,01 (valor logo acima do limite). |
+| Saldo suficiente | Particionamento de Equivalência | Utilizaria a técnica para separar em partições as equivalências dos testes, como por exemplo: saldo suficiente = válido - saldo insuficiente - inválido |
+| Boleto já pago não pode ser pago novamente | Transição de Estados | Para essa regra, a Transição de Estados seria mais adequada, pois pode existir os estados que podem variar de acordo com as ações realizadas, como por exemplo: Não pago -> pagamento concluído -> Pago |
+| 3 pagamentos recusados geram bloqueio | Transição de Estados | Utilizaria a técnica de Transição de Estados já que algumas ações levam a estados diferentes para essa regra |
+| Pagamentos acima de R$ 5.000 exigem confirmação | Análise de Valor Limite | Utilizaria novamente a técnica de Análise de Valor Limite para esse teste pois seria necessário testar as bordas para garantir o funcionamento adequado: R$4.999,99 (valor logo abaixo do limite), R$5.000,00 (valor limite) e R$5.000,01 (valor logo acima do limite) |
+
+### Parte 3 — Cenários de teste
+Crie pelo menos 10 cenários, identificados como: CT01, CT02, CT03...
+
+| ID | Cenário | Resultado esperado |
+| --- | --- | --- |
+| CT01 | Pagamento de boleto dentro da data de vencimento com as demais condições válidas | Pagamento deve ser efetuado com sucesso |
+| CT02 | Pagamento de boleto vencido | Pagamento não deve ser efetuado |
+| CT03 | Pagamento de boleto de R$9.999,99 | Pagamento deve ser efetuado com sucesso mediante confirmação adicional do cliente |
+| CT04 | Pagamento de boleto de R$10.000 | Pagamento deve ser efetuado com sucesso mediante confirmação adicional do cliente |
+| CT05 | Pagamento de boleto de R$10.000,01 | Pagamento não deve ser efetuado |
+| CT06 | Pagamento de boleto dentro da data de vencimento que não foi pago e saldo suficiente | Pagamento deve ser efetuado com sucesso |
+| CT07 | Pagamento de boleto dentro da data de vencimento que não foi pago e saldo insuficiente | Pagamento não deve ser efetuado |
+| CT08 | Tentativa de pagamento de boleto já pago | Pagamento não deve ser efetuado |
+| CT09 | Pagamento recusado 3 vezes consecutivas | Novas tentativas de pagamento são bloqueadas durante 20 minutos |
+| CT10 | Tentativa de pagamento durante os 20 minutos de bloqueio | Pagamento não deve ser efetuado |
+| CT11 | Nova tentativa de pagamento após os 20 minutos de bloqueio dentro da data de vencimento que não foi pago e saldo suficiente | Pagamento efetuado com sucesso |
+| CT12 | Confirmação adicional para pagamentos abaixo de R$5.000 | Não deve ser exigido a confirmação adicional ao cliente |
+| CT13 | Confirmação adicional para pagamentos de R$5.000 | Não deve ser exigido a confirmação adicional ao cliente |
+| CT14 | Confirmação adicional para pagamento de R$5.000,01 | Deve ser exigida a confirmação adicional ao cliente |
+
+### Parte 4 — Rastreabilidade
+Numere as regras: R1, R2, R3...
+- **Resposta:** R1 -> O boleto deve estar dentro da data de vencimento; R2 -> O valor máximo permitido por pagamento é de R$10.000,00; R3 -> O cliente deve possuir saldo suficiente; R4 -> Boletos já pagos não podem ser pagos novamente; R5 -> Após 3 tentativas consecutivas de pagamento recusado, novas tentativas ficam bloqueadas por 20 minutos; R6 -> Pagamentos acima de R$5.000,00 exigem confirmação adicional do cliente.
+
+Depois monte:
+
+| Regra | Cenários que cobrem a regra |
+| --- | --- |
+| R1 | CT01, CT02 |
+| R2 | CT03, CT04, CT05 |
+| R3 | CT06, CT07 |
+| R4 | CT08 |
+| R5 | CT09, CT10, CT11 |
+| R6 | CT03, CT04, CT12, CT13, CT14 |
+
+### Parte 5 — Análise final
+*1. Como você diferencia uma lacuna de requisito de um cenário negativo?*
+- **Resposta:** Cenário negativo é quando temos critérios de aceite devidamente estabelecidos e testamos o cenário negativo visando garantir não só a resposta correta para o "fluxo feliz" do sistema, mas também a resposta correta para quando o fluxo não funciona da forma que esperamos. Já lacuna de requisito ocorre quando uma informação necessária está ausente, ambígua, inconsistente ou insuficiente para determinar objetivamente o comportamento esperado.
+
+*2. Por que não devemos criar resultados esperados baseados apenas no que "parece lógico"?*
+- **Resposta:** Pois devemos respeitar estritamente os requisitos/regra de negócios que foram estabelecidos. Qualquer divergência ou dúvida deve ser encaminhada ao Produto/PO para análise e, caso seja necessário atualizar o requisito/regra, criar/alterar os casos de teste mediante a atualização do requisito.
+
+*3. Como Test Design e análise de requisitos se complementam?*
+- **Resposta:** A partir da análise de requisitos conseguimos identificar onde podemos aplicar as técnicas de teste da maneira mais adequada para cada regra estabelecida. A análise de requisitos identifica o que precisa ser validado e possíveis lacunas, enquanto o Test Design ajuda a transformar essas regras em uma cobertura de testes adequada e eficiente.
+
+*4. Se Produto mudar o limite máximo de R$10.000 para R$15.000, como a rastreabilidade ajuda?*
+- **Resposta:** Ajuda a identificar e atualizar com maior facilidade o teste que tem impacto direto na regra alterada, além de tornar mais fácil a identificação dos outros testes que podem ter impacto devido a mudança na respectiva regra.
+
+*5. Ao terminar a análise, como você verificaria se sua cobertura de testes está satisfatória?*
+- **Resposta:** Se meus testes cobrem tanto o cenário principal quanto os alternativos e de exceção e se, para cada regra, existe pelo menos um cenário vinculado a mesma, além de cobrir também limites, estados, combinações relevantes, transições e valores adequados, não limitando-se apenas ao "happy path" da funcionalidade.
+---
