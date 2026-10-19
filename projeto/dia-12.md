@@ -62,3 +62,36 @@ Responda em tabela:
 | D | Comportamento esperado | A regra diz que o valor máximo permitido para saque é R$1.000,00 e R$1.000,01 já excede o respectivo valor, mesmo que por muito pouco. |
 | E | Comportamento esperado | A regra diz que compras ACIMA de R$2.000 exigem confirmação adicional, logo uma compra de exatamente R$2.000 não deve solicitar a confirmação adicional. |
 ---
+## Exercício 2 — Títulos de bug
+Para cada cenário abaixo, escreva um **título de bug** objetivo.
+
+*Cenário A*
+
+**Na tela de login, um usuário bloqueado informa credenciais válidas e consegue acessar a aplicação.**
+
+*Cenário B*
+
+**No checkout, ao pagar com PIX, o QR Code não é exibido após selecionar essa forma de pagamento.**
+
+*Cenário C*
+
+**Na recuperação de senha, o código expirado há mais de 5 minutos ainda é aceito.**
+
+*Cenário D*
+
+**Na tela de saque, ao informar R$1.000,01, o sistema realiza o saque mesmo com limite máximo de R$1.000.**
+
+*Cenário E*
+
+**Na tela de perfil, após alterar o nome e clicar em Salvar, o novo nome aparece na tela, mas volta ao valor anterior após atualizar a página.**
+
+Responda assim:
+
+| Cenário | Título do bug |
+| --- | --- |
+| A | Login — Usuário bloqueado consegue acessar o sistema com credenciais válidas |
+| B | Checkout — QR Code não é exibido para pagamentos via PIX no Checkout de compras |
+| C | Login — Código de recuperação de senha expirado ainda é aceito pelo sistema |
+| D | Saque — Sistema permite saque acima do limite máximo de R$1.000,00 |
+| E | Perfil — Edição de nome não persiste no sistema ao atualizar a página |
+---
