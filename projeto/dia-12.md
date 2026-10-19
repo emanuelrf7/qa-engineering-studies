@@ -204,3 +204,80 @@ Depois responda:
 *3. Quem você acredita que deve participar da definição da prioridade de um bug e por quê?*
 - **Resposta:** A definição exata varia entre empresas mas, na minha opinião, devem participar: Lideranças técnicas, desenvolvimento, produto e QA. Acredito que essa composição contempla todos os usuários pertinentes para a definição da severidade e prioridade de um bug, já que dessa forma é possível unir pilares importantes como liderança, desenvolvimento, produto e qualidade.
 ---
+## Exercício 5 — Desafio final do Dia 12
+Considere o cenário:
+
+- *Em produção, ao tentar pagar um boleto de R$3.500,00 dentro da data de vencimento, com saldo suficiente e ainda não pago, o sistema desconta o valor da conta do cliente, mas exibe uma mensagem de erro informando que o pagamento não foi concluído. Ao consultar o extrato, o débito de R$3.500,00 aparece registrado. O boleto, porém, continua constando como pendente no sistema.*
+
+Crie um Bug Report contendo:
+- Título
+- Ambiente
+- Pré-condições
+- Passos para reprodução
+- Resultado atual
+- Resultado esperado
+- Evidências
+- Severidade
+- Prioridade
+- Justificativa para severidade e prioridade
+
+### Título
+Pagamento — Saldo é debitado, mas boleto permanece pendente após falha no pagamento
+### Ambiente
+Produção
+### Pré-condições
+- O boleto ainda não deve ter sido pago;
+- O boleto deve estar dentro da data de vencimento;
+- O cliente deve possuir saldo suficiente para o pagamento (R$3.500,00).
+### Passos para reprodução
+1. Logar no sistema;
+2. Acessar a aba de Pagamentos;
+3. Selecionar um boleto válido e realizar o pagamento;
+4. Verificar mensagem de erro de pagamento não concluído;
+5. Na aba de Pagamentos, verificar status Pendente para o respectivo boleto;
+6. Voltar para a página inicial e verificar saldo atual com o valor do boleto descontado;
+7. Acessar a aba de Extratos;
+8. Verificar o débito do valor do boleto indicando que o saldo saiu da conta de fato.
+### Resultado atual
+Mensagem de erro alertando que o pagamento não foi concluído porém com saldo debitado da conta e boleto persistindo no status "Pendente".
+### Resultado esperado
+Para o caso de pagamento concluído com sucesso:
+- Mensagem de alerta de sucesso no pagamento;
+- Saldo debitado;
+- Boleto pago;
+- Transição de status do boleto de "Pendente" para "Pago".
+
+Para o caso de pagamento não concluído como o esperado:
+- Mensagem de alerta de insucesso no pagamento;
+- Saldo da conta não é debitado/débito é revertido;
+- Boleto não é pago;
+- Boleto segue com status "Pendente".
+### Evidências
+- Vídeo do fluxo executado;
+- Anexo do boleto utilizado no teste;
+- Logs do momento da transação;
+- Registro da transação no banco de dados e script de consulta.
+### Severidade
+Crítica
+### Prioridade
+Crítica
+### Justificativa para severidade e prioridade
+Há um impacto enorme para o sistema e para o usuário pois ao longo do fluxo ocorrem divergências em diversos módulos do sistema, além de trazer desconfiança e preocupação para o usuário ao ver o saldo da sua conta sendo descontado mas sem ter o pagamento efetivo do boleto. Devido a isso, severidade e prioridade críticas.
+
+Depois responda:
+
+*1. Esse bug poderia gerar risco financeiro para o usuário? Por quê?*
+- **Resposta:** Sim. Poderia existir um caso em que o usuário deve pagar o boleto de imediato e, ao ver o saldo ser debitado mas sem ter o pagamento efetivo do boleto, poderia levar a outra tentativa de pagamento, o que ocasionaria em um débito de duas vezes o valor original, mesmo sem saber se o primeiro pagamento foi de fato liquidado. Além disso, há o risco de, nessa nova tentativa do usuário, ocorrer processamento/reconciliação da primeira tentativa.
+
+*2. Qual seria a evidência mais importante nesse caso?*
+- **Resposta:** A comprovação do saldo debitado porém sem pagamento efetivo do boleto, seja através de print, logs do momento da transação ou registro no banco de dados. É essa evidência que mostra na prática o bug encontrado. O ideal seria correlacionar o ID da transação + o débito no saldo/extrato e o status do boleto persistindo em "Pendente".
+
+*3. Você registraria apenas um print da mensagem de erro ou buscaria evidências adicionais? Justifique.*
+- **Resposta:** Não, como na estrutura do Bug Report acima, anexaria todas as evidências pertinentes ao problema encontrado na intenção de facilitar a análise e desenvolvimento da tratativa, visto que é um bug de severidade e prioridade crítica.
+
+*4. Se o problema acontecesse apenas em homologação, sua severidade mudaria? E sua prioridade? Explique.*
+- **Resposta:** A severidade permaneceria crítica já que o impacto potencial e a inconsistência financeira continuam os mesmos. Caso a release estivesse prestes a ser lançada, manteria a prioridade como crítica e bloquearia a release. Mas, se a release estiver longe de ser lançada, alteraria a prioridade para alta já que ninguém real está sendo impactado pelo respectivo bug.
+
+*5. Antes de registrar o bug, existe alguma informação adicional que você tentaria validar?*
+- **Resposta:** Se o processamento de pagamentos depender de um provedor externo, verificaria se o mesmo possui alguma instabilidade no momento. Não alteraria a severidade e prioridade do problema, mas essa informação seria pertinente no momento da análise e tratativa do bug pois mesmo com o provedor externo indisponível pode existir um defeito no produto, sendo necessário investigar se o sistema interno trata corretamente a falha externa, evitando deixar o usuário com saldo debitado e pagamento inconsistente. Outras possibilidades internas seriam: verificar se o débito está realmente efetivado ou apenas pendente; aguardar/verificar se existe processamento assíncrono ou reconciliação; conferir ID/correlation ID da transação; verificar resposta da integração externa (se aplicável); reproduzir novamente quando for seguro fazê-lo.
+---
