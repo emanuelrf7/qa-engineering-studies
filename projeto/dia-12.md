@@ -159,3 +159,48 @@ Depois responda também:
 *3. Que tipo de evidência você considera mais útil para esse bug?*
 - **Resposta:** A evidência mais adequada para esse bug na minha opinião seria o comprovante de transferência PIX gerado pelo sistema, pois ele já traz as informações da transferência e também indica que a mesma foi realizada com sucesso desconsiderando o status do usuário. Mas, como é possível ver na estrutura do Bug Report acima, não é necessário se limitar a apenas uma evidência. Acredito que quanto mais evidências pertinentes ao respectivo bug identificado, melhor.
 ---
+## Exercício 4 — Severidade x Prioridade
+Considere, para o exercício, os níveis:
+- Baixa
+- Média
+- Alta
+- Crítica
+
+Classifique severidade e prioridade de cada situação e justifique suas escolhas.
+
+*Cenário A* –
+**Em produção, qualquer cliente consegue visualizar o saldo e o extrato bancário de outro usuário alterando manualmente um identificador na URL.**
+
+*Cenário B* –
+**Na tela inicial, o nome da empresa aparece com um erro de ortografia. O problema foi encontrado na manhã do lançamento de uma grande campanha publicitária que direcionará milhares de usuários para essa página.**
+
+*Cenário C* –
+**Em homologação, o botão de exportar relatório em CSV não funciona. A funcionalidade é utilizada apenas pela equipe administrativa uma vez por mês e existe a opção de exportar o mesmo relatório em XLSX.**
+
+*Cenário D* –
+**Em produção, pagamentos via PIX estão falhando para aproximadamente 40% dos clientes. Os demais meios de pagamento continuam funcionando normalmente.**
+
+*Cenário E* –
+**Na página de perfil, ao salvar um novo nome, uma mensagem de sucesso aparece duas vezes. A alteração é salva corretamente e não há outro impacto funcional conhecido.**
+
+Responda em tabela:
+
+| Cenário | Severidade | Prioridade | Justificativa |
+| --- | --- | --- | --- |
+| A | Crítica | Crítica | Há um grande impacto ao sistema e ao usuário já que é possível realizar consultas do saldo e extrato bancário de outro usuário qualquer só de alterar o identificador na URL, podendo ocasionar problemas relacionados à segurança e privacidade. Levando isso em consideração, severidade e prioridade críticas. |
+| B | Baixa | Alta | O erro ortográfico não compromete uma funcionalidade do sistema nem impede o usuário de utilizá-lo. Porém, há alto impacto negativo para a marca. Portanto, severidade baixa e prioridade alta. |
+| C | Média | Baixa | Uma funcionalidade está completamente indisponível, porém foi um defeito relatado em homologação, a equipe administrativa utiliza apenas uma vez por mês e existe outra alternativa funcional (exportar em XLSX). Portanto, a severidade é média e a prioridade é baixa, mas o defeito deve ser reportado assim que for encontrado para evitar que ele vaze em uma próxima release do sistema. |
+| D | Alta | Alta | Existe um impacto grande no sistema e no usuário visto que a funcionalidade de pagamento via PIX está parcialmente indisponível para uma parcela muito grande da base (aproximadamente 40%). Como existem outros meios de pagamentos funcionais, não acho adequado definir a prioridade como crítica. Com isso dito, severidade alta e prioridade alta. |
+| E | Baixa | Baixa | O impacto ao negócio/time é relativamente baixo, a operação é concluída corretamente embora o usuário veja uma mensagem duplicada não seja o ideal. Com isso dito, severidade e prioridade baixa. |
+
+Depois responda:
+
+*1. Qual é a principal diferença entre severidade e prioridade?*
+- **Resposta:** Severidade mede o impacto técnico/funcional do defeito para o sistema ou usuário. Embora a severidade meça o impacto técnico e funcional, não são contemplados fatores como complexidade ou esforço de tratativa para essa métrica. Já a prioridade indica o nível de urgência de correção de um defeito para o negócio/time.
+
+*2. Um bug de baixa severidade pode ter alta prioridade? Dê um exemplo.*
+- **Resposta:** Sim, como no próprio exemplo citado na explicação, a logo da empresa ser exibida quebrada em uma campanha nacional é um bug de baixa severidade pois teria um baixo impacto funcional no produto (não impede nenhuma funcionalidade relevante) porém alta urgência de negócio já que, na teoria, será um período onde a marca será exposta a um grande número de usuários e a principal identificação da empresa pode acabar causando uma má reputação ou manchas negativas já que está sendo exibida quebrada para o usuário final. Levando em consideração o cenário descrito, a prioridade deve ser alta, tornando-se em um bug de baixa severidade e alta prioridade.
+
+*3. Quem você acredita que deve participar da definição da prioridade de um bug e por quê?*
+- **Resposta:** A definição exata varia entre empresas mas, na minha opinião, devem participar: Lideranças técnicas, desenvolvimento, produto e QA. Acredito que essa composição contempla todos os usuários pertinentes para a definição da severidade e prioridade de um bug, já que dessa forma é possível unir pilares importantes como liderança, desenvolvimento, produto e qualidade.
+---
