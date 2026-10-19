@@ -95,3 +95,67 @@ Responda assim:
 | D | Saque — Sistema permite saque acima do limite máximo de R$1.000,00 |
 | E | Perfil — Edição de nome não persiste no sistema ao atualizar a página |
 ---
+
+Depois responda também:
+
+1. O que você considera essencial em um bom título de bug?
+- **Resposta:** Que o título consiga ser enxuto mas que não deixe de contemplar o problema central do bug/inconsistência encontrado para melhor e mais fácil entendimento por parte de quem está acessando o Bug Report.
+
+2. Por que títulos como "Erro no PIX" ou "Tela com problema" são ruins?
+- **Resposta:** Devido serem muito genéricos, fazendo com que a leitura da descrição do Bug Report seja obrigatória e, se não houver descrição ou a mesma estiver vaga/incompleta, torna o contato ao relator do bug necessário.
+## Exercício 3 — Passos para reprodução e resultados
+Cenário
+
+Considere o seguinte requisito:
+*- Usuários bloqueados não podem realizar transferências PIX.*
+
+Durante o teste, você encontrou o seguinte comportamento:
+**- Um usuário bloqueado conseguiu transferir R$100,00 via PIX normalmente.**
+
+Monte um Bug Report contendo:
+- Título
+- Ambiente
+- Pré-condições
+- Passos para reprodução
+- Resultado atual
+- Resultado esperado
+- Evidências que você anexaria
+
+### Título
+Transferência — Usuário bloqueado consegue realizar transferência via PIX
+### Ambiente
+Homologação/Staging
+### Pré-condições
+- Existir um cadastro de usuário válido com status Bloqueado;
+- Possuir saldo suficiente para transferência (R$100,00);
+- Possuir uma chave PIX válida para a transferência.
+### Passos para reprodução
+1. Realizar login no sistema com usuário bloqueado;
+2. Acessar a área de transferências e escolher a opção PIX;
+3. Escolher uma chave PIX válida e preencher o valor da transferência;
+4. Concluir a transferência informando a senha para transações.
+
+### Resultado atual
+Usuário consegue realizar a transação via PIX normalmente.
+### Resultado esperado
+A transação não deve ser permitida devido ao status do usuário: Bloqueado.
+### Evidências
+- Print do cadastro do usuário na parte de gestão administrativa de usuários evidenciando que o mesmo possui cadastro bloqueado, se aplicável;
+
+- Comprovante gerado da transação;
+
+- Logs de êxito na transferência;
+
+- Registro da transação no banco de dados.
+
+Depois responda também:
+
+*1. Qual é a diferença entre resultado atual e resultado esperado?*
+- **Resposta:** O resultado atual contempla o funcionamento atual de uma funcionalidade no ambiente em que o teste foi executado. Já o resultado esperado é o resultado que deveria ter ocorrido no teste mediante o requisito funcional/regra de negócio proposta.
+
+*2. Por que os passos para reprodução precisam ser específicos e ordenados?*
+- **Resposta:** Para tornar o passo de reprodução do bug legível e executável por qualquer uma das partes envolvidas (Desenvolvimento, Produto, Suporte, QAs), fazendo com que mesmo quem não tenha muito conhecimento do módulo ou fluxo específico consiga replicar o fluxo sem ter a necessidade de consultar o relator do bug identificado.
+
+*3. Que tipo de evidência você considera mais útil para esse bug?*
+- **Resposta:** A evidência mais adequada para esse bug na minha opinião seria o comprovante de transferência PIX gerado pelo sistema, pois ele já traz as informações da transferência e também indica que a mesma foi realizada com sucesso desconsiderando o status do usuário. Mas, como é possível ver na estrutura do Bug Report acima, não é necessário se limitar a apenas uma evidência. Acredito que quanto mais evidências pertinentes ao respectivo bug identificado, melhor.
+---
