@@ -94,3 +94,37 @@ Depois responda:
 *4. Se um bug voltar para In Progress após falhar no reteste, isso altera sua severidade ou prioridade automaticamente?*
 - **Resposta:** A transição de status não altera por si só nem a severidade nem a prioridade. A prioridade pode mudar mediante nova avaliação, medindo fatores como release iminente, aumento do risco ou descoberta de impacto maior, por exemplo.
 ---
+## Exercício 3 — Reteste, comentários e reabertura
+Considere o bug:
+
+    PAY-318 — Checkout permite concluir compra com cartão expirado
+
+O desenvolvedor marcou como corrigido e enviou a issue para Ready for QA.
+
+No reteste em homologação, versão v2.14.3, você executou:
+- cartão válido → compra concluída normalmente;
+- cartão expirado há 1 mês → corretamente recusado;
+- cartão expirado no mês anterior → corretamente recusado;
+- cartão com validade 10/2026, considerando que o mês atual é 10/2026 → compra recusada.
+O requisito diz:
+O cartão é válido até o último dia do mês indicado na validade.
+
+Portanto, ainda existe um problema, mas agora em uma condição de borda.
+
+Responda:
+
+*1. Você fecharia a issue PAY-318, reabriria/devolveria para desenvolvimento ou abriria outro bug? Justifique.*
+- **Responda:** Reabriria/devolveria para o desenvolvimento. O requisito diz explicitamente que o cartão é válido até o último dia do mês indicado na validade. Portanto, o cartão com validade 10/2026 não deveria ser recusado por estar expirado já que o mesmo permanece válido até o último dia do respectivo mês (Outubro).
+
+*2. Qual status você utilizaria considerando nosso workflow simplificado?*
+- **Responda:** In QA -> In Progress.
+
+*3. Escreva um comentário de reteste para o Jira contendo as informações que você considera necessárias.*
+- **Responda:** Reteste realizado pelo QA Emanuel Franco. Seguem detalhes: - Versão testada: v2.14.3; - Ambiente: Homologação; - Resultado do reteste: Falha - Cartão com validade 10/2026 é tratado como expirado durante outubro/2026; - Evidências: Print do cartão utilizado no teste - Print da mensagem de compra recusada - Log do momento da rejeição da compra; - Motivo da reabertura: O requisito diz que o cartão está válido até o último dia do mês respectivo ao mês de vencimento do cartão. Portanto, independente do dia do mês de vencimento do cartão, o cartão não deve ser considerado expirado, desde que as demais condições aplicáveis à compra sejam válidas; - Informações relevantes para DEV: Trecho do requisito que impõe essa regra.
+
+*4. Você manteria as evidências antigas e adicionaria as novas, ou substituiria tudo? Por quê?*
+- **Responda:** Manteria as evidências antigas e adicionaria as novas pois dessa forma é possível ter rastreabilidade e histórico de toda a vida do respectivo bug, sem comprometer nenhuma informação no processo.
+
+*5. O fato de o comportamento original ter melhorado parcialmente é suficiente para considerar o bug corrigido? Explique.*
+- **Responda:** Não. Como o próprio enunciado diz, o bug teria corrigido o comportamento de forma parcial. Acredito que, quando levantamos um bug para correção, a funcionalidade deve ser restaurada completamente ao seu comportamento original. Mas, se for considerado que o impacto não será tão grande e há possibilidade de corrigir o bug depois, a prioridade pode ser reavaliada e, caso exista uma decisão formal de não corrigir ou aceitar o risco, a issue pode receber uma resolução/status correspondente, como "Won't Fix" ou "Accepted Risk", conforme o workflow da empresa.
+---
