@@ -36,3 +36,61 @@ Depois responda:
 *4. Por que informações como ambiente e evidências continuam importantes mesmo estando usando Jira?*
 - **Resposta:** O Jira serve para controlar e organizar features e bugs em um time que utiliza metodologia ágil, mas o bug estar registrado no Jira por si só não considera um bug report adequado. O bug report cadastrado no Jira também precisa ter suas informações completas, e ambiente e evidências fazem parte dessas informações.
 ---
+## Exercício 2 — Ciclo de vida do defeito
+Considere este workflow simplificado:
+
+    Open
+    -> In progress
+    -> Ready for QA
+    -> In QA
+    -> Closed
+
+E responda como o status deveria evoluir em cada situação abaixo.
+
+*Cenário A* —
+**QA registra um novo bug e ainda ninguém começou a trabalhar nele.**
+
+*Cenário B* —
+**Um desenvolvedor iniciou a correção do bug.**
+
+*Cenário C* —
+**O desenvolvedor finalizou a correção e disponibilizou uma nova versão em homologação para validação.**
+
+*Cenário D* —
+**QA iniciou o reteste da correção.**
+
+*Cenário E* —
+**QA confirmou que o bug foi corrigido e que não encontrou regressões relacionadas.**
+
+*Cenário F* —
+**QA realizou o reteste, mas o problema original ainda ocorre.**
+
+*Cenário G* —
+**O bug original foi corrigido, mas durante o reteste QA encontrou um novo defeito diferente no mesmo fluxo.**
+
+Monte:
+
+| Cenário | Status / Ação | Justificativa
+| --- | --- | --- |
+| A | Open | A issue já foi criada/aberta no Jira porém nenhum desenvolvedor ainda iniciou a trabalhar na mesma, portanto, o status mais adequado é Open. Outro status que poderia ser pertinente é Backlog ou Backlog da Sprint. Como não foi citado no workflow, o escolhido foi Open. |
+| B | In Progress | Issue criada/aberta e desenvolvedor iniciou o desenvolvimento, portanto, status In Progress. |
+| C | Ready for QA | Desenvolvedor finalizou a correção e subiu a mesma para o ambiente de homologação mas os testes ainda não foram iniciados, portanto, status Ready for QA. |
+| D | In QA | Após o deploy com sucesso da aplicação no ambiente de homologação, o QA iniciou o reteste da correção. Portanto, status In QA. |
+| E | Closed | QA finalizou os testes e não encontrou nenhuma inconsistência, tanto no bugfix em específico quanto em regressões relacionadas. Portanto, status Closed. |
+| F | In Progress | Já que não existe status específico para falha no ambiente de teste ou falha nos testes de QA, o mais adequado seria a transição de In QA -> In Progress, visto que essa transição fica registrada no histórico e indica que passou pelo QA mas não foi aprovada (já que não progrediu para o status Closed). |
+| G | Closed | Para esse caso, na minha visão o ideal é fechar a issue referente ao bug que foi corrigido e abrir um novo bug report/issue no Jira detalhando o bug encontrado. |
+
+Depois responda:
+
+*1. Qual é a diferença entre reabrir um bug e abrir um novo bug?*
+- **Resposta:** A reabertura de um bug indica que o bug havia sido corrigido (ou achava-se que havia sido corrigido) mas voltou a acontecer mesmo após ter sido considerado finalizado/corrigido. Como se trata do mesmo bug, reabrimos para reaproveitar a issue (já que é o mesmo bug) e adicionamos um comentário detalhando a situação. Um novo bug deve ser aberto quando encontramos um defeito diferente do original, mesmo que ele tenha surgido no mesmo fluxo, durante o reteste ou após uma nova release.
+
+*2. Se o bug foi corrigido, mas surgiu outro defeito diferente no mesmo fluxo, você reutilizaria a mesma issue? Por quê?*
+- **Resposta:** Não. Acredito que o melhor a se fazer é fechar a issue atual e abrir uma nova por dois motivos: 1 - Rastreabilidade: Fazendo dessa forma é possível manter todo o histórico referente ao bug corrigido.; 2 - Organização: Mesmo que o fluxo seja igual, se o bug for diferente ele deve ter sua issue específica, pois dessa forma o Jira não fica bagunçado com issues que correspondem a mais de um bug, trazendo melhor organização para o quadro na Sprint.
+
+*3. Por que é importante registrar comentários no Jira durante transições relevantes, como envio para QA, falha no reteste ou reabertura?*
+- **Resposta:** Pois o status nem sempre indica tudo o que aconteceu para que o status fosse alterado, seja para progressão ou regressão. Dessa forma, os comentários servem também como um complemento a alteração de status da issue.
+
+*4. Se um bug voltar para In Progress após falhar no reteste, isso altera sua severidade ou prioridade automaticamente?*
+- **Resposta:** A transição de status não altera por si só nem a severidade nem a prioridade. A prioridade pode mudar mediante nova avaliação, medindo fatores como release iminente, aumento do risco ou descoberta de impacto maior, por exemplo.
+---
