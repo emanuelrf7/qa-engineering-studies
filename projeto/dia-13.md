@@ -170,3 +170,104 @@ Depois responda:
 *5. Qual é a diferença entre não reproduzir um bug e provar que ele foi corrigido?*
 - **Resposta:** Quando você não consegue reproduzir um bug você não sabe ou não tem informações suficientes para replicar aquele comportamento, podendo acontecer a qualquer momento (já que a situação é incerta) e gerar problemas de produtividade ou até de perda financeira, dependendo do caso. Já quando você comprova que um bug foi corrigido, você tem conhecimento do fluxo que ocasionava o problema (incluindo evidências) e consegue reexecutar o cenário que anteriormente provocava o defeito, podendo evidenciar que o funcionamento atual corresponde à correção do respectivo bug.
 ---
+## Exercício 5 — Jira + ciclo de vida + triagem + rastreabilidade
+Considere a história:
+
+    US-482 — Alteração de telefone no perfil
+
+Requisito:
+
+    O usuário autenticado pode alterar seu telefone. Após salvar, o novo telefone deve ser utilizado nas próximas autenticações que exigirem código SMS.
+
+Durante os testes em homologação você encontra:
+
+    O novo telefone aparece corretamente no perfil após salvar. Porém, ao realizar uma autenticação que exige SMS, o código continua sendo enviado para o telefone antigo.
+
+A release está prevista para amanhã e essa história faz parte do escopo da release.
+
+### Parte 1 — Registro no Jira
+Monte a issue contendo:
+- Issue Type
+- Summary
+- Environment
+- Severity
+- Priority
+- Description
+- Preconditions
+- Steps to reproduce
+- Actual result
+- Expected result
+- Evidence
+- Relação com US-482
+
+| Campo | Conteúdo |
+| --- | --- |
+| Issue Type | Bug/Defeito |
+| Summary | Autenticação — SMS é enviado para o telefone antigo mesmo após alteração |
+| Environment | Homologação |
+| Severity | Alta |
+| Priority | Alta |
+| Description | Após alteração do número do telefone, os códigos de autenticação enviados via SMS seguem caindo na caixa de entrada do número antigo, mesmo exibindo o novo número no perfil. |
+| Preconditions | Usuário autenticado; Possuir um número previamente cadastrado. |
+| Steps to reproduce | 1. Acessar o perfil; 2. Clicar em "alterar número de telefone"; 3. Alterar o número atual por um novo válido; 4. Verificar o novo número exibido no perfil; 5. Realizar uma autenticação que envia um código via SMS; 6. Verificar o código caindo na caixa de entrada do número antigo. |
+| Actual result | SMS é enviado mas cai na caixa de entrada do número antigo ao invés de cair na caixa de entrada do número novo. |
+| Expected result | SMS cai na caixa de entrada do novo número de telefone. |
+| Evidence | Vídeo do fluxo de teste; Print do número no perfil antes e depois da alteração; Log do momento do envio do SMS; Print e consulta do cadastro do perfil no banco de dados. |
+| Relação com US-482 | Conexão (Link) |
+
+### Parte 2 — Triagem
+Responda:
+
+*1. Você consideraria esse bug blocker da release? Justifique.*
+- **Resposta:** Sim, consideraria. O usuário não consegue realizar nenhuma autenticação que seja necessário confirmar via SMS pois o código nunca cai no telefone correto, podendo ocasionar em problemas de segurança e em perda de produtividade.
+
+*2. Que áreas/pessoas você envolveria na triagem desse defeito?*
+- **Resposta:** QA, Desenvolvimento, Produto/PO e DS/DBA. Como há uma possibilidade de existir problema de dados (Número exibido no perfil pode ser divergente do exibido no banco) acho que seria interessante envolver a equipe de dados para essa triagem.
+
+*3. Qual ação você sugeriria para a issue considerando que a release é amanhã?*
+- **Resposta:** Investigação imediata e correção anterior à release.
+
+### Parte 3 — Ciclo da issue
+Considere que o DEV corrigiu o problema e enviou para QA.
+No primeiro reteste
+
+    Telefone A -> Telefone B
+    SMS enviado corretamente para o B
+
+Porém, ao alterar o telefone uma segunda vez:
+
+    Telefone A -> Telefone B -> Funciona
+    Telefone B -> Telefone C -> SMS continua sendo enviado para o B
+
+Responda:
+
+*4. Você fecharia, reabriria/devolveria ou criaria outra issue?*
+- **Resposta:** Reabriria/devolveria pois o problema é o mesmo encontrado anteriormente, a diferença está na quantidade de alterações de telefone necessárias para o defeito se manifestar.
+
+*5. Qual seria a transição de status considerando nosso workflow?*
+- **Resposta:** In QA -> In Progress.
+
+*6. O fato de a primeira alteração funcionar significa que o bug está corrigido?*
+- **Resposta:** Não. O bug persiste no sistema, apenas com um fluxo diferente.
+
+*7. O que você registraria no comentário de reteste?*
+- **Resposta:** Reteste realizado pelo QA Emanuel Franco. Seguem detalhes: - Versão testada: vX (Vou considerar X já que não teve versão explícita nesse exercício); - Ambiente: Homologação; - Resultado do reteste: Falha - SMS com código de autenticação segue sendo enviado para o número antigo do usuário; - Evidências: Vídeo do fluxo de teste; Print do número no perfil antes e depois da alteração; Log do momento do envio do SMS nos dois momentos; Print e consulta do cadastro do perfil no banco de dados nos dois momentos; - Motivo da reabertura: O requisito diz que após a alteração, o novo número deve ser considerado para todas as autenticações que enviam código via SMS. Logo, independentemente de quantas alterações de telefone tenham sido realizadas, as autenticações posteriores devem utilizar o telefone mais recentemente salvo.
+
+### Parte 4 — Validação final
+Depois da nova correção, você retesta:
+
+    A -> B
+    B -> C
+    C -> D
+
+Todos os SMS são enviados corretamente ao telefone mais recente e você não encontra regressões relacionadas.
+
+*8. Qual seria a próxima transição de status?*
+- **Resposta:** In QA -> Closed.
+
+*9. Que evidências e histórico você manteria antes de fechar?*
+- **Resposta:** Manteria as evidências da descoberta original, do reteste que falhou e do reteste final aprovado, além dos comentários e transições de status, com o intuito de manter a integridade do ciclo de vida do respectivo defeito de maneira que nenhum dado se perca. 
+
+*10. Explique, em poucas linhas, como rastreabilidade, comentários e histórico de status ajudam caso esse problema volte a aparecer meses depois.*
+- **Resposta:** Torna mais fácil a identificação da issue e o entendimento do problema, pois você formou uma base de conhecimento do bug. Além disso, caso outros colaboradores (especialmente novos colaboradores) vierem a acompanhar esse bug, eles conseguirão acompanhar sem a necessidade de consulta a outros colaboradores.
+---
