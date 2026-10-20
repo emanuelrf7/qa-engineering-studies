@@ -128,3 +128,45 @@ Responda:
 *5. O fato de o comportamento original ter melhorado parcialmente é suficiente para considerar o bug corrigido? Explique.*
 - **Responda:** Não. Como o próprio enunciado diz, o bug teria corrigido o comportamento de forma parcial. Acredito que, quando levantamos um bug para correção, a funcionalidade deve ser restaurada completamente ao seu comportamento original. Mas, se for considerado que o impacto não será tão grande e há possibilidade de corrigir o bug depois, a prioridade pode ser reavaliada e, caso exista uma decisão formal de não corrigir ou aceitar o risco, a issue pode receber uma resolução/status correspondente, como "Won't Fix" ou "Accepted Risk", conforme o workflow da empresa.
 ---
+## Exercício 4 — Triagem de defeitos
+Considere que uma release está prevista para daqui a dois dias.
+
+| Bug | Situação |
+| --- | --- |
+| BUG-A | Em produção, 5% dos pagamentos com cartão retornam erro. O usuário pode tentar novamente e normalmente consegue concluir a compra. |
+| BUG-B | Em homologação, um novo fluxo de cadastro permite criar conta sem aceitar os Termos de Uso, embora isso seja obrigatório pelo requisito. A funcionalidade fará parte da próxima release. |
+| BUG-C | Em homologação, o texto do botão “Confirmar pagamento” aparece como “Confirmar pagamnto”. |
+| BUG-D | Em produção, usuários conseguem alterar o e-mail do perfil, mas o e-mail antigo continua sendo utilizado para recuperação de senha. |
+| BUG-E | Um bug aberto anteriormente não consegue mais ser reproduzido na versão atual e não existe evidência suficiente para confirmar quando ou como deixou de ocorrer. |
+
+Para cada um, indique:
+- Severidade
+- Prioridade
+- Ação sugerida na triagem
+- Justificativa
+
+| Bug | Severidade | Prioridade | Ação sugerida | Justificativa |
+| --- | --- | --- | --- | --- |
+| A | Média | Média | Investigar e planejar correção, sem necessariamente bloquear a próxima release | Embora a falha no pagamento com cartão possa trazer desconfiança ou medo para o usuário a primeira vista, ao tentar novamente a compra é concluída normalmente. Levando isso em consideração e a porcentagem de pagamentos com erro sendo muito baixa (5%), tanto a severidade quanto a prioridade são média para esse caso. Até a release que corrige esse problema em definitivo a orientação ao usuário contorna o problema momentaneamente. |
+| B | Alta | Alta | Corrigir antes da release | O fluxo funcional continua operando, porém permitir a criação de conta sem o aceite obrigatório dos Termos de Uso pode gerar impacto jurídico/compliance relevante para a empresa. Portanto, deve haver correção antes da release. |
+| C | Baixa | Baixa | Manter no backlog | Um erro de escrita não pode ser desconsiderado mas o mesmo não causa impacto relevante ao sistema e ao usuário para bloquear uma release. |
+| D | Crítica | Crítica | Investigar imediatamente | Se o usuário perde o acesso e alterou o e-mail antes disso, o mesmo não conseguirá recuperar sua senha e, portanto, não conseguirá acessar o sistema, fazendo com que o mesmo perca toda a produtividade que ganha com o uso do sistema ou até mesmo na não possibilidade de realizar seu trabalho, o que ocasiona um impacto crítico. |
+| E | Manter classificação anterior / não é possível determinar c om os dados fornecidos | Reavaliar  conforme impacto original e contexto atual | Retestar - Investigar - Solicitar informações adicionais | O fato de não conseguirmos reproduzir não prova que o defeito deixou de existir, portanto é um movimento arriscado fechar como não reproduzível. Primeiro, é necessário tentar outras ações, como: reproduzir nas mesmas condições originais, se conhecidas; verificar versões/ambientes; consultar evidências e comentários anteriores; verificar logs; perguntar ao Reporter se existem informações adicionais; identificar se alguma alteração recente pode ter afetado o comportamento. Se, após uma investigação mais robusta ainda não for possível reproduzir e faltarem informações suficientes, ai é válido considerar uma resolução como "Cannot Reproduce", "Unable to Reproduce" ou "Needs More Information", mediante workflow da empresa. |
+
+Depois responda:
+
+*1. Triagem de bugs serve apenas para definir prioridade?*
+- **Resposta:** Não, serve também como uma decisão coletiva sobre como tratar o defeito. A triagem pode definir elementos como: validade do bug; severidade; prioridade; responsável; necessidade de investigação; é ou não blocker da release; duplicidade; necessidade de mais informações; aceitação de risco; release alvo. 
+
+*2. Quem deveria participar de uma triagem de defeitos?*
+- **Resposta:** Pode depender do workflow da empresa, mas em uma composição comum: QA, Desenvolvimento e Produto/PO. Outras áreas podem entrar conforme necessário, como por exemplo: Segurança -> para vulnerabilidade; DS/DBA -> problema de dados; Suporte -> impacto reportado por clientes; Jurídico/Compliance -> para casos como o do "BUG-B"; liderança -> decisões críticas/release.
+
+*3. Um QA deve decidir sozinho que um bug não será corrigido? Por quê?*
+- **Resposta:** Não. A decisão deve seguir os papéis e responsabilidades definidos pela organização e não torná-la em uma decisão unilateral do QA.
+
+*4. No **BUG-E**, qual o risco de simplesmente marcar como **Closed** dizendo que "agora funciona"?*
+- **Resposta:** O bug ressurgir e não ser possível replicar e desenvolver a tratativa para o mesmo de imediato, sendo necessário um esforço com a investigação da causa raiz do problema. Além disso, marcar como "Closed" comunica que a issue foi resolvida, o que não seria verdade.
+
+*5. Qual é a diferença entre não reproduzir um bug e provar que ele foi corrigido?*
+- **Resposta:** Quando você não consegue reproduzir um bug você não sabe ou não tem informações suficientes para replicar aquele comportamento, podendo acontecer a qualquer momento (já que a situação é incerta) e gerar problemas de produtividade ou até de perda financeira, dependendo do caso. Já quando você comprova que um bug foi corrigido, você tem conhecimento do fluxo que ocasionava o problema (incluindo evidências) e consegue reexecutar o cenário que anteriormente provocava o defeito, podendo evidenciar que o funcionamento atual corresponde à correção do respectivo bug.
+---
