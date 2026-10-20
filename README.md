@@ -135,6 +135,7 @@ Além do código disponível neste repositório, mantenho uma página no Notion 
 3. [QA Engineering — Estudos, Automação e Evolução Técnica - Test Design](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-Test-Design-3fbeda02b1588031969fcdb7c3a19eb6?source=copy_link)
 4. [QA Engineering — Estudos, Automação e Evolução Técnica - Análise de requisitos e criação de cenários de teste](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-An-lise-de-requisitos-e-cria-o-de-cen-rios-3fceda02b15880b8ac16f30d34499b75?source=copy_link)
 5. [QA Engineering — Estudos, Automação e Evolução Técnica - Bug Reporting e documentação de defeitos](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-Bug-Reporting-e-documenta-o-de-defeitos-3feeda02b1588015affacb01d4848601?source=copy_link)
+6. [QA Engineering — Estudos, Automação e Evolução Técnica - Jira e ciclo de vida de defeitos](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-Jira-e-ciclo-de-vida-de-defeitos-3ffeda02b158809cad69f348344af71c?source=copy_link)
 
 ---
 
