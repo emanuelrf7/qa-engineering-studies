@@ -36,3 +36,30 @@ Responda, sem executar o código ainda:
 
 *8. Se o título real fosse Example Website, o que você espera que aconteça com o teste?*
 - **Resposta:** Retornasse um erro de assertion porque o título recebido foi diferente do título esperado.
+---
+## Exercício 2 — Primeira execução com Playwright
+*1. A saída de:*
+`npx playwright --version`
+- **Resposta:** Version 1.64.1.
+
+*2. O resultado resumido de:*
+`npx playwright test`
+- **Resposta:** Running 6 tests using 6 workers
+  6 passed (5.2s)
+
+3. Responda:
+    - O que você entende por headless?
+        - **Resposta:** Execução dos testes sem abrir a interface gráfica (navegador).
+    
+    - O que mudou quando executou com **--headed**?
+        - **Resposta:** A execução dos testes passou a exibir o navegador.
+    
+    - O que você entende que **--project=chromium** fez?
+        - **Resposta:** Faz com que o Playwright execute apenas o projeto chamado chromium que está definido no arquivo playwright.config.ts.
+    
+    - Abra o **playwright.config.ts**: quais browsers/projetos aparecem configurados?
+        - **Resposta:** Chromium -> projeto baseado no engine Chromium; Firefox -> projeto Firefox; WebKit -> projeto baseado no engine WebKit.
+
+    - Quantos testes o terminal informou que executou? Tente explicar por que esse número pode ser maior do que a quantidade de funções **test()** existentes no arquivo.
+        - **Resposta:** Para headless, 6 testes. No primeiro comando de teste, ele executou os dois testes para os 3 projetos configurados, logo: 6 testes. Para o segundo, como definimos no comando --project=chromium, ele fez a execução dos dois testes apenas para esse projeto, logo: 2 testes. Isso comunica que o Playwright consegue executar os testes para cada projeto configurado dentro do playwright.config.ts, caso seja desejado.
+---
