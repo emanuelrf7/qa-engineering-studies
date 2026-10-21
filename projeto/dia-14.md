@@ -63,3 +63,31 @@ Responda, sem executar o código ainda:
     - Quantos testes o terminal informou que executou? Tente explicar por que esse número pode ser maior do que a quantidade de funções **test()** existentes no arquivo.
         - **Resposta:** Para headless, 6 testes. No primeiro comando de teste, ele executou os dois testes para os 3 projetos configurados, logo: 6 testes. Para o segundo, como definimos no comando --project=chromium, ele fez a execução dos dois testes apenas para esse projeto, logo: 2 testes. Isso comunica que o Playwright consegue executar os testes para cada projeto configurado dentro do playwright.config.ts, caso seja desejado.
 ---
+## Exercício 3 — Primeiro teste Playwright
+Registre:
+- O código que você criou;
+
+    ``` 
+        import { test, expect } from '@playwright/test';
+
+        test('deve validar a página Example Domain', async ({ page }) => {
+            await page.goto("https://example.com");
+
+            await expect(page).toHaveTitle("Example Domain");
+        });
+    ```
+
+- O resultado da execução;
+
+    ```
+        Running 1 test using 1 worker
+        1 passed (3.0s)
+
+        To open last HTML report run:
+
+        npx playwright show-report
+    ```
+
+- Uma explicação curta, linha por linha, do que cada parte faz.
+    - **Resposta:** Primeiro eu importo os métodos test e expect do pacote @playwright/test; em seguida, utilizo o método test para escrever meu cenário de teste e, dentro dele, solicito ao Playwright para acessar a página example.com e faço uma validação no título da página com toHaveTitle(), que deve ser "Example Domain". As operações assíncronas dentro do teste, como page.goto() e expect(...).toHaveTitle(), são precedidas por await, enquanto a função callback do teste é declarada com async.
+---
