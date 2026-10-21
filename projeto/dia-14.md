@@ -127,3 +127,51 @@ Registre:
 - Na sua interpretação, o que o auto-waiting do Playwright ajuda a evitar nesse teste?
     - **Resposta:** O auto-waiting faz o Playwright aguardar automaticamente as condições necessárias para executar uma ação, como o elemento estar visível, estável, habilitado e apto a receber eventos, reduzindo falhas causadas por timing.
 ---
+## Exercício 5 — Desafio final
+- Código do terceiro teste:
+```
+    test('deve navegar da página inicial para a documentação', async ({ page }) => {
+        await page.goto("https://playwright.dev");
+
+        await expect(page.getByRole('heading', { name: 'Playwright enables reliable web automation for testing, scripting, and AI agents.' })).toBeVisible();
+        await expect(page.getByRole('link', { name: 'Get started' })).toBeVisible();
+        await page.getByRole('link', { name: 'Get started' }).click();
+
+        await expect(page).toHaveURL(/docs\//);
+        await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+    });
+```
+
+- Resultado da execução:
+```
+    Running 3 tests using 3 workers
+    3 passed (4.3s)
+
+    To open last HTML report run:
+
+    npx playwright show-report
+```
+
+Responda:
+
+*1. Por que getByRole('link', { name: ... }) é preferível a simplesmente getByRole('link') nesse caso?*
+- **Resposta:** Pois podem existir vários elementos que possuem a role "link". Portanto, devemos ser explícitos para que o Playwright consiga capturar o elemento correto.
+
+*2. Qual é a diferença entre validar o heading da home e validar a URL após o clique?*
+- **Resposta:** Na validação do heading verificamos se estamos na página home do site desejado. Após o click, somos levados para outra seção do site, portanto, é necessário validar que a URL mudou pois isso comunica que o Playwright está na nova seção.
+
+*3. Por que usamos await tanto no click() quanto nas assertions assíncronas?*
+- **Resposta:** Pois são Promises e, devido a isso, se não possuírem o await o teste não esperaria a Promise terminar.
+
+*4. Qual é a diferença entre await e o auto-waiting do Playwright?*
+- **Resposta:** O await é referente ao await da função assíncrona, que aguarda as Promises serem resolvidas. Já o auto-waiting do Playwright é uma espera interna que o Playwright faz validando as condições necessárias para que uma ação específica seja realizada com sucesso.
+
+*5. Se a URL final mudar em um parâmetro irrelevante, mas continuar levando à mesma página de documentação, por que uma validação parcial pode ser melhor que comparar a URL inteira?*
+- **Resposta:** A validação parcial faz com que o teste se torne menos frágil pois, caso algum parâmetro irrelevante para o cenário mude com o tempo, ela evita a chance de erro e interrupção no fluxo de teste.
+
+*6. Se o heading Installation não aparecer dentro do timeout da assertion, o que você espera que aconteça?*
+- **Resposta:** O Playwright tentará validar a visibilidade do heading até o timeout da assertion. Caso ele não fique visível dentro desse período, a assertion falhará e o teste será marcado como failed.
+
+*7. Quantos testes você espera que o comando execute e por quê?*
+- **Resposta:** Todos os que estão dentro do arquivo de teste baseado no projeto definido. Por exemplo, existem 3 testes. Se o comando for executado com apenas o projeto Chromium, devem ser executados 3 testes. Mas, caso eu não especifique o projeto, devem ser executados 9 testes, pois existem 3 projetos configurados no playwright.config.ts.
+---
