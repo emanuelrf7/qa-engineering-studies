@@ -91,3 +91,39 @@ Registre:
 - Uma explicação curta, linha por linha, do que cada parte faz.
     - **Resposta:** Primeiro eu importo os métodos test e expect do pacote @playwright/test; em seguida, utilizo o método test para escrever meu cenário de teste e, dentro dele, solicito ao Playwright para acessar a página example.com e faço uma validação no título da página com toHaveTitle(), que deve ser "Example Domain". As operações assíncronas dentro do teste, como page.goto() e expect(...).toHaveTitle(), são precedidas por await, enquanto a função callback do teste é declarada com async.
 ---
+## Exercício 4 — Locators e interação com elementos
+- Código do segundo teste:
+```
+    test('deve interagir com o link Get started', async ({ page }) => {
+        await page.goto("https://playwright.dev/");
+
+        await expect(page.getByRole('heading', { name: 'Playwright enables reliable web automation for testing, scripting, and AI agents.' })).toBeVisible();
+        await expect(page.getByRole('link', { name: 'Get started' })).toBeVisible();
+        await page.getByRole('link', { name: 'Get started' }).click();
+
+        await expect(page).toHaveURL(/docs\//);
+    });
+```
+
+- O resultado da execução:
+```
+    Running 2 tests using 2 workers
+    2 passed (3.9s)
+
+    To open last HTML report run:
+
+    npx playwright show-report
+```
+
+- Por que escolheu getByRole() para o heading e para o link?
+    - **Resposta:** Pois dessa forma é possível capturar o elemento desejado diretamente pela função dos mesmos na página: heading para o cabeçalho/título visível da página, link para o elemento que possui papel acessível de link, não de botão.
+
+- O que toBeVisible() está validando?
+    - **Resposta:** Que os elementos desejados (heading e link) estão visíveis na página após a navegação para a mesma.
+
+- Por que validar apenas uma parte estável da URL, como docs/, pode ser mais resiliente do que comparar a URL inteira?
+    - **Resposta:** Como a URL completa pode sofrer alterações em parâmetros, fragmentos ou outras partes que não são relevantes para o teste, validar apenas uma parte estável e significativa, como docs/, torna a assertion menos frágil e ainda confirma que a navegação chegou à área esperada.
+
+- Na sua interpretação, o que o auto-waiting do Playwright ajuda a evitar nesse teste?
+    - **Resposta:** O auto-waiting faz o Playwright aguardar automaticamente as condições necessárias para executar uma ação, como o elemento estar visível, estável, habilitado e apto a receber eventos, reduzindo falhas causadas por timing.
+---
