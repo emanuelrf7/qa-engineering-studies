@@ -94,3 +94,63 @@ Registre:
 *6. Se a tarefa for criada corretamente, mas o input continuar com Estudar Playwright, o teste deveria passar ou falhar? Justifique.*
 - **Resposta:** Falhar, pois fazemos uma validação após o cadastro verificando se o campo está vazio. Dessa forma, o Playwright executaria o código referente a validação a lançaria uma exceção, indicando que a assertion falhou pois o campo estava preenchido ao invés de estar vazio.
 ---
+## Exercício 3 — Checkbox e mudança de estado
+Registre:
+
+- Código criado;
+
+```
+    test('deve concluir uma tarefa', async ({ page }) => {
+        await page.goto("https://demo.playwright.dev/todomvc/");
+
+        const input = page.getByPlaceholder("What needs to be done?");
+        await input.fill('Estudar Playwright');
+
+        await expect(input).toHaveValue('Estudar Playwright');
+
+        await input.press('Enter');
+
+        const task = page.getByText('Estudar Playwright');
+        await expect(task).toBeVisible();
+
+        await expect(input).toBeEmpty();
+
+        const checkbox = page.getByRole('checkbox', { name: 'Toggle Todo' });
+        await expect(checkbox).not.toBeChecked();
+
+        await checkbox.check();
+        await expect(checkbox).toBeChecked();
+    });
+```
+
+- Resultado da execução;
+
+```
+    Running 2 tests using 2 workers
+    2 passed (2.5s)
+
+    To open last HTML report run:
+
+    npx playwright show-report
+```
+
+- Respostas:
+
+*1. Qual é a diferença entre check() e toBeChecked()?*
+- **Resposta:** check() corresponde a um método que serve para marcar um input do tipo checkbox. Já toBeChecked() é uma assertion que valida se um checkbox já está marcado ou não, sendo realizado através da notação .not para casos negativos.
+
+*2. Por que validar primeiro que o checkbox está desmarcado?*
+- **Resposta:** Para validar o estado inicial esperado da tarefa. Ao criarmos uma tarefa, esperamos que a mesma não esteja marcada pois acabou de ser criada e, portanto, é esperado que a tarefa ainda não tenha sido concluída, ou seja: esteja com o checkbox desmarcado.
+
+*3. O que significa usar .not.toBeChecked()?*
+- **Resposta:** Significa que estamos fazendo a negação da assertion toBeChecked(), ou seja: toBeChecked() espera que a respectiva checkbox já esteja marcada. Quando utilizamos .not.toBeChecked estamos realizando a negação da assertion original, logo a assertion passa a esperar que a respectiva checkbox NÃO esteja marcada.
+
+*4. Se check() for executado em um checkbox que já está marcado, o que você espera que aconteça?*
+- **Resposta:** Que o método retorne sem alterar nada, visto que check() possui dois fluxos: se a checkbox estiver desmarcada, marca e verifica se está marcada. Se estiver marcada, retorna sem alterar nada e garante que o checkbox permaneça marcado.
+
+*5. Por que usar check() pode ser melhor do que simplesmente usar click() para esse tipo de elemento?*
+- **Resposta:** Pois o método check() é um método específico para campos marcáveis, como campos do tipo checkbox, por exemplo. A vantagem sobre o método click() é que o método click() pode alterar o estado do checkbox baseado no estado atual (se estiver desmarcado, marca; se estiver marcado, desmarca). Com check() não existe a chance desse problema devido aos fluxos citados na questão 4.
+
+*6. Se a tarefa aparecer visualmente como concluída, mas o checkbox continuar desmarcado, o teste deveria passar ou falhar? Por quê?*
+- **Resposta:** Deveria falhar, pois validamos o estado do checkbox após a execução do método check().
+---
