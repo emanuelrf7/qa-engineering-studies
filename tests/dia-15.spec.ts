@@ -1,0 +1,68 @@
+import { test, expect } from '@playwright/test';
+
+test('deve criar uma nova tarefa', async ({ page }) => {
+    await page.goto("https://demo.playwright.dev/todomvc/");
+
+    const input = page.getByPlaceholder("What needs to be done?");
+    await input.fill('Estudar Playwright');
+
+    await expect(input).toHaveValue('Estudar Playwright');
+
+    await input.press('Enter');
+
+    const task = page.getByText('Estudar Playwright');
+    await expect(task).toBeVisible();
+
+    await expect(input).toBeEmpty();
+});
+
+test('deve concluir uma tarefa', async ({ page }) => {
+    await page.goto("https://demo.playwright.dev/todomvc/");
+
+    const input = page.getByPlaceholder("What needs to be done?");
+    await input.fill('Estudar Playwright');
+
+    await expect(input).toHaveValue('Estudar Playwright');
+
+    await input.press('Enter');
+
+    const task = page.getByText('Estudar Playwright');
+    await expect(task).toBeVisible();
+
+    await expect(input).toBeEmpty();
+
+    const checkbox = page.getByRole('checkbox', { name: 'Toggle Todo' });
+    await expect(checkbox).not.toBeChecked();
+
+    await checkbox.check();
+    await expect(checkbox).toBeChecked();
+});
+
+test('deve criar concluir e filtrar uma tarefa', async ({ page }) => {
+    await page.goto("https://demo.playwright.dev/todomvc/");
+
+    const input = page.getByPlaceholder("What needs to be done?");
+    await input.fill('Estudar Playwright');
+
+    await expect(input).toHaveValue('Estudar Playwright');
+
+    await input.press('Enter');
+
+    const task = page.getByText('Estudar Playwright');
+    await expect(task).toBeVisible();
+
+    await expect(input).toBeEmpty();
+
+    const checkbox = page.getByRole('checkbox', { name: 'Toggle Todo' });
+    await expect(checkbox).not.toBeChecked();
+
+    await checkbox.check();
+    await expect(checkbox).toBeChecked();
+
+    const counter = page.getByTestId('todo-count');
+    await expect(counter).toHaveText('0 items left');
+
+    const completedFilter = page.getByRole('link', { name: 'Completed' });
+    await completedFilter.click();
+    await expect(task).toBeVisible();
+});
