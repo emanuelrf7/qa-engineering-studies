@@ -154,3 +154,73 @@ Registre:
 *6. Se a tarefa aparecer visualmente como concluída, mas o checkbox continuar desmarcado, o teste deveria passar ou falhar? Por quê?*
 - **Resposta:** Deveria falhar, pois validamos o estado do checkbox após a execução do método check().
 ---
+## Exercício 4 — Desafio final
+Registre:
+
+- Código criado;
+
+```
+    test('deve criar concluir e filtrar uma tarefa', async ({ page }) => {
+        await page.goto("https://demo.playwright.dev/todomvc/");
+
+        const input = page.getByPlaceholder("What needs to be done?");
+        await input.fill('Estudar Playwright');
+
+        await expect(input).toHaveValue('Estudar Playwright');
+
+        await input.press('Enter');
+
+        const task = page.getByText('Estudar Playwright');
+        await expect(task).toBeVisible();
+
+        await expect(input).toBeEmpty();
+
+        const checkbox = page.getByRole('checkbox', { name: 'Toggle Todo' });
+        await expect(checkbox).not.toBeChecked();
+
+        await checkbox.check();
+        await expect(checkbox).toBeChecked();
+
+        const counter = page.getByTestId('todo-count');
+        await expect(counter).toHaveText('0 items left');
+
+        const completedFilter = page.getByRole('link', { name: 'Completed' });
+        await completedFilter.click();
+        await expect(task).toBeVisible();
+    });
+```
+
+- Resultado da execução;
+
+```
+    Running 3 tests using 3 workers
+    3 passed (2.1s)
+
+    To open last HTML report run:
+
+    npx playwright show-report
+```
+
+Responda:
+
+*1. Por que validar 0 items left depois de marcar a tarefa adiciona cobertura além de apenas usar toBeChecked()?*
+- **Resposta:** Pois dessa forma, estaremos validando que não existe mais nenhuma tarefa ativa/pendente naquele estado da aplicação.
+
+*2. Qual é a diferença entre validar o estado do checkbox e validar o contador da aplicação?*
+- **Resposta:** Validar o estado do checkbox serve apenas para validar que a checkbox selecionada foi marcada, para ela não existe "tarefa concluída" e sim que a checkbox foi marcada. Já o contador da aplicação indica quantas tarefas ainda estão pendente, ou seja, precisam ser concluídas. Portanto, podemos afirmar que a partir do momento que o contador passa a ser 0, não existem mais tarefas pendentes, garantindo que todas as tarefas foram concluídas como o esperado.
+
+*3. Por que o filtro Completed deve continuar exibindo a tarefa depois que ela foi marcada?*
+- **Resposta:** Pois a tarefa criada foi marcada e, portanto, considerada concluída. Logo, se fazemos um filtro por tarefas concluídas, temos que ter a tarefa que criamos sendo exibida após a filtragem.
+
+*4. Se o checkbox ficar marcado, mas o contador continuar mostrando 1 item left, o teste deveria passar ou falhar? O que isso indicaria?*
+- **Resposta:** Falhar, pois fazemos a validação no contador após a marcação da checkbox. Isso indicaria que existe uma inconsistência entre o estado marcado da tarefa e o contador de tarefas ativas. A investigação da respectiva inconsistência diria onde está a causa.
+
+*5. Se a tarefa desaparecer ao clicar em Completed, mesmo estando marcada, qual parte do comportamento da aplicação estaria incorreta?*
+- **Resposta:** A parte do filtro, pois ao clicar em Completed devem ser exibidas apenas as tarefas que já foram marcadas, ou seja, foram consideradas concluídas.
+
+*6. Quantos testes você espera que o comando execute e por quê?*
+- **Resposta:** 3 testes, pois temos 3 testes criados e estamos executando os mesmos apenas para o projeto Chromium.
+
+*7. Neste fluxo, onde você identifica estado inicial → ação → estado final?*
+- **Resposta:** Existem mais de um estado inicial -> ação -> estado final para esse fluxo: Primeiro -> 1. Estado inicial: tarefa criada e checkbox desmarcado; 2. Ação: check(); 3. Estado final: checkbox marcado + 0 items left. Segundo -> 1. Estado inicial: tarefa concluída; 2. Ação: clicar em Completed; 3. Estado final: tarefa continua visível na listagem filtrada.
+---
