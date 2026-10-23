@@ -38,3 +38,59 @@ Sem executar ainda, responda:
 *8. Por que geralmente seria desnecessário usar uma espera fixa, como waitForTimeout(2000), antes dessas ações?*
 - **Resposta:** Pois o Playwright já espera dinamicamente apenas o necessário. Com waitForTimeout(2000) o teste sempre esperaria 2 segundos, mesmo que o elemento esteja pronto em 100ms, por exemplo.
 ---
+## Exercício 2 — Criando uma tarefa no TodoMVC
+Registre:
+
+- O código criado;
+
+```
+    import { test, expect } from '@playwright/test';
+
+    test('deve criar uma nova tarefa', async ({ page }) => {
+        await page.goto("https://demo.playwright.dev/todomvc/");
+
+        const input = page.getByPlaceholder("What needs to be done?");
+        await input.fill('Estudar Playwright');
+
+        await expect(input).toHaveValue('Estudar Playwright');
+
+        await input.press('Enter');
+
+        const task = page.getByText('Estudar Playwright');
+        await expect(task).toBeVisible();
+
+        await expect(input).toBeEmpty();
+    });
+```
+
+- Resultado da execução;
+
+```
+    Running 1 test using 1 worker
+    1 passed (1.7s)
+
+    To open last HTML report run:
+
+    npx playwright show-report
+```
+
+- Respostas:
+
+*1. Por que armazenar o resultado de getByPlaceholder() em uma variável pode ser útil?*
+- **Resposta:** Pois a partir dela é possível realizar diversas ações utilizando métodos do Playwright, como fill() e press().
+
+*2. O que muda no estado da aplicação após press('Enter')?*
+- **Resposta:** A aplicação passa a ter uma tarefa cadastrada.
+
+*3. Por que validar o valor do input antes de pressionar Enter?*
+- **Resposta:** Validamos o input antes do Enter para confirmar que o preenchimento ocorreu corretamente antes de avançarmos para a ação que cria a tarefa, garantindo que o estado intermediário esperado foi atingido.
+
+*4. Por que validar que o texto da tarefa aparece na página depois?*
+- **Resposta:** Para confirmar que a tarefa foi cadastrada e está sendo exibida na página como era esperado.
+
+*5. Por que também é útil validar que o input ficou vazio?*
+- **Resposta:** Pois dessa forma é possível comprovar o funcionamento adequado da aplicação: preencheu o input com o nome da tarefa -> cadastrou a tarefa através do envio do Enter -> input volta a ficar vazio para novo cadastro.
+
+*6. Se a tarefa for criada corretamente, mas o input continuar com Estudar Playwright, o teste deveria passar ou falhar? Justifique.*
+- **Resposta:** Falhar, pois fazemos uma validação após o cadastro verificando se o campo está vazio. Dessa forma, o Playwright executaria o código referente a validação a lançaria uma exceção, indicando que a assertion falhou pois o campo estava preenchido ao invés de estar vazio.
+---
