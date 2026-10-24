@@ -80,3 +80,24 @@ Responda:
 *6. Se houver três tarefas, mas uma delas estiver duplicada e outra ausente, qual das validações detectaria o problema: apenas a contagem, apenas os textos ou ambas?*
 - **Resposta:** Seria a validação dos textos pois a quantidade continua exata mas não seriam as tarefas esperadas.
 ---
+## Exercício 3 — Filtrando uma tarefa específica
+Responda:
+
+*1. O que muda entre localizar o checkbox diretamente pela page e localizá-lo dentro da tarefa filtrada?*
+- **Resposta:** Diretamente pela page pode ocorrer uma strict mode violation pois não estaríamos sendo específicos sobre o checkbox desejado. Ao filtrar a tarefa desejada, podemos realizar uma busca somente dentro da tarefa filtrada.
+
+*2. Por que filter({ hasText: 'Estudar API' }) é melhor que nth(1) nesse cenário?*
+- **Resposta:** Pois o método nth() depende da posição. nth(1) hoje poderia representar a tarefa "Estudar API" e amanhã representar a tarefa "Estudar Playwright". O teste continuaria passando, mas resultando em um falso positivo visto que não seria a tarefa desejada.
+
+*3. Se a ordem das tarefas mudar, qual das duas abordagens tende a continuar funcionando: filter() ou nth()?*
+- **Resposta:** filter(), pois dessa forma capturamos exatamente a tarefa desejada independentemente de sua posição.
+
+*4. Se duas tarefas tiverem exatamente o texto Estudar API, o filter() sozinho garante unicidade? Por quê?*
+- **Resposta:** Não, depende de como o filtro será utilizado. Por exemplo, o filtro pode capturar mais de um elemento desde que existam mais de um elemento que cumpra a condição do filter. Para operações que exigem um elemento único (como o check()), ele identificaria mais de um elemento e geraria uma strict mode violation. Logo, Locators podem representar múltiplos elementos, sendo as operações que implicam um único alvo as que aplicam strictness.
+
+*5. Depois de filtrar a tarefa correta, por que ainda faz sentido usar getByRole('checkbox', { name: 'Toggle Todo' }) dentro dela?*
+- **Resposta:** Pois o filter() captura a tarefa, não a checkbox dela. Logo, devemos capturar a checkbox para poder realizar a ação desejada utilizando getByRole('checkbox', { name: 'Toggle Todo' }).
+
+*6. Qual é a vantagem de construir Locators em etapas, em vez de tentar criar um seletor enorme de uma vez?*
+- **Resposta:** Existem algumas vantagens: Especificidade -> torna o elemento cada vez mais específico; Legibilidade -> fica claro o que cada Locator representa; Manutenção -> se a forma de localizar a tarefa mudar, basta alterar uma parte específica; Debug -> fica mais fácil descobrir em qual nível está a ambiguidade; Reutilização -> o Locator da tarefa pode ser usado para encontrar outros elementos dentro dela; Escopo -> Cada nova busca ocorre dentro de um contexto menor.
+---
