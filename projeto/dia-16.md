@@ -59,3 +59,24 @@ e:
 *9. Por que o Playwright permitiria contar vários elementos, mas poderia rejeitar um click() sobre esse mesmo Locator?*
 - **Resposta:** Pois o Playwright se recusa a executar a ação visto que ele não sabe qual é o elemento desejado a ser usado.
 ---
+## Exercício 2 — Múltiplas tarefas e toHaveCount()
+Responda:
+
+*1. Por que podemos usar um único Locator para representar as três tarefas?*
+- **Resposta:** Pois o locator pode representar vários elementos correspondentes que, através dele, conseguimos capturar todas as tarefas cadastradas. Para o nosso caso, conseguimos capturar as 3 tarefas.
+
+*2. Por que toHaveCount(3) é mais adequado do que fazer expect(await locator.count()).toBe(3) nesse teste?*
+- **Resposta:** Pois count() retorna imediatamente a quantidade encontrada naquele momento. Já toHaveCount() reavalia o Locator até encontrar exatamente 3 elementos ou atingir o timeout.
+
+*3. Se somente duas das três tarefas aparecerem inicialmente e a terceira surgir alguns milissegundos depois, como toHaveCount(3) se comporta?*
+- **Resposta:** Ele é uma assertion com retry, portanto, ele aguarda e revalida até que resolva ou estoure o timeout.
+
+*4. Validar apenas toHaveCount(3) garante que as tarefas corretas foram criadas? Por quê?*
+- **Resposta:** Não, pois toHaveCount(3) valida que o locator possui a contagem exata de 3 elementos, mas que não quer dizer que sejam as 3 tarefas desejadas de fato.
+
+*5. Por que também é útil validar os textos Estudar Playwright, Estudar API e Estudar SQL individualmente?*
+- **Resposta:** Para garantir que as tarefas esperadas se encontram dentro do filtro criado através de uma assertion, e não fazer uma validação genérica do tipo "existem 3 tarefas cadastradas?".
+
+*6. Se houver três tarefas, mas uma delas estiver duplicada e outra ausente, qual das validações detectaria o problema: apenas a contagem, apenas os textos ou ambas?*
+- **Resposta:** Seria a validação dos textos pois a quantidade continua exata mas não seriam as tarefas esperadas.
+---
