@@ -138,6 +138,7 @@ Além do código disponível neste repositório, mantenho uma página no Notion 
 6. [QA Engineering — Estudos, Automação e Evolução Técnica - Jira e ciclo de vida de defeitos](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-Jira-e-ciclo-de-vida-de-defeitos-3ffeda02b158809cad69f348344af71c?source=copy_link)
 7. [QA Engineering — Estudos, Automação e Evolução Técnica - Introdução ao Playwright e primeiros testes E2E](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-Introdu-o-ao-Playwright-e-primeiros-testes-400eda02b15880ac9500c6e1bc115ee8?source=copy_link)
 8. [QA Engineering — Estudos, Automação e Evolução Técnica - Inputs, ações e assertions com Playwright](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-Inputs-a-es-e-assertions-com-Playwright-402eda02b158806ea5e0df9ac66c6e43?source=copy_link)
+9. [QA Engineering — Estudos, Automação e Evolução Técnica - Múltiplos elementos, filtros e escopo de Locators](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-M-ltiplos-elementos-filtros-e-escopo-de-Lo-403eda02b15880d798dbc99223e02bcf?source=copy_link)
 
 ---
 
