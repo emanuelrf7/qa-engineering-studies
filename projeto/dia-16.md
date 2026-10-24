@@ -101,3 +101,27 @@ Responda:
 *6. Qual é a vantagem de construir Locators em etapas, em vez de tentar criar um seletor enorme de uma vez?*
 - **Resposta:** Existem algumas vantagens: Especificidade -> torna o elemento cada vez mais específico; Legibilidade -> fica claro o que cada Locator representa; Manutenção -> se a forma de localizar a tarefa mudar, basta alterar uma parte específica; Debug -> fica mais fácil descobrir em qual nível está a ambiguidade; Reutilização -> o Locator da tarefa pode ser usado para encontrar outros elementos dentro dela; Escopo -> Cada nova busca ocorre dentro de um contexto menor.
 ---
+## Exercício 4 — Validando efeitos colaterais
+Responda:
+
+*1. Por que não basta validar apenas que Estudar API ficou marcada?*
+- **Resposta:** Não basta validar que estudar API ficou marcada porque também precisamos garantir que a ação não alterou indevidamente o estado das outras tarefas. O comportamento esperado é que apenas Estudar API mude de desmarcada para marcada, enquanto Estudar Playwright e Estudar SQL permaneçam desmarcadas.
+
+*2. O que significa validar que Estudar Playwright e Estudar SQL continuam desmarcadas?*
+- **Resposta:** Significa que estamos validando o estado dessas checkboxes em dois momentos: antes da ação de marcar "Estudar API" -> devem estar desmarcados; após a ação de marcar "Estudar API" -> devem permanecer desmarcados.
+
+*3. Se check() em Estudar API marcar acidentalmente também Estudar SQL, qual assertion detectaria o problema?*
+- **Resposta:** expect(studySqlTaskCheckbox).not.toBeChecked().
+
+*4. Qual é a diferença entre validar o resultado esperado e validar a ausência de efeitos colaterais?*
+- **Resposta:** Validar o resultado esperado é o objetivo do teste, mas não impede que efeitos colaterais como a marcação de um checkbox indesejado aconteça, podendo ocasionar em falso positivo. Logo, a diferença está na robustez e confiabilidade do script de teste.
+
+*5. Por que esse tipo de validação aumenta a qualidade de um teste E2E?*
+- **Resposta:** Porque aumenta a confiabilidade e a robustez do teste ao validar tanto o resultado esperado quanto a ausência de efeitos colaterais.
+
+*6. Nesse cenário, quantas transições de estado realmente esperamos que ocorram?*
+- **Resposta:** Apenas uma para a checkbox da tarefa "Estudar API" -> inicia desmarcada, termina marcada após a ação do check().
+
+*7. Se todas as três tarefas começarem desmarcadas, mas duas terminarem marcadas, o teste deveria falhar mesmo que Estudar API esteja correta? Por quê?*
+- **Resposta:** Sim, pois o objetivo do teste é marcar apenas uma tarefa (Estudar API). Mais de uma tarefa marcada seria critério para determinar que o teste falhou.
+---
