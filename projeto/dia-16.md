@@ -125,3 +125,30 @@ Responda:
 *7. Se todas as três tarefas começarem desmarcadas, mas duas terminarem marcadas, o teste deveria falhar mesmo que Estudar API esteja correta? Por quê?*
 - **Resposta:** Sim, pois o objetivo do teste é marcar apenas uma tarefa (Estudar API). Mais de uma tarefa marcada seria critério para determinar que o teste falhou.
 ---
+## Exercício 5 — Desafio final: filtros e múltiplos estados
+Responda:
+
+*1. Por que validar o estado dos checkboxes antes de testar os filtros?*
+- **Resposta:** Porque dessa forma podemos identificar inconsistências no estado da tarefa, que possui impacto direto na exibição filtrada.
+
+*2. Qual regra de negócio o filtro Active representa?*
+- **Resposta:** Todas as tarefas cadastradas que ainda não foram concluídas.
+
+*3. Qual regra de negócio o filtro Completed representa?*
+- **Resposta:** Todas as tarefas cadastradas que já foram concluídas.
+
+*4. Por que precisamos validar tanto os elementos que devem aparecer quanto os que não devem aparecer?*
+- **Resposta:** Para evitar falso positivo onde a tarefa desejada está sendo exibida mas a indesejada também está sendo exibida incorretamente.
+
+*5. Se Estudar API aparecer simultaneamente em Active e Completed, o que isso indicaria?*
+- **Resposta:** Inconsistência entre o estado da tarefa e a lógica de filtragem, pois Active deve exibir apenas tarefas cadastradas que ainda não foram concluídas. Já Completed deve exibir apenas tarefas cadastradas que já foram concluídas.
+
+*6. Se o filtro Active exibir apenas Playwright e SQL, mas o checkbox de API estiver desmarcado, o fluxo está correto? Por quê?*
+- **Resposta:** Não, pois o checkbox representa visualmente o estado da tarefa, sendo marcado -> tarefa concluída e desmarcado -> tarefa ativa/pendente. Logo, as 3 tarefas deveriam ser exibidas para o filtro Active.
+
+*7. Quantas tarefas devem estar visíveis em Active e quantas em Completed?*
+- **Resposta:** 2 em Active, 1 em Completed.
+
+*8. Quais conceitos estudados nos Dias 15 e 16 você identifica nesse único cenário?*
+- **Resposta:** Conceitos do dia 15: getByPlaceholder(), fill(), press(), toHaveValue(), toBeEmpty(), check(), toBeChecked(), .not, toBeVisible(), estado inicial -> ação -> estado final e validação de filtros. Conceitos do dia 16: múltiplos elementos, Locator com vários matches, filter({ hasText }), escopo de Locators, chaining de Locators, prevenção de strict mode violations, seleção por identidade em vez de posição, validação de efeitos colaterais e toBeHidden().
+---
