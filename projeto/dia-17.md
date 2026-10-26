@@ -83,3 +83,27 @@ Responda:
 *7. Se você executar somente o segundo teste pelo nome, ele deveria funcionar sozinho? O que isso demonstra sobre isolamento?*
 - **Resposta:** Sim. Isso demonstra que mesmo os testes pertencendo a um agrupamento pois serem relacionados, cada um é independente. Logo, sua execução é única, não dependendendo de outro teste.
 ---
+## Exercício 3 — Organização com describe aninhado
+Responda:
+
+*1. Qual é a vantagem de ter um describe('TodoMVC') externo e grupos internos por funcionalidade?*
+- **Resposta:** Separação de responsabilidade para os testes e melhor legibilidade da suíte.
+
+*2. O beforeEach() externo será executado para testes dentro dos describe() internos?*
+- **Resposta:** Sim, pois o mesmo está dentro do describe() global (TodoMVC).
+
+*3. Quantas vezes ele será executado se existirem exatamente esses dois testes?*
+- **Resposta:** 2 vezes. No meu caso, como mantive os dois testes de criação de tarefa e criei o teste de conclusão de tarefa, será executado 3 vezes.
+
+*4. O teste de conclusão pode usar a tarefa criada no teste de criação? Por quê?*
+- **Resposta:** Não, pois o teste de conclusão não pode usar a tarefa criada pelo teste de criação porque cada teste possui um BrowserContext isolado e não deve depender do estado criado por outro teste.
+
+*5. Por que o teste de conclusão precisa criar Estudar API por conta própria?*
+- **Resposta:** Pois esse estado faz parte da pré-condição do próprio teste, ou seja: objetivo do teste -> concluir uma tarefa; pré-condição -> uma tarefa precisa existir; responsabilidade do próprio teste -> preparar essa tarefa.
+
+*6. O agrupamento com describe() altera o isolamento entre os testes?*
+- **Resposta:** Não.
+
+*7. Qual diferença existe entre organização lógica da suíte e compartilhamento de estado?*
+- **Resposta:** A organização lógica serve para criarmos agrupamento entre testes relacionados mas que são independentes entre si, ou seja, não dependem do estado de nenhum teste para serem executados. Já o compartilhamento de estado possui um estado mutável criado por um teste e exigido por outro, gerando acoplamento de testes.
+---
