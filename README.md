@@ -17,6 +17,7 @@ Esta trilha de estudos busca fortalecer principalmente:
 - organização e modularização de código;
 - automação de testes;
 - Playwright;
+- BDD/Cucumber;
 - API Testing;
 - integração com banco de dados;
 - Git;
@@ -73,6 +74,8 @@ TypeScript
 Test Design
         ↓
 Playwright
+        ↓
+BDD/Cucumber
         ↓
 Automation Engineering
         ↓
