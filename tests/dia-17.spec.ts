@@ -48,4 +48,42 @@ test.describe('TodoMVC', () => {
             await expect(task).toBeChecked();
         });
     });
+
+    test.describe('Filtro de tarefas', () => {
+        test('deve exibir corretamente tarefas ativas e concluídas', async ({ page }) => {
+            const input = page.getByPlaceholder('What needs to be done?');
+
+            await input.fill('Estudar Playwright');
+            await expect(input).toHaveValue('Estudar Playwright');
+            await input.press('Enter');
+            await expect(input).toBeEmpty();
+
+            await input.fill('Estudar API');
+            await expect(input).toHaveValue('Estudar API');
+            await input.press('Enter');
+            await expect(input).toBeEmpty();
+
+            const allListItem = page.getByRole('listitem');
+            const studyPlaywrightTask = allListItem.filter({ hasText: 'Estudar Playwright' });
+            const studyPlaywrightTaskCheckbox = studyPlaywrightTask.getByRole('checkbox', { name: 'Toggle Todo' });
+            const studyApiTask = allListItem.filter({ hasText: 'Estudar API' });
+            const studyApiTaskCheckbox = studyApiTask.getByRole('checkbox', { name: 'Toggle Todo' });
+
+            await expect(studyPlaywrightTaskCheckbox).not.toBeChecked();
+            await expect(studyApiTaskCheckbox).not.toBeChecked();
+            await studyApiTaskCheckbox.check();
+            await expect(studyPlaywrightTaskCheckbox).not.toBeChecked();
+            await expect(studyApiTaskCheckbox).toBeChecked();
+
+            const activeFilter = allListItem.getByRole('link', { name: 'Active' });
+            await activeFilter.click();
+            await expect(studyPlaywrightTask).toBeVisible();
+            await expect(studyApiTask).toBeHidden();
+
+            const completedFilter = allListItem.getByRole('link', { name: 'Completed' });
+            await completedFilter.click();
+            await expect(studyPlaywrightTask).toBeHidden();
+            await expect(studyApiTask).toBeVisible();
+        });
+    });
 });

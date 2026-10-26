@@ -107,3 +107,40 @@ Responda:
 *7. Qual diferença existe entre organização lógica da suíte e compartilhamento de estado?*
 - **Resposta:** A organização lógica serve para criarmos agrupamento entre testes relacionados mas que são independentes entre si, ou seja, não dependem do estado de nenhum teste para serem executados. Já o compartilhamento de estado possui um estado mutável criado por um teste e exigido por outro, gerando acoplamento de testes.
 ---
+## Exercício 4 — Desafio final: suíte organizada e independente
+Responda:
+
+*1. Por que o beforeEach() deve continuar apenas com a navegação nesse cenário?*
+- **Resposta:** Pois é o único setup que todos os testes compartilham entre si.
+
+*2. Por que o teste de filtros precisa criar suas próprias tarefas?*
+- **Resposta:** Pois o teste não possui dependência entre os testes de criação de tarefas. Logo, é responsabilidade do próprio teste preparar essas tarefas, como se fossem um pré-requisito do mesmo.
+
+*3. Se um dos testes do grupo Criação de tarefas falhar, o teste de filtros deveria continuar funcionando? Por quê?*
+- **Resposta:** Sim, pois ele não depende de nenhum teste do grupo de criação de tarefas.
+
+*4. Qual é a vantagem de conseguirmos executar somente o teste ou grupo de filtros isoladamente?*
+- **Resposta:** A vantagem é poder validar uma funcionalidade específica independentemente das demais, facilitando execução direcionada, investigação de falhas e manutenção da suíte.
+
+*5. O que aconteceria com a confiabilidade da suíte se o teste de filtros dependesse do teste de conclusão?*
+- **Resposta:** Se tornaria menos confiável e mais acoplada, visto que se filtros dependesse da conclusão, teríamos: dependência de ordem, possibilidade de falhas em cascata, dificuldade de executar filtros isoladamente, diagnóstico mais difícil e problemas com paralelismo.
+
+*6. Qual é a responsabilidade do test.describe() na estrutura criada hoje?*
+- **Resposta:** Agrupar testes relacionados atribuindo responsabilidades específicas a cada um deles, melhorando a organização e legibilidade da suíte de testes.
+
+*7. Qual é a responsabilidade do beforeEach()?*
+- **Resposta:** Configurar um setup comum entre os testes que é acionado antes da execução de cada teste.
+
+*8. Qual é a responsabilidade do próprio test()?*
+- **Resposta:** Criar o fluxo de teste com seus passos e responsabilidades específicos para cada cenário.
+
+*9. Como você explicaria agora a diferença entre:*
+- *Organização da suíte;*
+- *Setup comum;*
+- *Estado específico do cenário?*
+
+    **Resposta:** Organização da suíte: Agrupamento dos testes relacionados entre si para obter melhor organização, legibilidade e manutenção de uma suíte de testes. Setup comum: É uma configuração em comum entre os testes que pode ser definida para ser executada antes de cada teste, por exemplo: a navegação até a página. Estado específico do cenário: Corresponde aos dados/pré-condições necessários somente para aquele cenário específico.
+
+*10. No exemplo profissional de Order que discutimos, qual seria a diferença entre reutilizar um helper de criação de Order e depender de um teste de criação de Order?*
+- **Resposta:** A diferença está na resiliência e confiabilidade do teste, visto que ele não depende do resultado de outro teste para ser executado, podendo utilizar um helper para criar/preparar seu próprio estado.
+---
