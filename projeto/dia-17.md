@@ -59,3 +59,27 @@ Responda:
 *10. Qual diferença você espera existir conceitualmente entre beforeEach() e beforeAll()?*
 - **Resposta:** beforeEach() possui um setup repetido e é executado para cada teste. Já beforeAll() possui um setup compartilhado executado uma vez antes do grupo.
 ---
+## Exercício 2 — Refatoração com beforeEach()
+Responda:
+
+*1. Quantas vezes o beforeEach() será executado nesse cenário?*
+- **Resposta:** 2 vezes.
+
+*2. Por que não colocamos a criação de Estudar Playwright dentro do beforeEach()?*
+- **Resposta:** Pois a intenção do beforeEach() é executar um setup comum antes de cada teste, como a navegação até a página, por exemplo. Portanto, a criação de Estudar Playwright dentro de beforeEach() não faz sentido considerando o escopo do mesmo. Além disso, para cada teste, seria executado a criação da tarefa Estudar Playwright sem necessidade.
+
+*3. Se o primeiro teste falhar, o segundo ainda deveria poder executar corretamente? Por quê?*
+- **Resposta:** Sim, pois cada teste possui um BrowserContext isolado e é executado de forma independente. O que o test.describe() faz é agrupar os testes relacionados, não criar uma dependência entre os testes.
+
+*4. Qual código repetido foi removido ao usar beforeEach()?*
+- **Resposta:** O código de navegação até a página: await page.goto("https://demo.playwright.dev/todomvc/").
+
+*5. O que cada teste ainda precisa preparar por conta própria?*
+- **Resposta:** A captura do input, preenchimento da tarefa desejada, validação do input preenchido com a tarefa desejada, envio do Enter para cadastro da tarefa, validação do input vazio após a criação da tarefa e validação da tarefa sendo exibida na página.
+
+*6. Se os dois testes usarem o mesmo page.getByPlaceholder(...), isso significa que estão compartilhando o mesmo elemento ou apenas a mesma estratégia de localização?*
+- **Resposta:** A mesma estratégia de localização, pois como dito acima, o Playwright cria um BrowserContext novo para cada teste e cada teste recebe sua própria fixture page isolada.
+
+*7. Se você executar somente o segundo teste pelo nome, ele deveria funcionar sozinho? O que isso demonstra sobre isolamento?*
+- **Resposta:** Sim. Isso demonstra que mesmo os testes pertencendo a um agrupamento pois serem relacionados, cada um é independente. Logo, sua execução é única, não dependendendo de outro teste.
+---
