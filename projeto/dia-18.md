@@ -153,3 +153,46 @@ Responda:
 *12. Por que não faria sentido transformar todo helper em fixture só porque fixtures são reutilizáveis?*
 - **Resposta:** Pois helper é uma operação reutilizável chamada explicitamente. Já fixture é um recurso/dependência gerenciado pelo Playwright, possui ciclo de vida e pode executar setup e teardown. Nem toda ação reutilizável precisa virar fixture.
 ---
+## Exercício 4 — Desafio final: helper + fixture + isolamento
+Responda:
+
+*1. Qual responsabilidade pertence à fixture todoPage?*
+- **Resposta:** Realizar a navegação até a página do TodoMVC e entregar ao teste a página preparada.
+
+*2. Qual responsabilidade pertence ao helper createTodo()?*
+- **Resposta:** Criar a tarefa desejada atribuindo um objeto Page e o título da tarefa como parâmetros da função.
+
+*3. Qual responsabilidade permanece no próprio test()?*
+- **Resposta:** Validar e executar o comportamento esperado proposto para o cenário.
+
+*4. Por que passamos todoPage para createTodo() se o parâmetro do helper se chama page?*
+- **Resposta:** Porque nesse caso o nome do parâmetro não implica na fixture que queremos passar para a função, o parâmetro se chamar page é apenas para tornar mais fácil de entender qual é o parâmetro esperado, que nesse caso é a page manipulada pelo Playwright nos testes.
+
+*5. O helper precisa saber se recebeu a fixture nativa page ou a fixture customizada todoPage? Por quê?*
+- **Resposta:** Não, pois ele espera um parâmetro que seja do tipo Page, onde tanto a fixture nativa page quanto a customizada todoPage cumprem a condição de tipagem.
+
+*6. Por que o segundo teste não deve encontrar Estudar Playwright criada pelo primeiro?*
+- **Resposta:** Pois cada teste recebe um BrowserContext isolado e uma Page pertencente a esse contexto.
+
+*7. Se os dois testes utilizam todoPage, isso significa que compartilham o mesmo estado?*
+- **Resposta:** Não, apenas compartilham a mesma fixture.
+
+*8. Qual benefício existe em combinar fixture e helper em vez de colocar toda a preparação dentro de um único beforeEach()?*
+- **Resposta:** Organização, reutilização e composição da suíte de testes, além de cada teste chamar apenas o necessário para sua execução, já que fixtures são on-demand e blocos de código presentes em beforeEach() são executados para todos os testes da suíte.
+
+*9. Em qual situação você escolheria um helper em vez de uma fixture?*
+- **Resposta:** Quando quero encapsular uma operação reutilizável chamada expliciamente pelo teste ou por outro código.
+
+*10. Em qual situação você escolheria uma fixture em vez de um helper?*
+- **Resposta:** Quando quero fornecer ao teste um recurso ou dependência com ciclo de vida gerenciado pelo Playwright, já que ela pode: fazer setup, fornecer um recurso, depender de outras fixtures, executar teardown e ser usada somente pelos testes que a solicitam.
+
+*11. Relacionando com seu exemplo profissional de Order, como você poderia imaginar uma combinação de fixture + helper para preparar testes de Order sem depender de outros testes?*
+- **Resposta:** Se muitos testes tiverem como pré-condição uma Order existente, uma fixture pode preparar e fornecer essa Order, inclusive com teardown. Caso contrário, uma fixture pode preparar o ambiente — como uma página autenticada — e um helper createOrder() pode executar a criação da Order quando necessário.
+
+*12. Depois de hoje, como você explicaria em uma frase cada um:*
+
+    - beforeEach();
+    - helper;
+    - fixture.
+- **Resposta:** beforeEach() -> Hook que execeuta um setup comum antes de cada teste do seu escopo; helper -> Função reutilizável chamada explicitamente para executar uma responsabilidade/operação; fixture -> Recurso ou dependência fornecido e gerenciado pelo Playwright, podendo possuir setup e teardown.
+---
