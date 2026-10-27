@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test';
+// import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures/todo.fixture';
 import { createTodo } from './helpers/todo.helper';
 
 test.describe('TodoMVC - helpers', () => {
@@ -18,5 +19,12 @@ test.describe('TodoMVC - helpers', () => {
 
         const task = page.getByText('Estudar API');
         await expect(task).toBeVisible();
+    });
+});
+
+test.describe('TodoMVC - fixtures', () => {
+    test('deve acessar o TodoMVC através da fixture', async ({ todoPage }) => {
+        const input = todoPage.getByPlaceholder('What needs to be done?');
+        await expect(input).toBeVisible();
     });
 });

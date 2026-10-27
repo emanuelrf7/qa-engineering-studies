@@ -106,3 +106,50 @@ Responda:
 *10. Por que é interessante o nome do helper representar uma ação de negócio/interface (createTodo) em vez de detalhes técnicos como fillInputAndPressEnter()?*
 - **Resposta:** Pois dependendo do tamanho do comportamento do helper o título que corresponde ao que ele faz pode se tornar inviável. Além disso, utilizar uma representação de uma ação de negócio/interface para o título do helper comunica melhor para outros usuários que irão ver o código, como desenvolvedores, por exemplo.
 ---
+## Exercício 3 — Fixture customizada com test.extend()
+Responda:
+
+*1. Por que importamos test as base em vez de simplesmente test?*
+- **Resposta:** Pois utilizaremos o test proveniente do @playwright/test como base da nossa fixture.
+
+*2. Qual é a função de base.extend()?*
+- **Resposta:** Estender o test original do Playwright para que seja possível criar uma fixture customizada com base no test original do Playwright.
+
+*3. Por que a fixture todoPage pode utilizar a fixture nativa page?*
+- **Resposta:** Porque declaramos explicitamente uma dependência entre fixtures no trecho todoPage: async ({ page }, use).
+
+*4. O que acontece antes de await use(...) em uma fixture?*
+- **Resposta:** É onde acontece a preparação da fixture.
+
+*5. Qual é a função de await use(todoPage) ou await use(page)?*
+- **Resposta:** Entregar a página preparada para os testes que utilizarão a fixture.
+
+*6. O que normalmente pode acontecer depois de await use(...)?*
+- **Resposta:** Um teardown.
+
+*7. Por que o teste que recebe todoPage não precisa executar page.goto()?*
+- **Resposta:** Pois a página que é entregue pela fixture todoPage já possui esse fluxo na sua preparação. Logo, não é necessário repetir esse código.
+
+*8. Qual é a diferença entre:*
+```
+    async ({ page })
+```
+*e*
+```
+    async ({ todoPage })
+```
+*nesse projeto?*
+- **Resposta:** async ({ page }) -> teste solicita a fixture nativa page. Já async ({ todoPage }) -> teste solicita a fixture customizada todoPage.
+
+*9. A fixture todoPage será automaticamente executada para todos os testes existentes ou apenas para aqueles que a solicitarem?*
+- **Resposta:** Apenas para aqueles que a solicitarem.
+
+*10. Se dois testes solicitarem todoPage, eles compartilharão a mesma Page?*
+- **Resposta:** Não, os testes seguem sendo independentes mesmo utilizando uma fixture customizada.
+
+*11. Neste caso, qual diferença prática existe entre colocar a navegação em beforeEach() e encapsulá-la em uma fixture todoPage?*
+- **Resposta:** A diferença prática e principal está na organização, reutilização e composição do teste. Além disso, a fixture é on-demand, enquanto um beforeEach() declarado naquele escopo executa para todos os testes desse escopo.
+
+*12. Por que não faria sentido transformar todo helper em fixture só porque fixtures são reutilizáveis?*
+- **Resposta:** Pois helper é uma operação reutilizável chamada explicitamente. Já fixture é um recurso/dependência gerenciado pelo Playwright, possui ciclo de vida e pode executar setup e teardown. Nem toda ação reutilizável precisa virar fixture.
+---
