@@ -65,3 +65,44 @@ Sem executar ainda, responda:
 *10. Em suas palavras, qual é a diferença inicial entre um helper e uma fixture?*
 - **Resposta:** Um helper serve para encapsular responsabilidades repetitivas que podem ser utilizadas para escrever um código mais enxuto e legível. Já fixture pode preparar e fornecer um recurso/dependência para o teste, podendo também controlar seu setup e teardown.
 ---
+# Exercício 2 — Extraindo createTodo() para um helper
+Responda:
+
+*1. Qual responsabilidade ficou no arquivo todo.helper.ts?*
+- **Resposta:** Executar a operação reutilizável necessária para criar uma tarefa.
+
+*2. Qual responsabilidade continuou no arquivo de testes?*
+- **Resposta:** Validar que a tarefa está sendo exibida na página após o cadastro.
+
+*3. Por que createTodo() recebe page em vez de criar uma nova página internamente?*
+- **Resposta:** Pois estamos trabalhando com a page do teste. Logo, devemos indicar para a função esse comportamento através do parâmetro page da mesma.
+
+*4. O helper altera o isolamento entre os testes?*
+- **Resposta:** Não, ele serve apenas como um auxílio para uma escrita mais enxuta e legível do script de teste automatizado.
+
+*5. Qual vantagem existe em manter title como parâmetro em vez de criar helpers separados como createPlaywrightTodo() e createApiTodo()?*
+- **Resposta:** A possibilidade de utilizar apenas uma função para a criação da tarefa e não criar várias funções sem necessidade para o devido contexto.
+
+*6. Se amanhã a forma de criar uma tarefa mudar — por exemplo, além do título for necessário clicar em um botão — onde a alteração principal deverá ser feita?*
+- **Resposta:** No helper createTodo().
+
+*7. Por que essa estrutura tende a reduzir manutenção?*
+- **Resposta:** Porque dessa forma é possível centralizar a responsabilidade compartilhada, tornando mais fácil identificar e alterar o trecho responsável por esse comportamento, reduzindo o esforço de manutenção sem concentrar responsabilidades que pertencem aos próprios testes.
+
+*8. Se createTodo() for usado por 20 testes, esses testes passam a depender uns dos outros?*
+- **Resposta:** Não, um helper não gera dependência entre testes, apenas reutiliza códigos repetitivos de responsabilidades específicas em comum entre os testes.
+
+*9. Qual é a diferença entre:*
+```
+    reutilizar implementação
+```
+*e*
+```
+    compartilhar estado
+```
+*nesse exemplo?*
+- **Resposta:** Quando reutilizamos uma implementação estamos apenas transformando nosso script de teste em um script mais enxuto e legível, facilitando a manutenção do mesmo sem criar dependência entre os testes. Já o compartilhamento de estado gera uma dependência entre os testes de forma que para um funcionar o outro deve estar funcionando também, dificultando o processo de manutenção do script.
+
+*10. Por que é interessante o nome do helper representar uma ação de negócio/interface (createTodo) em vez de detalhes técnicos como fillInputAndPressEnter()?*
+- **Resposta:** Pois dependendo do tamanho do comportamento do helper o título que corresponde ao que ele faz pode se tornar inviável. Além disso, utilizar uma representação de uma ação de negócio/interface para o título do helper comunica melhor para outros usuários que irão ver o código, como desenvolvedores, por exemplo.
+---
