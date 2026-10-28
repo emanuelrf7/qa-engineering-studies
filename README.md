@@ -58,6 +58,7 @@ Além do código disponível neste repositório, mantenho uma página no Notion 
 9. [QA Engineering — Estudos, Automação e Evolução Técnica - Múltiplos elementos, filtros e escopo de Locators](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-M-ltiplos-elementos-filtros-e-escopo-de-Lo-403eda02b15880d798dbc99223e02bcf?source=copy_link)
 10. [QA Engineering — Estudos, Automação e Evolução Técnica - Organização de testes, hooks e isolamento no Playwright](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-Organiza-o-de-testes-hooks-e-isolamento-n-405eda02b158803b89e2f7afaecec19f?source=copy_link)
 11. [QA Engineering — Estudos, Automação e Evolução Técnica - Helpers, reutilização e Fixtures no Playwright](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-Helpers-reutiliza-o-e-Fixtures-no-Playwri-406eda02b1588022baced54ba242dc41?source=copy_link)
+12. [QA Engineering — Estudos, Automação e Evolução Técnica - Page Object Model (POM) com Playwright](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-Page-Object-Model-POM-com-Playwright-407eda02b15880f8b679dce641907a23?source=copy_link)
 
 ---
 
