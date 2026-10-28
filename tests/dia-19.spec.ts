@@ -10,3 +10,15 @@ test('deve acessar e criar tarefa no TodoMVC com Page Object Model', async ({ pa
     
     await expect(todoPage.taskLocator('Estudar Page Object Model')).toBeVisible();
 });
+
+test('deve cadastrar duas tarefas com títulos semelhantes utilizando POM', async ({ page }) => {
+    const todoPage = new TodoPage(page);
+
+    await todoPage.goto();
+
+    await todoPage.createTodo('Estudar Playwright');
+    await todoPage.createTodo('Estudar Playwright avançado');
+
+    await expect(todoPage.taskLocator('Estudar Playwright')).toBeVisible();
+    await expect(todoPage.taskLocator('Estudar Playwright avançado')).toBeVisible();
+});
