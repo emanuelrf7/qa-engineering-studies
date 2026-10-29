@@ -1,16 +1,18 @@
 import { test as base } from '@playwright/test';
-import type { Page } from '@playwright/test';
+import { TodoPage } from '../pages/todo.page';
 import { expect } from '@playwright/test';
 
 type TodoFixtures = {
-    todoPage: Page
+    todoPage: TodoPage
 };
 
 const test = base.extend<TodoFixtures>({
     todoPage: async ({ page }, use) => {
-        await page.goto('https://demo.playwright.dev/todomvc/');
+        const todoPage = new TodoPage(page);
 
-        await use(page);
+        await todoPage.goto();
+
+        await use(todoPage);
     }
 });
 
