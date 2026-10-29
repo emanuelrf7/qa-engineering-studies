@@ -10,6 +10,8 @@ const test = base.extend<TodoFixtures>({
     todoPage: async ({ page }, use) => {
         const todoPage = new TodoPage(page);
 
+        await todoPage.goto();
+
         await use(todoPage);
     }
 });

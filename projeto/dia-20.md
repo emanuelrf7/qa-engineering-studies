@@ -15,3 +15,10 @@ Responda às quatro questões abaixo:
 *4. Separação de responsabilidades – A fixture deve necessariamente navegar até o TodoMVC antes de disponibilizar TodoPage, ou podemos deixar a navegação a cargo de cada teste? Qual é a vantagem da abordagem que você escolheria?*
 - **Resposta:** Delegaria a responsabilidade de navegação até o TodoMVC para a fixture pois dessa forma não é preciso explicitar no script de teste a navegação já que a fixture já deixa a página preparada. Mas, se alguns testes precisarem começar em outra rota ou testar a própria navegação, deixar goto() explícito no teste oferece mais flexibilidade.
 ---
+## Exercício 4 — Centralizando a navegação na fixture
+Responda a pergunta conceitual:
+
+- Por que a navegação precisa acontecer antes de await use(todoPage), e não depois?
+
+    - **Resposta:** Porque a fixture precisa preparar a página fazendo a navegação até o TodoMVC antes do objeto da classe TodoPage ser disponibilizado ao teste. Se a navegação fosse depois do use(TodoPage), o teste tentaria utilizar os métodos do objeto TodoPage porém a navegação ainda não teria acontecido, o que ocasionaria em uma falha.
+---
