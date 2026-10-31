@@ -3,7 +3,10 @@ import { TodoPage } from '../pages/todo.page';
 import { expect } from '@playwright/test';
 
 type TodoFixtures = {
-    todoPage: TodoPage
+    todoPage: TodoPage,
+    testResource: {
+        testId: string;
+    };
 };
 
 type WorkerFixtures = {
@@ -23,7 +26,7 @@ const test = base.extend<TodoFixtures, WorkerFixtures>({
 
     workerResource: [
         async ({}, use, workerInfo) => {
-            console.log('Setup');
+            console.log('Worker setup');
 
             const resource = {
                 workerIndex: workerInfo.workerIndex
@@ -31,9 +34,24 @@ const test = base.extend<TodoFixtures, WorkerFixtures>({
 
             await use(resource);
 
-            console.log('Teardown');
+            console.log('Worker teardown');
         },
         { scope: 'worker' }
+    ],
+
+    testResource: [
+        async ({}, use, testInfo) => {
+            console.log('Test Setup');
+
+            const resource = {
+                testId: testInfo.testId
+            };
+
+            await use(resource);
+
+            console.log('Test Teardown');
+        },
+        { scope: 'test' }
     ]
 });
 
