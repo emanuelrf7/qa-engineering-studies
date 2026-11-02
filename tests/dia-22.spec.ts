@@ -22,13 +22,35 @@ test.describe('Página Example', () => {
         console.log('beforeAll do grupo');
     });
 
+    test.afterEach(() => {
+        console.log('afterEach do grupo Página Example');
+    });
+
     test.afterAll(() => {
         console.log('afterAll do grupo');
     });
 
-    test('deve exibir uma mensagem simples', async ({ page }) => {
-        console.log('Mensagem teste 1');
-        await expect(page).toHaveTitle(/Example/);
+    test.describe('Validação de título', () => {
+        test.beforeAll(() => {
+            console.log('beforeAll do subgrupo');
+        });
+
+        test.beforeEach(() => {
+            console.log('beforeEach do subgrupo');
+        });
+
+        test.afterEach(() => {
+            console.log('afterEach do subgrupo');
+        });
+
+        test.afterAll(() => {
+            console.log('afterAll do subgrupo');
+        });
+
+        test('deve exibir uma mensagem simples', async ({ page }) => {
+            console.log('Mensagem teste 1');
+            await expect(page).toHaveTitle(/Example/);
+        });
     });
 
     test('deve exibir uma mensagem simples 2', async ({ page }) => {
