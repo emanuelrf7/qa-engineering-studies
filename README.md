@@ -61,6 +61,7 @@ Além do código disponível neste repositório, mantenho uma página no Notion 
 12. [QA Engineering — Estudos, Automação e Evolução Técnica - Page Object Model (POM) com Playwright](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-Page-Object-Model-POM-com-Playwright-407eda02b15880f8b679dce641907a23?source=copy_link)
 13. [QA Engineering — Estudos, Automação e Evolução Técnica - Integração entre POM e Fixtures no Playwright](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-Integra-o-entre-POM-e-Fixtures-no-Playwrig-408eda02b1588084aa6ed2cad36a273b?source=copy_link)
 14. [QA Engineering — Estudos, Automação e Evolução Técnica - Ciclo de vida e escopos de Fixtures no Playwright](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-Ciclo-de-vida-e-escopos-de-Fixtures-no-Play-40aeda02b1588049b8bac73c0a050f69?source=copy_link)
+15. [QA Engineering — Estudos, Automação e Evolução Técnica - Playwright Test Hooks e organização de grupos](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-Playwright-Test-Hooks-e-organiza-o-de-grup-40ceda02b15880d5a080d7beda551b8c?source=copy_link)
 
 ---
 
