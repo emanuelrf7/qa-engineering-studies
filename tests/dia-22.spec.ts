@@ -5,9 +5,25 @@ test.beforeEach(async ({ page }) => {
     await page.goto("https://example.com");
 });
 
+test.beforeAll(() => {
+    console.log('beforeAll global');
+});
+
+test.afterAll(() => {
+    console.log('afterAll global');
+});
+
 test.describe('Página Example', () => {
     test.beforeEach(() => {
         console.log('beforeEach do grupo');
+    });
+
+    test.beforeAll(() => {
+        console.log('beforeAll do grupo');
+    });
+
+    test.afterAll(() => {
+        console.log('afterAll do grupo');
     });
 
     test('deve exibir uma mensagem simples', async ({ page }) => {
@@ -22,5 +38,6 @@ test.describe('Página Example', () => {
 });
 
 test('teste fora do grupo', async ({ page }) => {
+    console.log('Teste fora do grupo');
     await expect(page).toHaveTitle(/Example/);
 });
