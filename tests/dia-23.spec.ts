@@ -21,7 +21,7 @@ test('deve validar o conteúdo da página', async ({ page }) => {
 });
 
 test('skip', async ({ page }) => {
-    test.skip(true, 'Teste não deve ser executado para o projeto Chromium');
+    test.skip(true, 'Teste temporariamente desabilitado');
 
     await page.goto('https://example.com');
     await expect(page).toHaveTitle(/Example/);
@@ -46,4 +46,40 @@ test('slow', async ({ page, browserName }) => {
 
     await page.goto('https://example.com');
     await expect(page).toHaveTitle(/Example/);
+});
+
+test.describe.skip('Funcionalidade temporariamente desabilitada', () => {
+    test('deve validar o título da página 1', async ({ page }) => {
+        console.log('Execução do teste 1 do grupo 1');
+
+        await page.goto('https://example.com');
+
+        await expect(page).toHaveTitle(/Example/);
+    });
+
+    test('deve validar o título da página 2', async ({ page }) => {
+        console.log('Execução do teste 2 do grupo 1');
+
+        await page.goto('https://example.com');
+
+        await expect(page).toHaveTitle(/Example/);
+    });
+});
+
+test.describe.fixme('Funcionalidade com defeito conhecido', () => {
+    test('deve validar a URL da página 1', async ({ page }) => {
+        console.log('Execução do teste 1 do grupo 2');
+
+        await page.goto('https://example.com');
+
+        await expect(page).toHaveURL('https://example.com');
+    });
+
+    test('deve validar a URL da página 2', async ({ page }) => {
+        console.log('Execução do teste 2 do grupo 2');
+
+        await page.goto('https://example.com');
+
+        await expect(page).toHaveURL('https://example.com');
+    });
 });
