@@ -27,3 +27,18 @@ Responda:
 *3. Os Hooks beforeAll e beforeEach dos grupos desabilitados serão executados normalmente?*
 - **Resposta:** Não, os Hooks pertencentes aos grupos desabilitados também não são executados. Isso vale para beforeAll, beforeEach, afterEach e afterAll.
 ---
+## Exercício 4 — Anotações personalizadas e relatórios
+Responda:
+
+*1. Qual é a diferença entre Tags e Annotations?*
+- **Resposta:** Tag indica o tipo de um teste/grupo de teste, por exemplo: teste/grupo de teste do tipo smoke -> testes que referem aos fluxos principais, ou também: teste/grupo de teste do tipo regression -> testes que referem a regressão. Annotations servem como uma "documentação" específica sobre o teste/grupo de teste, servindo para melhor rastreabilidade e entendimento do respectivo teste/grupo de teste. Podemos resumir assim: Tags -> classificam testes e permitem filtrar a execução, por exemplo, com --grep "@smoke". Annotations -> adicionam metadados para identificar contexto, requisitos, cobertura, defeitos ou informações de execução.
+
+*2. Qual a diferença entre uma Annotation estática e uma adicionada durante a execução?*
+- **Resposta:** Na Annotation estática não conseguimos acessar elementos que são possíveis acessar apenas na execução do teste, diferentemente da annotation dinâmica que conseguimos capturar o nome do browser que o teste foi executado, por exemplo.
+
+*3. Qual a vantagem de adicionar Annotations no nível de test.describe()?*
+- **Resposta:** A possibilidade de ter uma anotação sobre o grupo de teste em si, fazendo com que possamos personalizar a annotation de cada teste, visto que o teste terá a sua annotation personalizada mais a annotation herdada do grupo.
+
+*4. As Annotations personalizadas modificam o comportamento ou apenas documentam informações sobre os testes?*
+- **Resposta:** Apenas documentam informações sobre os testes. Importante distinguir: as Annotations nativas skip, fixme, fail e slow possuem comportamento especial. Portanto, não devemos confundir as Annotations personalizadas com as Annotations de controle de execução.
+---

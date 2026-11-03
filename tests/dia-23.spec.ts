@@ -83,3 +83,32 @@ test.describe.fixme('Funcionalidade com defeito conhecido', () => {
         await expect(page).toHaveURL('https://example.com');
     });
 });
+
+test.describe('Contexto do relatório', {
+    annotation: {
+        type: 'feature',
+        description: 'Grupo de teste que valida o contexto do relatório'
+    }
+}, () => {
+    test('deve documentar a validação do título', {
+        annotation: {
+            type: 'coverage',
+            description: 'Teste que documenta a validação do título'
+        }
+    }, async ({ page }) => {
+        await page.goto('https://example.com');
+
+        await expect(page).toHaveTitle(/Example/);
+    })
+
+    test('deve registrar o contexto do navegador', async ({ page, browserName }) => {
+        test.info().annotations.push({
+            type: 'execution-context',
+            description: `Nome do navegador utilizado: ${browserName}`
+        });
+
+        await page.goto('https://example.com');
+
+        await expect(page).toHaveURL('https://example.com');
+    })
+});
