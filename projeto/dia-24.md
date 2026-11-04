@@ -36,3 +36,15 @@ Responda:
 *3. Caso o baseURL global fosse alterado para https://example.net, quais projetos seriam afetados?*
 - **Resposta:** Os projetos chromium e webkit. O projeto firefox não seria afetado pela alteração global pois possui seu próprio baseURL definido.
 ---
+## Exercício 5 — Projects também podem representar dispositivos
+Responda:
+
+*1. Qual é a diferença entre o projeto chromium e o projeto Mobile Chrome?*
+- **Resposta:** O projeto chromium utiliza uma configuração de desktop. Já Mobile Chrome utiliza o Chromium com características de um dispositivo móvel, simulando o ambiente de um Pixel 5.
+
+*2. O projeto Mobile Chrome utiliza um navegador diferente do Chromium?*
+- **Resposta:** Não. O nome Mobile Chrome é apenas o nome que demos ao project. O perfil Pixel 5 utiliza o mecanismo Chromium, configurado para simular um dispositivo Android.
+
+*3. Por que testar uma aplicação em diferentes viewports pode revelar problemas que não aparecem no desktop?*
+- **Resposta:** Porque podem existir problemas relacionados a dimensão da página ou localização dos elementos na tela que para telas maiores (como telas de desktop ou notebooks) não são encontrados, já para telas menores (como celulares) são. Outros problemas que podem ser revelados são: responsividade e layout, menus e navegação, elementos que ultrapassam os limites da tela, interações por toque e textos e botões que ficam difíceis de utilizar.
+---
