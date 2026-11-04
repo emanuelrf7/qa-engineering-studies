@@ -24,3 +24,15 @@ Responda:
 *3. Por que um teste pode passar no Chromium e falhar no Firefox ou WebKit?*
 - **Resposta:** Pois cada project/browser possui suas características únicas que podem fazer com que um teste passe em um project e falhe em outro. Por exemplo, além de diferenças de implementação de HTML, CSS e JavaScript, os navegadores também podem apresentar comportamentos diferentes em recursos de rede, certificados, permissões e renderização. Esse é justamente um dos motivos para manter testes em múltiplos projetos.
 ---
+## Exercício 4 — Configurações específicas por Project (Override)
+Responda:
+
+*1. Qual é a diferença entre o baseURL global e o baseURL definido dentro do Project Firefox?*
+- **Resposta:** A baseURL global é utilizada para todos os testes executados para os projetos configurados desde que esse projeto não possua uma baseURL definida. Caso exista um baseURL especificado para um projeto, esse baseURL passa a ser levado em consideração e não mais o baseURL global.
+
+*2. Precisamos alterar o baseURL global para modificar somente o endereço utilizado pelo Firefox? Por quê?*
+- **Resposta:** Não. Podemos configurar um baseURL para cada projeto configurado no playwright.config.ts.
+
+*3. Caso o baseURL global fosse alterado para https://example.net, quais projetos seriam afetados?*
+- **Resposta:** Os projetos chromium e webkit. O projeto firefox não seria afetado pela alteração global pois possui seu próprio baseURL definido.
+---
