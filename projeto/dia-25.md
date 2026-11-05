@@ -36,3 +36,15 @@ Responda:
 *3. Por que não devemos utilizar retries como solução definitiva para testes instáveis?*
 - **Resposta:** Porque a abordagem mais adequada é tornar o teste mais robusto ao invés de tentar executá-lo novamente. Retries são mecanismos de resiliência, não uma correção para a causa raiz.
 ---
+## Exercício 04 — Identificando e bloqueando testes flaky
+Responda:
+
+*1. Qual é a diferença entre a classificação flaky de um teste e o resultado geral da execução com --fail-on-flaky-tests?*
+- **Resposta:** A classificação flaky classifica que o teste é instável e considera o respectivo teste como flaky. Já a execução com --fail-on-flaky-tests segue o mesmo comportamento com uma diferença: o Playwright passa a entender a execução geral como falha, embora o teste continue sendo flaky.
+
+*2. Por que essa opção pode ser interessante em um pipeline CI/CD?*
+- **Resposta:** Porque pensando no fluxo de CI/CD não queremos permitir que a nossa pipeline passe com testes falhos ou instáveis.
+
+*3. Qual seria o risco de ignorar testes flaky porque eles eventualmente passam?*
+- **Resposta:** Permitir um teste que não possui resultados confiáveis impacte a qualidade de uma feature ou deploy.
+---
