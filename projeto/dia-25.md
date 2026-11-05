@@ -24,3 +24,15 @@ Responda:
 *3. Essa configuração altera o comportamento dos outros grupos de testes que eventualmente existam no mesmo arquivo?*
 - **Resposta:** Depende de onde essa configuração estiver setada. Se for fora do describe, configura o arquivo inteiro. Se for dentro do describe, configura aquele grupo e seus grupos internos, sem afetar os grupos irmãos.
 ---
+## Exercício 3 — Preparação condicional durante retries
+Responda:
+
+*1. Por que utilizamos testInfo.retry > 0 em vez de testInfo.retry === 1?*
+- **Resposta:** Porque a primeira tentativa é sempre índice 0. Logo, como queremos verificar todas as novas tentativas, a condição tem que ser testInfo.retry > 0.
+
+*2. Qual seria a vantagem de executar uma limpeza de dados apenas durante um retry?*
+- **Resposta:** Evitar que dados inconsistentes tenham permanecido após o teste que falhou tenham impacto no novo teste. Essa preparação pode restaurar o estado do ambiente, limpar dados temporários ou remover registros criados por uma execução anterior.
+
+*3. Por que não devemos utilizar retries como solução definitiva para testes instáveis?*
+- **Resposta:** Porque a abordagem mais adequada é tornar o teste mais robusto ao invés de tentar executá-lo novamente. Retries são mecanismos de resiliência, não uma correção para a causa raiz.
+---
