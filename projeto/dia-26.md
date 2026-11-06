@@ -27,3 +27,15 @@ Responda:
 *4. Seria adequado aumentar indefinidamente a quantidade de workers para acelerar uma suíte? Por quê?*
 - **Resposta:** Não, pois dessa forma os testes que forem dependentes um do outro podem falhar por problemas de race condition, onde um teste ainda não preparou algo importante para o outro, por exemplo. Outros possíveis problemas ao trabalhar com muitos workers são: consumo excessivo de CPU e memória; sobrecarga do servidor ou banco de dados da aplicação; aumento na competição por recursos; execução mais lenta em vez de mais rápida.
 ---
+## Exercício 3 — Entendendo o comportamento de fullyParallel
+Responda:
+
+*1. Por que, mesmo utilizando --workers=2, apenas um worker executou os quatro testes?*
+- **Resposta:** Devido a configuração fullyParallel: false setada no arquivo playwright.config.ts, que faz com que o Playwright distribua arquivos de teste entre os workers ao invés de distribuir os testes em si.
+
+*2. Com fullyParallel: false, dois arquivos diferentes ainda podem ser executados simultaneamente?*
+- **Resposta:** Sim. Os arquivos podem executar simultaneamente, mas os testes dentro de cada arquivo seguem sequencialmente.
+
+*3. Qual seria a vantagem de utilizar fullyParallel: false em uma suíte que possui testes que compartilham algum estado?*
+- **Resposta:** Evitar inconsistências em testes que dependem de um/outros testes anteriores, já que cada teste é executado de forma individual e sequencial. Isso não garante isolamento completo, visto que arquivos diferentes ainda podem executar simultaneamente e modificar os mesmos dados.
+---
