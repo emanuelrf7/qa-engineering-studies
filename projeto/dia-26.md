@@ -81,3 +81,18 @@ Responda:
 *4. Qual seria a abordagem preferível para evitar que o Teste C dependa do resultado do Teste B?*
 - **Resposta:** Fazer com que o teste tenha sua preparação adequada, de forma que não dependa de dados ou resultados de testes anteriores.
 ---
+## Exercício 7 — Distribuindo testes com Sharding
+Responda:
+
+*1. Qual foi a quantidade de testes executados em cada shard?*
+- **Resposta:** 3 testes para cada shard.
+
+*2. Os testes executados no primeiro shard foram repetidos no segundo?*
+- **Resposta:** Não, foram executados apenas uma vez no primeiro shard.
+
+*3. Qual é a diferença entre utilizar dois workers e utilizar dois shards?*
+- **Resposta:** A diferença é que workers distribuem testes entre processos dentro de uma mesma execução. Já sharding divide a suíte em diferentes execuções, que podem ocorrer em máquinas ou jobs independentes.
+
+*4. Por que o sharding pode ser interessante em projetos com suítes grandes e pipelines CI/CD?*
+- **Resposta:** Porque dessa forma podemos evitar que a Pipeline demore demais para rodar e, caso um shard falhe, podemos atacar diretamente onde falhou, tornando a manutenção mais fácil.
+---
