@@ -54,3 +54,15 @@ Responda:
 *4. Em uma suíte com muitos testes, qual das duas estratégias poderia proporcionar melhor distribuição de carga? Quais fatores influenciariam essa escolha?*
 - **Resposta:** Na minha opinião, depende. Se forem suítes de teste grandes porém distribuídas em poucos arquivos (como 2 arquivos apenas, por exemplo), acredito que a melhor abordagem seria utilizar fullyParallel: true. Caso as suítes de teste forem grandes ou semelhantes entre si e estiverem distribuídas em muitos arquivos, acredito que a melhor abordagem seria utilizar fullyParallel: false. Além disso, testes que compartilham estado precisam de isolamento adequado, independentemente da configuração. Minha escolha foi influenciada pensando no todo, pensando nas possíveis inconsistências citadas anteriormente, como consumo excessivo de CPU e memória, sobrecarga no servidor ou banco de dados da aplicação, quantidade de workers e tempo de execução de cada teste.
 ---
+## Exercício 5 — Paralelismo seletivo com test.describe.configure()
+Responda:
+
+*1. Por que os testes conseguiram executar paralelamente mesmo com fullyParallel: false?*
+- **Resposta:** Porque eles estavam dentro de um grupo onde a configuração de execução do grupo era parallel, com o seguinte trecho de código: test.describe.configure({ mode: 'parallel' }).
+
+*2. Qual é a vantagem de utilizar test.describe.configure({ mode: 'parallel' }) em vez de habilitar fullyParallel: true globalmente?*
+- **Resposta:** A vantagem é poder configurar apenas grupos de teste específicos que fazem sentido para o devido cenário seguir um comportamento diferente da configuração global.
+
+*3. Por que os testes de um grupo paralelo precisam ser independentes entre si?*
+- **Resposta:** Para evitar inconsistências provenientes de outro teste, como por exemplo: teste B depende do teste A, ambos são executados ao mesmo tempo. Teste A não preparou um dado importante para o teste B, teste B falha. Ou seja, testes em modo paralelo podem executar em processos diferentes. Portanto, não devemos depender de variáveis globais, estado compartilhado em memória ou da execução anterior de outro teste.
+---
