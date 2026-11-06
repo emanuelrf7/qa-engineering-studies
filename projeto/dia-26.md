@@ -39,3 +39,18 @@ Responda:
 *3. Qual seria a vantagem de utilizar fullyParallel: false em uma suíte que possui testes que compartilham algum estado?*
 - **Resposta:** Evitar inconsistências em testes que dependem de um/outros testes anteriores, já que cada teste é executado de forma individual e sequencial. Isso não garante isolamento completo, visto que arquivos diferentes ainda podem executar simultaneamente e modificar os mesmos dados.
 ---
+## Exercício 4 — Paralelismo entre arquivos
+Responda:
+
+*1. Qual foi a distribuição dos dois arquivos entre os workers?*
+- **Resposta:** O Worker 0 foi responsável pela execução sequencial dos testes do arquivo dia-26-extra.spec.ts e o Worker 1 foi responsável pela execução sequencial dos testes do arquivo dia-26.spec.ts.
+
+*2. Por que os testes de um mesmo arquivo mantiveram o mesmo workerIndex?*
+- **Resposta:** Porque com fullyParallel: false os arquivos são distribuídos entre os workers. Logo, cada teste possui o mesmo worker que ficou responsável pelo arquivo em que se encontram.
+
+*3. Qual é a diferença entre distribuir testes individualmente e distribuir arquivos inteiros entre workers?*
+- **Resposta:** A diferença é: fullyParallel: false -> o arquivo inteiro é distribuído como unidade de trabalho; fullyParallel: true -> os testes individuais também podem ser distribuídos entre diferentes workers.
+
+*4. Em uma suíte com muitos testes, qual das duas estratégias poderia proporcionar melhor distribuição de carga? Quais fatores influenciariam essa escolha?*
+- **Resposta:** Na minha opinião, depende. Se forem suítes de teste grandes porém distribuídas em poucos arquivos (como 2 arquivos apenas, por exemplo), acredito que a melhor abordagem seria utilizar fullyParallel: true. Caso as suítes de teste forem grandes ou semelhantes entre si e estiverem distribuídas em muitos arquivos, acredito que a melhor abordagem seria utilizar fullyParallel: false. Além disso, testes que compartilham estado precisam de isolamento adequado, independentemente da configuração. Minha escolha foi influenciada pensando no todo, pensando nas possíveis inconsistências citadas anteriormente, como consumo excessivo de CPU e memória, sobrecarga no servidor ou banco de dados da aplicação, quantidade de workers e tempo de execução de cada teste.
+---
