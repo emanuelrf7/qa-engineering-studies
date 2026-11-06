@@ -66,3 +66,18 @@ Responda:
 *3. Por que os testes de um grupo paralelo precisam ser independentes entre si?*
 - **Resposta:** Para evitar inconsistências provenientes de outro teste, como por exemplo: teste B depende do teste A, ambos são executados ao mesmo tempo. Teste A não preparou um dado importante para o teste B, teste B falha. Ou seja, testes em modo paralelo podem executar em processos diferentes. Portanto, não devemos depender de variáveis globais, estado compartilhado em memória ou da execução anterior de outro teste.
 ---
+## Exercício 6 — Modo Serial (mode: 'serial')
+Responda:
+
+*1. Qual foi o comportamento do Playwright quando o Teste B falhou?*
+- **Resposta:** Parou a execução indicando os testes que passaram, falharam e indicando que houve teste que não foi executado, ou seja, foi ignorado pelo mesmo. Isso não significa que toda a suíte ou todos os arquivos sejam interrompidos.
+
+*2. Por que o Teste C foi ignorado, em vez de ser executado normalmente?*
+- **Resposta:** Porque o teste B foi reprovado e a configuração do grupo é serial. Logo, o Playwright ignora os testes posteriores a um teste reprovado.
+
+*3. Qual é a principal desvantagem de utilizar mode: 'serial' em uma suíte de testes?*
+- **Resposta:** A principal desvantagem está na dependência entre testes que é gerada ao utilizar essa configuração, com uma falha podendo comprometer os testes seguintes. Além disso, com retries habilitados, o grupo inteiro é repetido.
+
+*4. Qual seria a abordagem preferível para evitar que o Teste C dependa do resultado do Teste B?*
+- **Resposta:** Fazer com que o teste tenha sua preparação adequada, de forma que não dependa de dados ou resultados de testes anteriores.
+---
