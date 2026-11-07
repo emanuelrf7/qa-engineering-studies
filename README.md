@@ -66,6 +66,7 @@ Além do código disponível neste repositório, mantenho uma página no Notion 
 17. [QA Engineering — Estudos, Automação e Evolução Técnica - Playwright Configuration and Test Projects](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-Playwright-Configuration-and-Test-Projects-40eeda02b158801ea248d725768459b9?source=copy_link)
 18. [QA Engineering — Estudos, Automação e Evolução Técnica - Playwright Retries e Flaky Tests](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-Playwright-Retries-e-Flaky-Tests-40feda02b15880eea7dfe4c1df650afa?source=copy_link)
 19. [QA Engineering — Estudos, Automação e Evolução Técnica - Playwright Workers, Parallelism and Sharding](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-Playwright-Workers-Parallelism-and-Shardin-410eda02b1588096b1f1d2f6df29f622?source=copy_link)
+20. [QA Engineering — Estudos, Automação e Evolução Técnica - Playwright Timeouts](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-Playwright-Timeouts-411eda02b158809dbff5d8e741a449ba?source=copy_link)
 
 ---
 
