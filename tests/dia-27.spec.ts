@@ -12,8 +12,18 @@ test('Validação de conteúdo carregado', async ({ page }) => {
     `;
 
     await page.setContent(html);
-    
+
     await expect(page.locator('h1')).toHaveText('Concluído', {
         timeout: 2_000,
     });
+});
+
+test('Demonstração de test timeout', async () => {
+    test.setTimeout(2_000);
+
+    console.log('Iniciando operação');
+
+    await new Promise<void>((resolve) => setTimeout(resolve, 1_200));
+
+    console.log('Operação concluída');
 });
