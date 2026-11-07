@@ -24,3 +24,15 @@ Responda:
 *3. Se configurarmos test.setTimeout(5_000), mas uma assertion possuir timeout: 2_000, qual limite será aplicado à assertion?*
 - **Resposta:** Será aplicado 2_000. Um detalhe complementar: o timeout geral do teste também continua valendo. Portanto, se a assertion tivesse um limite de 10 segundos, mas restassem apenas 3 segundos do timeout geral, o teste poderia ser interrompido antes de completar os 10 segundos.
 ---
+## Exercício 3 — Action Timeout
+Responda:
+
+*1. Por que o terceiro teste falhou quando configuramos actionTimeout: 500?*
+- **Resposta:** Porque o tempo de execução da ação expirou antes da ação ser realizada de fato.
+
+*2. Qual é a diferença entre actionTimeout e expect timeout?*
+- **Resposta:** No actionTimeout configuramos o timeout para uma determinada ação, como uma ação de click, por exemplo. Já no expect timeout configuramos o timeout para uma validação utilizando uma assertion.
+
+*3. Qual é a vantagem de configurar timeout individualmente em um click() em vez de alterar o actionTimeout globalmente?*
+- **Resposta:** Para não acabar impactando as outras ações como fill() ou check() indevidamente.
+---

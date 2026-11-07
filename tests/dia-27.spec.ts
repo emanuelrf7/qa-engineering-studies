@@ -27,3 +27,25 @@ test('Demonstração de test timeout', async () => {
 
     console.log('Operação concluída');
 });
+
+test('Demonstração de action timeout', async ({ page }) => {
+    const html = `
+        <script>
+            setTimeout(() => {
+                const button = document.createElement('button');
+                button.textContent = 'Enviar';
+                
+                button.addEventListener('click', () => {
+                    button.textContent = 'Enviado';
+                });
+                
+                document.body.appendChild(button);
+            }, 1200);
+        </script>
+    `;
+    
+    await page.setContent(html);
+
+    await page.getByRole('button', { name: 'Enviar' }).click();
+    await expect(page.locator('button')).toHaveText('Enviado');
+});
