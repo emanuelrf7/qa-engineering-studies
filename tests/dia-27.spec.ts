@@ -49,3 +49,19 @@ test('Demonstração de action timeout', async ({ page }) => {
     await page.getByRole('button', { name: 'Enviar' }).click();
     await expect(page.locator('button')).toHaveText('Enviado');
 });
+
+test('Demonstração de navigation timeout', async ({ page }) => {
+    await page.route('**/slow', async (route) => {
+        await new Promise<void>((resolve) => setTimeout(resolve, 1_200));
+
+        await route.fulfill({
+            status: 200,
+            contentType: 'text/html',
+            body: '<h1>Carregado</h1>',
+        });
+    });
+
+    await page.goto('/slow');
+
+    await expect(page.locator('h1')).toHaveText('Carregado');
+});

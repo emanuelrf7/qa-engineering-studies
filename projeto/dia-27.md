@@ -36,3 +36,15 @@ Responda:
 *3. Qual é a vantagem de configurar timeout individualmente em um click() em vez de alterar o actionTimeout globalmente?*
 - **Resposta:** Para não acabar impactando as outras ações como fill() ou check() indevidamente.
 ---
+## Exercício 4 — Navigation Timeout
+Responda:
+
+*1. Por que a navegação falhou com 500 ms, mesmo que a resposta tenha sido retornada depois?*
+- **Resposta:** Porque o tempo máximo para navegação expirou: era 500ms e a navegação levou 1.200ms.
+
+*2. Qual é a diferença entre navigationTimeout e actionTimeout?*
+- **Resposta:** navigationTimeout configura o tempo total de execução de uma navegação. Já actionTimeout configura o tempo total de execução de uma ação.
+
+*3. O navigationTimeout substitui o test timeout ou os dois continuam sendo aplicados?*
+- **Resposta:** Os dois continuam sendo aplicados, pois navigationTimeout configura apenas o tempo total de execução para navegações, como page.goto() ou page.reload(). Já test timeout configura o tempo total de execução de um teste. Além disso, se o tempo total do teste acabar antes do limite individual de navegação, o teste poderá ser interrompido pelo test timeout.
+---
