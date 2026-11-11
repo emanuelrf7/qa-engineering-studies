@@ -15,3 +15,15 @@ Responda:
     - Live Editing: permite alterar um locator durante a depuração e visualizar os elementos correspondentes;
     - Actionability Logs: mostram as verificações realizadas pelo Playwright antes de executar uma ação, como visibilidade, estabilidade e estado habilitado.
 ---
+## Exercício 2 — Playwright UI Mode
+Responda:
+
+*1. Qual é a principal diferença entre Playwright Inspector e UI Mode?*
+- **Resposta:** O Playwright Inspector é a interface do Playwright Test dedicada a depuração de erros em um script de teste. Já o UI Mode é uma interface com diversas funcionalidades, como execução de testes individuais ou em grupo, timeline de ações, pick locator, watch mode, DOM Snapshots, entre outros. Além disso, também é possível realizar a depuração do script de teste através dele.
+
+*2. Como os DOM Snapshots ajudam a investigar uma falha que ocorre depois de uma interação?*
+- **Resposta:** Com o DOM Snapshots é possível verificar como a página estava antes e como ficou depois de uma interação. Logo, é possível ver o que essa interação realizou na prática e realizar uma melhor análise do problema ocorrido.
+
+*3. Qual é a vantagem prática do Watch Mode durante o desenvolvimento de testes automatizados?*
+- **Resposta:** A reexecução automática do teste após uma correção no código do teste investigado.
+---

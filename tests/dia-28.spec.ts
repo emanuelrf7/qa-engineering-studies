@@ -19,3 +19,23 @@ test('Depuração utilizando Playwright Inspector', async ({ page }) => {
 
     await expect(page.locator('#status')).toHaveText('Concluído');
 });
+
+test('Investigação de falha no UI Mode', async ({ page }) => {
+    await page.setContent(`
+        <h1>Pedidos</h1>
+
+        <button type="button">Atualizar status</button>
+
+        <p id="status">Pendente</p>
+
+        <script>
+            document.querySelector('button').addEventListener('click', () => {
+                document.querySelector('#status').textContent = 'Atualizado';
+            });
+        </script>
+    `);
+
+    await page.getByRole('button', { name: 'Atualizar status' }).click();
+
+    await expect(page.locator('#status')).toHaveText('Atualizado');
+});
