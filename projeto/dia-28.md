@@ -27,3 +27,15 @@ Responda:
 *3. Qual é a vantagem prática do Watch Mode durante o desenvolvimento de testes automatizados?*
 - **Resposta:** A reexecução automática do teste após uma correção no código do teste investigado.
 ---
+## Exercício 3 — Playwright Trace Viewer
+Responda:
+
+*1. Qual é a principal vantagem do Trace Viewer em relação à análise tradicional de uma mensagem de erro no terminal?*
+- **Resposta:** As funcionalidades adicionais fornecidas pelo mesmo que nos possibilitam uma melhor análise do problema: Timeline e Actions, DOM Snapshots, Errors, Console e Network (caso existam requisições HTTP), entre outras.
+
+*2. Qual é a diferença entre os snapshots Before, Action e After?*
+- **Resposta:** Before: Estado da página antes da interação; Action: Estado no momento da interação; After: Estado da página após a interação.
+
+*3. Por que a configuração trace: 'on-first-retry' é interessante em pipelines de CI/CD, em vez de registrar traces em todas as execuções?*
+- **Resposta:** Porque executar traces em todas as execuções poderia gerar diversos arquivos trace.zip, o que é inviável considerando que a pipeline pode rodar diversas vezes por dia. Além disso, existe outra preocupação: o desempenho. A documentação do Playwright alerta que gravar traces em todas as execuções (trace: 'on') pode ter um custo significativo de performance. A configuração trace: 'on-first-retry' significa que o trace será gravado somente na primeira tentativa de repetição (retry) de um teste.
+---

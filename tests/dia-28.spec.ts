@@ -39,3 +39,25 @@ test('Investigação de falha no UI Mode', async ({ page }) => {
 
     await expect(page.locator('#status')).toHaveText('Atualizado');
 });
+
+test('Investigação com Trace Viewer', async ({ page }) => {
+    await page.setContent(`
+        <h1>Painel de pedidos</h1>
+
+        <button type="button">Atualizar status</button>
+
+        <p id="status">Pendente</p>
+
+        <script>
+            document.querySelector('button').addEventListener('click', () => {
+                document.querySelector('#status').textContent = 'Atualizado';
+            });
+        </script>
+    `);
+
+    await expect(page.locator('#status')).toHaveText('Pendente');
+
+    await page.getByRole('button', { name: 'Atualizar status' }).click();
+
+    await expect(page.locator('#status')).toHaveText('Atualizado');
+});
