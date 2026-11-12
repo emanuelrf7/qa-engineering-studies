@@ -21,3 +21,29 @@ test('Validação do botão de confirmação', async ({ page }) => {
         page.getByRole('button', { name: 'Confirmar' })
     ).toBeEnabled();
 });
+
+test('Fluxo de atualização no relatório HTML', async ({ page }) => {
+    await test.step('Carregar painel', async () => {
+        await page.setContent(`
+            <h1>Pedidos</h1>
+
+            <button type="button">Concluir pedido</button>
+
+            <p id="status">Pendente</p>
+
+            <script>
+                document.querySelector('button').addEventListener('click', () => {
+                    document.querySelector('#status').textContent = 'Concluído';
+                });
+            </script>
+        `);
+    });
+
+    await test.step('Atualizar status', async () => {
+        await page.getByRole('button', { name: 'Concluir pedido' }).click();
+    });
+
+    await test.step('Validar status atualizado', async () => {
+        await expect(page.locator('#status')).toHaveText('Concluído');
+    });
+});
