@@ -10,7 +10,7 @@ test.describe('Grupo de testes com retry personalizado', () => {
         }
     });
 
-    test('Demonstração de retry', async ({}, testInfo) => {
+    test('Demonstração de retry @learning-demo', async ({}, testInfo) => {
         console.log(`Tentativa: ${testInfo.retry}`);
 
         expect(testInfo.retry).toBe(1);

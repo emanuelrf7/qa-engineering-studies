@@ -34,7 +34,7 @@ test('fixme', async ({ page}) => {
     await expect(page).toHaveTitle(/Example/);
 });
 
-test('fail', async ({ page, browserName }) => {
+test('fail @learning-demo', async ({ page, browserName }) => {
     test.fail(browserName === 'chromium', 'Teste quebra nesse navegador');
 
     await page.goto('https://example.com');
