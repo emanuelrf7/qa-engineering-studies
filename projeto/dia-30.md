@@ -18,3 +18,18 @@ Responda:
 *4. O que acontece com o job quando o comando npx playwright test retorna um código de saída diferente de zero?*
 - **Resposta:** O job é interrompido exibindo a seguinte mensagem: "Error: Process completed with exit code 1.". Além disso, o respectivo step também falha. Apenas reforçando, etapas posteriores podem continuar executando caso tenham condições específicas, como if: always().
 ---
+## Exercício 2 — Publicação de relatórios e artefatos no GitHub Actions
+Responda:
+
+*1. Qual é a diferença entre gerar um relatório HTML localmente e publicá-lo como artefato no GitHub Actions?*
+- **Resposta:** Serve como evidência e uma informação a mais sobre o que a pipeline executou e seus resultados para todos os colaboradores do projeto, não apenas para o responsável pela execução localmente.
+
+*2. Por que utilizamos if: ${{ !cancelled() }} nos steps de upload?*
+- **Resposta:** Porque dessa forma o relatório é publicado como artefato mesmo que algum step da pipeline falha, mantendo a rastreabilidade.
+
+*3. Qual é a vantagem de manter os relatórios disponíveis por 30 dias?*
+- **Resposta:** A vantagem é que temos os relatórios disponíveis por um tempo considerável (30 dias) e não mantemos os mesmos para sempre, de forma que sejam acumulados muitos relatórios de testes que, com o tempo, se tornarão obsoletos e apenas ocuparão um espaço de memória desnecessário.
+
+*4. Qual é a diferença entre os artefatos playwright-html-report e playwright-structured-reports?*
+- **Resposta:** O playwright-html-report gera o relatório em formato HTML, que é interativo e melhor legível para todos, incluindo usuários não-técnicos. Já o playwright-structured-reports é onde são gerados os relatórios mais "técnicos", em formato JSON e XML, que nos permitem criar relatórios personalizados utilizando o JSON ou integrar em ferramentas de resultado de testes que possuam suporte a XML com o relatório XML.
+---

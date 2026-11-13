@@ -30,3 +30,19 @@ jobs:
       
       - name: Run Playwright tests
         run: npx playwright test --grep-invert @learning-demo
+      
+      - name: Upload Playwright HTML report
+        uses: actions/upload-artifact@v7
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-html-report
+          path: playwright-report/
+          retention-days: 30
+      
+      - name: Upload structured reports
+        uses: actions/upload-artifact@v7
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-structured-reports
+          path: reports/
+          retention-days: 30
