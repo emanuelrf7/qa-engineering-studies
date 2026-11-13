@@ -29,7 +29,7 @@ jobs:
         run: npx playwright install --with-deps
       
       - name: Run Playwright tests
-        run: npx playwright test --grep "fail @learning-demo" --project=firefox
+        run: npx playwright test --grep-invert @learning-demo
       
       - name: Upload Playwright HTML report
         uses: actions/upload-artifact@v7

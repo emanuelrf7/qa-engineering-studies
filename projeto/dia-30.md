@@ -33,3 +33,18 @@ Responda:
 *4. Qual é a diferença entre os artefatos playwright-html-report e playwright-structured-reports?*
 - **Resposta:** O playwright-html-report gera o relatório em formato HTML, que é interativo e melhor legível para todos, incluindo usuários não-técnicos. Já o playwright-structured-reports é onde são gerados os relatórios mais "técnicos", em formato JSON e XML, que nos permitem criar relatórios personalizados utilizando o JSON ou integrar em ferramentas de resultado de testes que possuam suporte a XML com o relatório XML.
 ---
+## Exercício 3 — Investigação de falhas em CI/CD
+Responda:
+
+*1. Por que o job inteiro ficou vermelho mesmo que os dois steps de upload tenham sido concluídos com sucesso?*
+- **Resposta:** Porque a pipeline (workflow) é considerada falha a partir do momento que um dos steps sejam declarados como falho, ou seja, retornem código de saída 1. Então mesmo que os steps de upload tenham sido concluídos com sucesso, o step de teste não foi, resultando na falha da pipeline.
+
+*2. Quais informações do HTML Report ajudaram a identificar a origem da falha?*
+- **Resposta:** Summary do teste executado; Trace Viewer; Nome e projeto do teste que falhou; Mensagem de erro; Valor esperado e valor recebido; Stack trace e linha de código; Histórico de retries; Anexos da execução.
+
+*3. Qual foi a contribuição do Trace Viewer para essa investigação?*
+- **Resposta:** O grande diferencial do Trace Viewer é permitir entender o que aconteceu durante a execução, e não apenas descobrir onde ocorreu a falha.
+
+*4. Por que é importante preservar os relatórios de uma execução que falhou?*
+- **Resposta:** Porque dessa forma temos as evidências da falha e informações e ferramentas a mais para realizar a análise do mesmo.
+---
