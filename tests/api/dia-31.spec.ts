@@ -1,9 +1,11 @@
 import { test, expect } from '@playwright/test';
 
+test.use({
+    baseURL: 'https://jsonplaceholder.typicode.com',
+});
+
 test('deve consultar um post pela API', async ({ request }) => {
-    const response = await request.get(
-        'https://jsonplaceholder.typicode.com/posts/1'
-    );
+    const response = await request.get('/posts/1');
 
     expect(response.status()).toBe(200);
     expect(response.ok()).toBeTruthy();
@@ -25,12 +27,9 @@ test('deve criar um post pela API', async ({ request }) => {
         userId: 1,
     };
 
-    const response = await request.post(
-        'https://jsonplaceholder.typicode.com/posts',
-        {
-            data: newPost,
-        }
-    );
+    const response = await request.post('/posts', {
+        data: newPost,
+    });
 
     expect(response.status()).toBe(201);
 
@@ -50,12 +49,9 @@ test('deve atualizar um post pela API', async ({ request }) => {
         userId: 1,
     };
 
-    const response = await request.put(
-        'https://jsonplaceholder.typicode.com/posts/1',
-        {
-            data: updatedPost,
-        }
-    );
+    const response = await request.put('/posts/1', {
+        data: updatedPost,   
+    });
 
     expect(response.status()).toBe(200);
 
@@ -65,10 +61,26 @@ test('deve atualizar um post pela API', async ({ request }) => {
 });
 
 test('deve remover um post pela API', async ({ request }) => {
-    const response = await request.delete(
-        'https://jsonplaceholder.typicode.com/posts/1'
-    );
+    const response = await request.delete('/posts/1');
 
     expect(response.status()).toBe(200);
     expect(response.ok()).toBeTruthy();
+});
+
+test('deve filtrar posts por usuário', async ({ request }) => {
+    const response = await request.get('/posts', {
+        params: {
+            userId: 1,
+        },
+    });
+
+    expect(response.status()).toBe(200);
+
+    const posts: Array<{ userId: number }> = await response.json();
+
+    expect(posts.length).toBeGreaterThan(0);
+
+    expect(
+        posts.every((post) => post.userId === 1)
+    ).toBeTruthy();
 });

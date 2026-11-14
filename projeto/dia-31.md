@@ -30,3 +30,18 @@ Responda:
 *4. Por que não podemos concluir que um recurso foi realmente persistido no JSONPlaceholder apenas porque recebemos uma resposta HTTP 201?*
 - **Resposta:** Porque o status code indica o status da requisição, e não constata que aquela informação foi de fato persistida no sistema. Para isso, o ideal seria realizar uma nova requisição GET ao endpoint correspondente, caso a API ofereça essa garantia.
 ---
+## Exercício 3 — Organização e reutilização de testes de API
+Responda:
+
+*1. Qual é a vantagem de configurar baseURL em vez de repetir a URL completa em cada requisição?*
+- **Resposta:** Dessa forma centralizamos a URL base do nosso sistema fazendo com que os testes recebam apenas o caminho relativo, tornando a manutenção mais fácil e deixando o código mais legível.
+
+*2. Qual é a responsabilidade da propriedade params em uma requisição?*
+- **Resposta:** Enviar os query params da requisição.
+
+*3. Qual é a diferença entre enviar dados utilizando data e utilizar params?*
+- **Resposta:** Com data, fazemos a inserção dos dados direto no corpo da requisição (request body). Já com params, fazemos a inserção dos dados na query string da URL.
+
+*4. Por que validamos todos os resultados com posts.every() em vez de verificar apenas se o primeiro post pertence ao usuário 1?*
+- **Resposta:** Porque um usuário pode ter mais de um post. Logo, utilizamos posts.every() verificando o id do usuário para cobrir todos os posts desse usuário. Um detalhe adicional: a validação anterior também é importante, pois sem ela um array vazio também faria every() retornar true. Portanto, as duas asserções se complementam.
+---
