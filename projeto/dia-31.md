@@ -15,3 +15,18 @@ Responda:
 *4. O que estamos verificando ao utilizar expect.any(String)?*
 - **Resposta:** Estamos verificando que o valor dessas propriedades pode ser qualquer um desde que esse valor seja do tipo String. Então pode ser tanto '' (string vazia) como 'teste' (string preenchida), por exemplo.
 ---
+## Exercício 2 — Operações POST, PUT e DELETE
+Responda:
+
+*1. Qual é a diferença entre POST e PUT em relação à finalidade de cada operação?*
+- **Resposta:** POST -> Tem como finalidade inserir algo novo ao sistema, como um novo cadastro, por exemplo. PUT -> Tem como finalidade substituir/atualizar algo já existente no sistema de forma completa. Para atualizações parciais, seria utilizado PATCH. Um detalhe adicional: dependendo da API, PUT também pode criar um recurso caso ele ainda não exista no endereço informado.
+
+*2. Por que utilizamos data para enviar o objeto nas requisições POST e PUT?*
+- **Resposta:** Porque para requisições POST e PUT é necessário informar as inserções desejadas, e essa é a responsabilidade do data, que permite enviar o conteúdo da requisição no corpo (request body). O Playwright serializa esse objeto como JSON automaticamente.
+
+*3. Qual é a diferença entre os status HTTP 200 e 201?*
+- **Resposta:** HTTP 200 -> Indica que a requisição foi executada e teve sucesso (OK). HTTP 201 -> Indica que a requisição foi executada com sucesso e que o novo recurso foi criado corretamente (Created).
+
+*4. Por que não podemos concluir que um recurso foi realmente persistido no JSONPlaceholder apenas porque recebemos uma resposta HTTP 201?*
+- **Resposta:** Porque o status code indica o status da requisição, e não constata que aquela informação foi de fato persistida no sistema. Para isso, o ideal seria realizar uma nova requisição GET ao endpoint correspondente, caso a API ofereça essa garantia.
+---
