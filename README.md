@@ -71,6 +71,7 @@ Além do código disponível neste repositório, mantenho uma página no Notion 
 22. [QA Engineering — Estudos, Automação e Evolução Técnica - Playwright Reporters](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-Playwright-Reporters-416eda02b158805d9607fb74584288ad?source=copy_link)
 23. [QA Engineering — Estudos, Automação e Evolução Técnica - CI/CD com Playwright e GitHub Actions](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-CI-CD-com-Playwright-e-GitHub-Actions-417eda02b1588013af56c4cca0f93bbe?source=copy_link)
 24. [QA Engineering — Estudos, Automação e Evolução Técnica - API Testing com Playwright](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-API-Testing-com-Playwright-418eda02b158805ab3acf368c599a4e4?source=copy_link)
+25. [QA Engineering — Estudos, Automação e Evolução Técnica - API Testing: Headers e Authentication](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-API-Testing-Headers-e-Authentication-41aeda02b158804c9eb1c05ac9834d19?source=copy_link)
 
 ---
 
