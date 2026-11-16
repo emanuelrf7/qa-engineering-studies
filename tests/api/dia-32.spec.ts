@@ -70,3 +70,30 @@ test('deve reutilizar APIRequestContext com headers padrão', async ({ playwrigh
         await apiContext.dispose();
     }
 });
+
+test('deve acessar endpoint com Bearer token', async ({ request }) => {
+    const token = 'qa-day32-learning-token';
+
+    const response = await request.get('https://httpbin.org/bearer', {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    expect(response.status()).toBe(200);
+
+    const body = await response.json() as {
+        authenticated: boolean;
+        token: string;
+    };
+
+    expect(body.authenticated).toBe(true);
+    expect(body.token).toBe(token);
+});
+
+test('deve rejeitar requisição sem Bearer token', async ({ request }) => {
+    const response = await request.get('https://httpbin.org/bearer');
+
+    expect(response.status()).toBe(401);
+    expect(response.ok()).toBeFalsy();
+});

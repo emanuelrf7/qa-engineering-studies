@@ -30,3 +30,18 @@ Responda:
 *4. Qual é a evidência no nosso segundo teste de que o contexto está sendo reutilizado corretamente?*
 - **Resposta:** O fato de utilizarmos novamente a mesma variável apiContext criada anteriormente. Sendo assim, a segunda requisição recebe automaticamente os headers configurados na criação do contexto. Logo, as duas validações "expect(body.headers...)..." confirmam que as configurações foram preservadas na segunda requisição.
 ---
+## Exercício 3 — Autenticação com Bearer Token
+Responda:
+
+*1. Qual é a finalidade do header Authorization em uma requisição autenticada?*
+- **Resposta:** Transportar as credenciais e informar o esquema de autenticação utilizado.
+
+*2. Qual é a diferença entre autenticação e autorização?*
+- **Resposta:** Authentication (autenticação) -> Verifica quem é o cliente e se suas credenciais são válidas. Authorization (autorização) -> Verifica o que esse cliente está autorizado a fazer.
+
+*3. Por que uma requisição sem Bearer Token recebe HTTP 401?*
+- **Resposta:** Porque é o status code adequado para a situação. 401 Unauthorized indica que as credenciais estão ausentes ou inválidas. Logo, o cliente não foi autenticado corretamente. Caso o cliente tivesse sido autenticado corretamente mas não possuísse autorização para acessar determinado recurso, o status code deveria ser 403 Forbidden.
+
+*4. Por que não devemos armazenar tokens reais diretamente no código-fonte do projeto?*
+- **Resposta:** Porque dessa forma usuários maliciosos podem usufruir do token válido para ataques nos endpoints, com o intuito de capturar alguma informação importante ou até mesmo roubar dados.
+---
