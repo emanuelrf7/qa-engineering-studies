@@ -31,3 +31,61 @@ test('deve consultar o autor relacionado a um post', async ({ request }) => {
     expect(user.name).toEqual(expect.any(String));
     expect(user.email).toContain('@');
 });
+
+test('deve consultar comentários de um post utilizando nested resources', async ({ request }) => {
+    const postId = 1;
+
+    const firstCommentsIds = await test.step('Consultar comentários pela rota aninhada', async () => {
+        const response = await request.get(`/posts/${postId}/comments`);
+
+        expect(response.status()).toBe(200);
+
+        const comments = await response.json() as Array<{
+            id: number;
+            postId: number;
+            name: string;
+            email: string;
+            body: string;
+        }>;
+
+        expect(comments.length).toBeGreaterThan(0);
+
+        expect(
+            comments.every((comment) => comment.postId === postId)
+        ).toBeTruthy();
+
+        const firstResultIds = comments.map((comment) => comment.id).sort((a, b) => a -  b);
+
+        return firstResultIds;
+    });
+
+    const secondCommentsIds = await test.step('Consultar comentários pela rota de filtragem', async () => {
+        const response = await request.get('/comments', {
+            params: {
+                postId,
+            },
+        });
+
+        expect(response.status()).toBe(200);
+
+        const comments = await response.json() as Array<{
+            id: number;
+            postId: number;
+            name: string;
+            email: string;
+            body: string;
+        }>;
+
+        expect(comments.length).toBeGreaterThan(0);
+
+        expect(
+            comments.every((comment) => comment.postId === postId)
+        ).toBeTruthy();
+
+        const secondResultIds = comments.map((comment) => comment.id).sort((a, b) => a -  b);
+
+        return secondResultIds;
+    });
+
+    expect(firstCommentsIds).toEqual(secondCommentsIds);
+});
