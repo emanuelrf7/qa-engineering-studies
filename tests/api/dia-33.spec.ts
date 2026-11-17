@@ -89,3 +89,17 @@ test('deve consultar comentários de um post utilizando nested resources', async
 
     expect(firstCommentsIds).toEqual(secondCommentsIds);
 });
+
+test('deve identificar uma resposta HTTP 404', async ({ request }) => {
+    const response = await request.get('https://httpbin.org/status/404');
+
+    expect(response.status()).toBe(404);
+    expect(response.ok()).toBeFalsy();
+});
+
+test('deve identificar uma resposta HTTP 400', async ({ request }) => {
+    const response = await request.get('https://httpbin.org/status/400');
+
+    expect(response.status()).toBe(400);
+    expect(response.ok()).toBeFalsy();
+});

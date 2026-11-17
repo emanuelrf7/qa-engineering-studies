@@ -30,3 +30,18 @@ Responda:
 *4. Por que comparar os IDs dos resultados das duas rotas é uma validação interessante?*
 - **Resposta:** Porque dessa forma trazemos uma maior confiabilidade e resiliência para o script de teste visto que ambas retornam o mesmo conteúdo porém com acessos diferentes. Uma ressalva a ser feita é que como comparamos apenas os IDs, estamos garantindo que as duas rotas retornem o mesmo conjunto de identificadores, não necessariamente que todos os campos dos objetos sejam idênticos.
 ---
+## Exercício 3 — Negative API Testing
+Responda:
+
+*1. Qual é a diferença entre validar response.status() e response.ok()? Por que usamos as duas asserções neste exercício?*
+- **Resposta:** Quando utilizamos response.status() estamos trabalhando diretamente com o status code desejado. Por exemplo: response.status() -> estamos capturando o status code da response. Já quando utilizamos response.ok() queremos verificar se o status code da response é de sucesso e está entre os códigos 200 a 299. Utilizamos os dois para fortalecermos o nosso teste, visto que um complementa o outro. Por exemplo, no nosso caso: response.status().toBe(404) -> esperamos que o status da response seja 404; response.ok().toBeFalsy() -> esperamos que a response possua um status code de insucesso e que não esteja entre os códigos 200 a 299.
+
+*2. Qual é a diferença conceitual entre os erros HTTP 400 Bad Request e 404 Not Found?*
+- **Resposta:** HTTP 400 Bad Request -> O servidor não consegue ou não aceita processar a requisição devido a algum problema nela, como parâmetros inválidos ou formato incorreto. HTTP 404 Not Found -> O recurso solicitado não foi encontrado pelo servidor.
+
+*3. Por que, em um teste negativo que espera uma resposta 404, não devemos utilizar expect(response.ok()).toBeTruthy()?*
+- **Resposta:** Porque dessa forma o teste falharia, visto que estaríamos verificando se a resposta foi de sucesso e possui o código entre 200 a 299.
+
+*4. O que exatamente estamos validando ao utilizar /status/404 do HTTPBin? O que esse teste não consegue garantir sobre o comportamento de uma API real?*
+- **Resposta:** Se o endpoint /status na chave 404 retorna status code 404 Not Found. Não conseguimos garantir que estamos validando um payload inválido, regras de negócio ou existência real de recursos como em uma API real, por exemplo. Esse endpoint apenas simula uma resposta HTTP 404 e nada mais.
+---
