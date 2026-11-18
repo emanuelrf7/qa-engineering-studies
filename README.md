@@ -73,6 +73,7 @@ Além do código disponível neste repositório, mantenho uma página no Notion 
 24. [QA Engineering — Estudos, Automação e Evolução Técnica - API Testing com Playwright](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-API-Testing-com-Playwright-418eda02b158805ab3acf368c599a4e4?source=copy_link)
 25. [QA Engineering — Estudos, Automação e Evolução Técnica - API Testing: Headers e Authentication](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-API-Testing-Headers-e-Authentication-41aeda02b158804c9eb1c05ac9834d19?source=copy_link)
 26. [QA Engineering — Estudos, Automação e Evolução Técnica - API Testing: Request Chaining, Nested Resources e Negative Testing](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-API-Testing-Request-Chaining-Nested-Resou-41beda02b15880af8956f61905426eae?source=copy_link)
+27. [QA Engineering — Estudos, Automação e Evolução Técnica - API Testing: Response Schema Validation com Ajv](https://app.notion.com/p/QA-Engineering-Estudos-Automa-o-e-Evolu-o-T-cnica-API-Testing-API-Testing-Response-Schema-V-41ceda02b15880dd9d39f8c8f0bb9807?source=copy_link)
 
 ---
 
