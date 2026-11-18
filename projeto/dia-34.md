@@ -30,3 +30,18 @@ Responda:
 *4. Qual é a importância de allErrors: true quando recebemos um objeto com várias inconsistências?*
 - **Resposta:** Tornar possível a análise de todos essas inconsistências do objeto de uma só vez.
 ---
+## Exercício 3 — Array Schema Validation
+Responda:
+
+*1. Qual é a diferença entre JSONSchemaType<Post> e JSONSchemaType<Post[]>?*
+- **Resposta:** Para o primeiro indicamos que o schema type é um objeto do tipo Post. Já para o segundo, indicamos que o schema type é uma coleção (Array) de objetos do tipo Post.
+
+*2. Qual é a finalidade de items e por que conseguimos reutilizar postSchema?*
+- **Resposta:** Items define qual schema cada elemento do array precisa respeitar. Reutilizamos postSchema porque ele já contém todas as regras de validação de um Post. Não é uma questão de escopo global: estamos simplesmente referenciando um schema que já existe.
+
+*3. O JSON Schema considera um array vazio válido por padrão? Qual é a função de minItems nesse cenário?*
+- **Resposta:** Sim, porque um array vazio é considerado válido por padrão pelo JSON Schema, desde que não exista uma restrição adicional.
+
+*4. Se apenas um elemento de uma coleção possuir uma propriedade com tipo incorreto, o Ajv considera o array inteiro válido ou inválido? Por quê?*
+- **Resposta:** Não, o Ajv considera o array inteiro inválido. Isso acontece porque a regra items é aplicada a todos os elementos da coleção. Todos precisam respeitar o schema definido.
+---

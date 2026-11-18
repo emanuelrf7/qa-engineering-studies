@@ -143,3 +143,69 @@ test('deve rejeitar um objeto com vários problemas simultaneamente', () => {
         validationErrors?.some((error) => error.keyword === 'additionalProperties')
     ).toBe(true);
 });
+
+const postsSchema: JSONSchemaType<Post[]> = {
+    type: 'array',
+    items: postSchema,
+    minItems: 1,
+};
+
+const validatePosts = ajv.compile(postsSchema);
+
+test('deve validar o schema de uma coleção de posts', async ({ request }) => {
+    const response = await request.get('/posts');
+
+    expect(response.status()).toBe(200);
+
+    const postsData: unknown = await response.json();
+    const isValid = validatePosts(postsData);
+    const validationErrors = validatePosts.errors;
+
+    expect(
+        isValid,
+        `Falha na validação do schema:\n${JSON.stringify(validationErrors, null, 2)}`
+    ).toBe(true);
+});
+
+test('deve rejeitar uma coleção com um post inválido', () => {
+    const postsWithInvalidItem: unknown = [
+        {
+            userId: 1,
+            id: 1,
+            title: 'Post válido',
+            body: 'Conteúdo válido',
+        },
+        {
+            userId: 2,
+            id: 2,
+            title: 123,
+            body: 'Conteúdo válido',
+        },
+    ];
+
+    const isValid = validatePosts(postsWithInvalidItem);
+    const validationErrors = validatePosts.errors;
+
+    expect(isValid).toBe(false);
+
+    expect(
+        validationErrors?.some((error) => error.keyword === 'type')
+    ).toBe(true);
+
+    expect(
+        validationErrors?.some((error) => error.instancePath === '/1/title')
+    ).toBe(true);
+});
+
+test('deve rejeitar uma coleção vazia pela regra minItems', () => {
+    const emptyPosts: unknown = [];
+
+    const isValid = validatePosts(emptyPosts);
+    const validationErrors = validatePosts.errors;
+
+    expect(isValid).toBe(false);
+
+    expect(
+        validationErrors?.some((error) => error.keyword === 'minItems')
+    ).toBe(true);
+});
