@@ -15,3 +15,18 @@ Responda:
 *4. Qual é a vantagem de compilar o schema fora do corpo do teste e reutilizar a função de validação?*
 - **Resposta:** Melhor manutenibilidade do script de teste e legibilidade de código, visto que não será necessário repetir código de compilação todas as vezes que for necessário.
 ---
+## Exercício 2 — Negative Schema Validation
+Responda:
+
+*1. Qual é a diferença entre um teste negativo de status HTTP (400/404) e um teste negativo de validação de schema?*
+- **Resposta:** Nos testes de status HTTP, realizamos uma requisição e verificamos a resposta do servidor. Já nos testes negativos de schema que implementamos, não realizamos requisições. Estamos passando objetos diretamente para o Ajv para verificar se ele rejeita dados que violam o contrato. Portanto, estamos testando o comportamento do validador, não o comportamento de um endpoint.
+
+*2. Por que verificamos validationErrors além de simplesmente garantir que isValid seja false?*
+- **Resposta:** Porque quando validamos isValid.toBe(false) estamos validando apenas que o objeto não é válido. Com validationErrors podemos validar qual foi o erro encontrado na validação.
+
+*3. O que representa a propriedade keyword de um erro do Ajv?*
+- **Resposta:** Qual o tipo do erro encontrado na validação, como por exemplo: se a keyword for "required", indica que foi um erro de propriedade obrigatória que não foi encontrada para o objeto validado.
+
+*4. Qual é a importância de allErrors: true quando recebemos um objeto com várias inconsistências?*
+- **Resposta:** Tornar possível a análise de todos essas inconsistências do objeto de uma só vez.
+---
